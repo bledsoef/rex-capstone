@@ -1,7 +1,7 @@
 # Concept Proposal
 
 ## Goals
-
+- To create a streaming platform that is able to handle native sharing capabilities.
 
 The primary benefits and goals of the proposed project and how this project is intended to address the need/opportunity just described.
 
