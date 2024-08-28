@@ -33,7 +33,7 @@ A statement context for the proposed project including a statement of the need o
 An outline of project measures of success (how you will know when you have met the requirements.)
 
 ## Motivation
-Briefly describe your primary personal motivation for this choice of project. i.e. why is this important to you, why you have selected it, and how you hope/expect it will enhance your career.
+I am a very passionate music listener, and I have found that it has been incredibly difficult to share music. Sure you can copy a link and send it via some external site, but if you are on Instagram or Facebook and want to share music, you don't copy links and send them, you send the actual content. That is why I want to build Rex, which centers around the social aspects of music listening, instead of making it feel like you are completely isolated while listening to music.
 
 ## Future Extensions
 - Creating a beta version on the App Store.
