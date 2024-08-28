@@ -26,7 +26,8 @@ A statement context for the proposed project including a statement of the need o
 - This project would specifically target the younger generation who is more comfortable with social media and who want to share their music with others.
 
 ## Challenges
-- I think the biggest problems 
+- I think the biggest problems with this kind of implementation would simply be the music streaming aspect. Not necessarily the implementation but getting music put onto the platform and figuring out to pay out artists. This would likely be a future issue but still something that definitely will be challenging.
+- Also storing the music files would be difficult as well, would likely have to utilize cloud storage.
 
 ## Measures
 An outline of project measures of success (how you will know when you have met the requirements.)
@@ -35,7 +36,8 @@ An outline of project measures of success (how you will know when you have met t
 Briefly describe your primary personal motivation for this choice of project. i.e. why is this important to you, why you have selected it, and how you hope/expect it will enhance your career.
 
 ## Future Extensions
-Possible extensions to the proposed project to be completed only if time permits
+- Creating a beta version on the App Store.
+- Working to get an artist on the platform and have their music licensed.
 
 ## Other
 (Optional section) To the above, you may add any additional items that you think will strengthen your proposal.
