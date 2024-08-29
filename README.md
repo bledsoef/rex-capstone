@@ -7,6 +7,9 @@ I am a very passionate music listener, and I have found that it has been incredi
 
 I intend on making this a mobile application, and would like this to be primarily targeted towards IOS devices though. This means it will likely need a Flutter Install or a Swift install. Unfortunately, getting it pushed onto the App store is a long, expensive process, so I may make it cross platform so there is an easily accessible website version as well.
 
+### Project Concept
+- [Project Concept](https://github.com/CSC493-Computing-Design-Practicum/csc493-cdp-bledsoef)
+
 ## Built With
 
 - [Swift]([http://www.aframework1.io/](https://www.swift.org/)): Apple's development tool/language for IOS and MacOS applications.
