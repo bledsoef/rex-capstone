@@ -45,6 +45,16 @@ Priority: Essential.
 Requirement revision history: None
 ```
 
+```yaml
+Number: 5
+Statement: Upon finding a song (through any means), the user should be able to play the audio for that song.
+Evaluation Method: Through UI, find a song, locate its corresponding mp4 or audio file in the cloud, and verify that the audio played through the application and the direct audio file played are equivalent.
+Dependency: None.
+Priority: Essential.
+Requirement revision history: None
+```
+
+
 ## Non-functional requirements
 ```yaml
 Number: 1
