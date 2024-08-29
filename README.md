@@ -1,14 +1,18 @@
 # *Rex*
-## Description/Motivation
-
-I am a very passionate music listener, and I have found that it has been incredibly difficult to share music. Sure you can copy a link and send it via some external site, but if you are on Instagram or Facebook and want to share music, you don't copy links and send them, you send the actual content. That is why I want to build Rex, which centers around the social aspects of music listening, instead of making it feel like you are completely isolated while listening to music.
-
-### Prerequisites
-
-I intend on making this a mobile application, and would like this to be primarily targeted towards IOS devices though. This means it will likely need a Flutter Install or a Swift install. Unfortunately, getting it pushed onto the App store is a long, expensive process, so I may make it cross platform so there is an easily accessible website version as well.
 
 ### Project Concept
 - [Project Concept](https://github.com/CSC493-Computing-Design-Practicum/csc493-cdp-bledsoef)
+
+## Scope
+
+The scope of this project extends much further than is feasible in the timeframe of this course. However, for the purposes of this time, the Scope of this project is a music streaming platform that allows users to play any music in the database, but this music will be limited to free use and public domain music. Anything having to do with bringing artists onto the platform or music licensing is far out of scope for this capstone. There will also be a social media component to this application, where ideally we will have some beta users on board testing it. However, there will be no promotions or sponsorships in the scope of this project.
+
+## Vision
+Practically every content creation site has native sharing and socializing capabilities; that is, except music content platforms. My vision is a music streaming platform (much like your Spotify, Tidal, Apple Music) but with the social components of something like Strava (a social activity tracking sight). I want to enable music listeners to be social, spread their music, and more fairly compensate and promote small artists.
+
+## Prerequisites
+
+I intend on making this a mobile application, and would like this to be primarily targeted towards IOS devices though. This means it will likely need a Flutter Install or a Swift install. Unfortunately, getting it pushed onto the App store is a long, expensive process, so I may make it cross platform so there is an easily accessible website version as well.
 
 ## Built With
 
