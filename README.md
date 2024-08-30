@@ -14,6 +14,9 @@ Practically every content creation site has native sharing and socializing capab
 
 I intend on making this a mobile application, and would like this to be primarily targeted towards IOS devices though. This means it will likely need a Flutter Install or a Swift install. Unfortunately, getting it pushed onto the App store is a long, expensive process, so I may make it cross platform so there is an easily accessible website version as well.
 
+## Requirements
+- [Project Concept](https://github.com/CSC493-Computing-Design-Practicum/csc493-cdp-bledsoef/requirements.md)
+
 ## Built With
 
 - [Swift]([http://www.aframework1.io/](https://www.swift.org/)): Apple's development tool/language for IOS and MacOS applications.
