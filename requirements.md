@@ -47,7 +47,7 @@ Requirement revision history: None
 
 ```yaml
 Number: 6
-Statement: A user should be able to send and recieve recommendations (Rex) to their friends and others in their network
+Statement: A user should be able to send and recieve recommendations (Rex) to their friends and others in their network. A recommendation would include a song, artist, album, or playlist. This would also include a brief description and could also optionally prompt for a review.
 Evaluation Method: Unit testing and UI testing of picking a friend, creating a recommendation, and being able to see that recommendation be sent.
 Dependency: None.
 Priority: Essential.
@@ -57,12 +57,83 @@ Requirement revision history: None
 ```yaml
 Number: 7
 Statement: Users should be able to view the status of their sent recommendations (has it already been listened to?, etc.) 
-Evaluation Method: Unit testing and UI testing of picking a friend, creating a recommendation, and being able to see that recommendation be sent.
+Evaluation Method: Unit testing and UI testing of sending a recommendation, and then on the receiver's end listening to that track and checking that the sender can see a status update for that recommendation.
+Dependency: 6.
+Priority: High.
+Requirement revision history: None
+```
+
+```yaml
+Number: 8
+Statement: Users should be able to accept, decline (or technically do neither) Rex and these recommendations will then be stored in "accepted" and "declined" Rex sections.
+Evaluation Method: Unit testing and UI testing of sending a Rec and then going to the receiver and verifying they can properly accept and decline Rex.
+Dependency: 6.
+Priority: Esssential.
+Requirement revision history: None
+```
+
+```yaml
+Number: 9
+Statement: Users should be able to poke their friends who have not yet checked out their recommendation. 
+Evaluation Method: TODO.
+Dependency: 6.
+Priority: High.
+Requirement revision history: None
+```
+
+```yaml
+Number: 10
+Statement: Users should be able to like songs which will place them in a "Liked Songs" list in their library. 
+Evaluation Method: TODO.
 Dependency: None.
 Priority: High.
 Requirement revision history: None
 ```
 
+```yaml
+Number: 11
+Statement: Users should be able to create playlists and add songs to these playlists. 
+Evaluation Method: TODO.
+Dependency: None.
+Priority: High.
+Requirement revision history: None
+```
+
+```yaml
+Number: 12
+Statement: Users should be able to play albums or playlists in their entirety by selecting a song, and then linearly going through the rest of the playlist/album. 
+Evaluation Method: TODO.
+Dependency: None.
+Priority: High.
+Requirement revision history: None
+```
+
+```yaml
+Number: 13
+Statement: Users should be able to play albums or playlists on "shuffle" which means it will randomly choose the order of the songs in that playlist.
+Evaluation Method: TODO.
+Dependency: None.
+Priority: High.
+Requirement revision history: None
+```
+
+```yaml
+Number: 14
+Statement: Users should be able to "review" recommendations and mark them as completed.
+Evaluation Method: TODO.
+Dependency: None.
+Priority: High.
+Requirement revision history: None
+```
+
+```yaml
+Number: 15
+Statement: Users should be able to set a priority on a Rec that will allow them to be reminded after a certain period of time if they have not completed it.
+Evaluation Method: TODO.
+Dependency: None.
+Priority: Medium.
+Requirement revision history: None
+```
 
 ## Non-functional requirements
 ```yaml
