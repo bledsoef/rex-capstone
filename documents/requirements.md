@@ -135,6 +135,15 @@ Priority: Medium.
 Requirement revision history: None
 ```
 
+```yaml
+Number: 16
+Statement: When users press play on a song, a request to the backend should be triggered, querying the song url. The song url will then be passed to the frontend via api request and the audio file will be pulled down on the client side.
+Evaluation Method: TODO.
+Dependency: None.
+Priority: Medium.
+Requirement revision history: None
+```
+
 ## Non-functional requirements
 ```yaml
 Number: 1
@@ -142,6 +151,15 @@ Statement: This application should be available on AT LEAST iOS.
 Evaluation Method: Using Expo (a React Native framework) I can simulate the application on my personal iPhone.
 Dependency: All functional requirements.
 Priority: Essential, as it needs to run on at least platform.
+Requirement revision history: None
+```
+
+```yaml
+Number: 2
+Statement: Files uploaded by artists should be stored in a cloud provider, likely Google Cloud.
+Evaluation Method: TODO.
+Dependency: None.
+Priority: High.
 Requirement revision history: None
 ```
 
