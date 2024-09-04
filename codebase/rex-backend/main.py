@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.middleware.cors import CORSMiddleware  # Import the CORS middleware
 from mangum import Mangum
 import uvicorn
+from database.config import engine, SessionLocal, Base
 
 app = FastAPI()
 
@@ -14,6 +15,7 @@ app.add_middleware(
 )
 
 
+Base.metadata.create_all(bind=engine)
 handler = Mangum(app)
 
 if __name__ == "__main__":

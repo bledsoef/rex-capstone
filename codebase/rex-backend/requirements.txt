@@ -1,3 +1,5 @@
 uvicorn
 fastapi
 mangum
+sqlalchemy
+psycopg2
