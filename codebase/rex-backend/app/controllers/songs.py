@@ -9,8 +9,8 @@ async def uploadSong(request: Request, db: Session = Depends(get_db)):
     review_data = await request.json()
     try:
         upload_new_song(db, review_data)
-        return {"message": "Review created"}
+        return {"message": "Song uploaded"}
     except Exception as e:
         print(e)
-        return {"message": "Failed to create Review"}
+        return {"message": "Failed to upload song"}
     
