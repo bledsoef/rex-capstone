@@ -156,7 +156,8 @@ class Song(Base):
     duration = Column(Integer)
     release_data = Column(Date)
     popularity = Column(Integer)
-    image_url = Column(Integer)
+    image_url = Column(String)
+    audio_url = Column(String)
     
     genre: Mapped["Genre"] = relationship(back_populates="songs")
     artist: Mapped["Artist"] = relationship(back_populates="songs")
