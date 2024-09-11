@@ -23,7 +23,6 @@ def create_new_rec(db: Session, rec_data):
     
     return True
 
-
 def accept_rec_from_user(db: Session, rec_id):
     try:
         rec = db.query(Rec).filter(Rec.id == rec_id).first()

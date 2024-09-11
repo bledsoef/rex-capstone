@@ -7,6 +7,7 @@ from app.models.Rec import Rec
 from app.models.Genre import Genre
 from app.models.Artist import Artist
 from app.models.Song import Song
+from app.models.UserLikedAlbum import UserLikedAlbum
 
 class Album(Base):
     __tablename__ = 'albums'
@@ -22,3 +23,4 @@ class Album(Base):
     genre: Mapped["Genre"] = relationship(back_populates="albums")
     recs: Mapped[List["Rec"]] = relationship(back_populates="album")
     songs: Mapped[List["Song"]] = relationship(back_populates="album")
+    liked_by_users: Mapped[List["UserLikedAlbum"]] = relationship(back_populates="album")
