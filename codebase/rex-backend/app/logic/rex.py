@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session, aliased
-from app.models.models import Rec, Review
+from app.models.Rec import Rec
+from app.models.Review import Review
 from datetime import datetime
 def create_new_rec(db: Session, rec_data):
     if not rec_data["isPost"]:

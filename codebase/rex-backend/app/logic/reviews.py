@@ -1,5 +1,7 @@
 from sqlalchemy.orm import Session, aliased
-from app.models.models import Rec, Review
+from app.models.Rec import Rec
+from app.models.Review import Review
+from app.models.ReviewComment import ReviewComment
 from datetime import datetime
 def create_new_review(db: Session, review_data):
     try:
@@ -15,7 +17,7 @@ def create_new_review(db: Session, review_data):
     
 def create_new_review_comment(db: Session, review_data):
     try:
-        new_review = Review(createdBy=review_data['author'], rec_id=review_data['rec'], dateCreated=datetime.now(), comment=review_data['comment'], rating=review_data['rating'])
+        new_review = ReviewComment(createdBy=review_data['author'], rec_id=review_data['rec'], dateCreated=datetime.now(), comment=review_data['comment'], rating=review_data['rating'])
         rec = db.query(Rec).filter(Rec.id == review_data['rec']).first()
         rec.status = 'completed'
         db.add(rec)

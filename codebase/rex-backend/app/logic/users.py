@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app.models.models import User
+from app.models.User import User
 def create_new_user(db: Session, user_data):
     try:
         new_user = User(**user_data)
