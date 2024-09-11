@@ -20,13 +20,13 @@ app.add_middleware(
     allow_methods=["*"],  # Allow both POST and OPTIONS methods
     allow_headers=["*"],
 )
-app.include_router(artists)
-app.include_router(reviews)
-app.include_router(rex)
-app.include_router(songs)
-app.include_router(users)
-app.include_router(playlists)
-app.include_router(stats)
+app.include_router(artists.router)
+app.include_router(reviews.router)
+app.include_router(rex.router)
+app.include_router(songs.router)
+app.include_router(users.router)
+app.include_router(playlists.router)
+app.include_router(stats.router)
 
 Base.metadata.create_all(bind=engine)
 handler = Mangum(app)
