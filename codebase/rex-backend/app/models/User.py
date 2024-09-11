@@ -6,8 +6,8 @@ from typing import List
 
 class User(Base):
     __tablename__ = 'users'
-    
-    username = Column(String, primary_key=True)
+    id = Column(Integer, primary_key=True)
+    username = Column(String)
     email = Column(String)
     first_name = Column(String)
     last_name = Column(String)
