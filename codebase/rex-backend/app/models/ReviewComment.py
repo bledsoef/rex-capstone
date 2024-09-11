@@ -3,7 +3,7 @@ from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import relationship
 from database.config import Base
 from typing import List
-from Review import Review
+
 class ReviewComment(Base):
     __tablename__ = 'review_comments'
     
@@ -12,5 +12,5 @@ class ReviewComment(Base):
     text = Column(String)
     commented_at = Column(Date)
     
-    review: Mapped["Review"] = relationship(back_populates="review_comments")
+    review = relationship("Review", back_populates="review_comments")
 

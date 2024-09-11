@@ -3,8 +3,6 @@ from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import relationship
 from database.config import Base
 from typing import List
-from app.models.PlaylistSong import PlaylistSong
-from app.models.UserFollowedPlaylist import UserFollowedPlaylist
 
 class Playlist(Base):
     __tablename__ = 'playlists'
@@ -15,5 +13,5 @@ class Playlist(Base):
     updated_at = Column(Date)
     image_url = Column(String)
     
-    songs: Mapped[List["PlaylistSong"]] = relationship(back_populates="playlist")
-    followers: Mapped[List["UserFollowedPlaylist"]] = relationship(back_populates="playlist")
+    songs = relationship("PlaylistSong", back_populates="playlist")
+    followers = relationship("UserFollowedPlaylist", back_populates="playlist")

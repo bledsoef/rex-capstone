@@ -9,7 +9,7 @@ export default function Library() {
   useEffect(() => {
     async function apiCall() {
       console.log("baseroute", process.env.BASE_ROUTE)
-      var response = await fetch(`${process.env.BASE_ROUTE}/getSentRecsForUser`)
+      var response = await fetch(`127.0.0.1:8000/getSentRecsForUser`)
       var data = await response.json()
       setSentRecs(data)
     }

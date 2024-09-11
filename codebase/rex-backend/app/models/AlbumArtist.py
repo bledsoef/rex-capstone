@@ -3,8 +3,6 @@ from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import relationship
 from database.config import Base
 from typing import List
-from app.models.Song import Song
-from app.models.Artist import Artist
 
 
 class AlbumArtist(Base):
@@ -14,5 +12,5 @@ class AlbumArtist(Base):
     song_id = Column(Integer, ForeignKey('songs.id'))
     artist_id = Column(Integer, ForeignKey('artists.id'))
     
-    song: Mapped["Song"] = relationship(back_populates="album_artists")
-    artist: Mapped["Artist"] = relationship(back_populates="album_artists")
+    song = relationship("Song", back_populates="album_artists")
+    artist = relationship("Artist", back_populates="album_artists")
