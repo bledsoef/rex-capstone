@@ -10,6 +10,3 @@ class PlaylistSong(Base):
     id = Column(Integer, primary_key=True)
     song_id = Column(Integer, ForeignKey('songs.id'))
     playlist_id = Column(Integer, ForeignKey('playlists.id'))
-    
-    playlist = relationship("Playlist", back_populates="songs")
-    song = relationship("Song", back_populates="playlist_songs")

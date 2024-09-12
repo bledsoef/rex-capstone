@@ -12,6 +12,3 @@ class Playlist(Base):
     created_by = Column(Integer)
     updated_at = Column(Date)
     image_url = Column(String)
-    
-    songs = relationship("PlaylistSong", back_populates="playlist")
-    followers = relationship("UserFollowedPlaylist", back_populates="playlist")

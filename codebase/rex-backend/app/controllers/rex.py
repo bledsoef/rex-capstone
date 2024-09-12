@@ -16,11 +16,11 @@ async def createRec(request: Request, db :Session = Depends(get_db)):
         return {"message": "Failed to create rec"}
 
 
-@router.get("/getSentRecsForUser")
-async def getSentRecsForUser(username: str, db: Session = Depends(get_db)):
+@router.get("/getPendingSentRecsForUser")
+async def getPendingSentRecsForUser(username: str, db: Session = Depends(get_db)):
     try:
-        sent_recs = get_sent_recs(db, username)
-        
+        sent_recs = get_pending_sent_recs(db, username)
+        print(sent_recs) 
         return sent_recs
     except Exception as e:
         print(e)

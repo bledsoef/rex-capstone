@@ -11,10 +11,9 @@ class Artist(Base):
     bio = Column(String)
     image_url = Column(String)
     
-    genre = relationship("Genre", back_populates="artists")
-    recs = relationship("Rec", back_populates="artist")
-    albums = relationship("Album", back_populates="artist")
-    songs = relationship("Song", back_populates="artist")
-    album_artists = relationship("AlbumArtist", back_populates="artist")
-    song_artists = relationship("SongArtist", back_populates="artist")
+    recs = relationship("Rec", backref="artist")
+    albums = relationship("Album", backref="artist")
+    songs = relationship("Song", backref="artist")
+    album_artists = relationship("AlbumArtist", backref="artist")
+    song_artists = relationship("SongArtist", backref="artist")
 

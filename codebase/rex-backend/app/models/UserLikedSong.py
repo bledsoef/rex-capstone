@@ -11,6 +11,3 @@ class UserLikedSong(Base):
     song_id = Column(Integer, ForeignKey('songs.id'))
     user_id = Column(Integer, ForeignKey('users.id'))
     liked_at = Column(Date)
-    
-    song = relationship("Song", back_populates="liked_by_users")
-    user = relationship("User", back_populates="liked_songs")

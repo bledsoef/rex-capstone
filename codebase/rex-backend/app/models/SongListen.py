@@ -10,6 +10,3 @@ class SongListen(Base):
     song_id = Column(Integer, ForeignKey('songs.id'))
     user_id = Column(Integer, ForeignKey('users.id'))
     listened_on = Column(Date)
-
-    user = relationship('User', back_populates="users")
-    song = relationship('Song', back_populates="song_listens")

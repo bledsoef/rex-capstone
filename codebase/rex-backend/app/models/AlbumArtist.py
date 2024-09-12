@@ -11,6 +11,3 @@ class AlbumArtist(Base):
     id = Column(Integer, primary_key=True)
     song_id = Column(Integer, ForeignKey('songs.id'))
     artist_id = Column(Integer, ForeignKey('artists.id'))
-    
-    song = relationship("Song", back_populates="album_artists")
-    artist = relationship("Artist", back_populates="album_artists")

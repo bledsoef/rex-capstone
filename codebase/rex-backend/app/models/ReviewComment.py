@@ -12,5 +12,3 @@ class ReviewComment(Base):
     text = Column(String)
     commented_at = Column(Date)
     
-    review = relationship("Review", back_populates="review_comments")
-

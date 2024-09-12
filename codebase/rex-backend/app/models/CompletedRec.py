@@ -10,5 +10,3 @@ class CompletedRec(Base):
     id = Column(Integer, primary_key=True)
     rec_id = Column(Integer, ForeignKey('recs.id'))
     updated = Column(Date)
-    
-    rec = relationship("Rec", back_populates="completed_recs")

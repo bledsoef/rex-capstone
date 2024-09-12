@@ -10,6 +10,3 @@ class UserFollowedPlaylist(Base):
     id = Column(Integer, primary_key=True)
     playlist_id = Column(Integer, ForeignKey('playlists.id'))
     user_id = Column(Integer, ForeignKey('users.id'))
-    
-    playlist = relationship("Playlist", back_populates="followers")
-    user = relationship("User", back_populates="followed_playlists")

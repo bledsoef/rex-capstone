@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session, aliased
 from app.models.Rec import Rec
 from app.models.Review import Review
+from app.models.PendingRec import PendingRec
 from datetime import datetime
 def create_new_rec(db: Session, rec_data):
     if not rec_data["isPost"]:
@@ -74,19 +75,9 @@ def get_requests(db: Session, user_id: str):
     return [entry.__dict__ for entry in db.query(Rec).filter(Rec.sentTo == user_id, Rec.status == 'pending').all()]
 
 
-def get_sent_recs(db: Session, user_id: str):
-    sent_pending = [entry.__dict__ for entry in db.query(Rec).filter(Rec.createdBy == user_id, Rec.status == 'pending', Rec.isPost == False).all()]
-    sent_rejected = [entry.__dict__ for entry in db.query(Rec).filter(Rec.createdBy == user_id, Rec.status == 'rejected', Rec.isPost == False).all()]
-    sent_accepted = [entry.__dict__ for entry in db.query(Rec).filter(Rec.createdBy == user_id, Rec.status == 'accepted', Rec.isPost == False).all()]
-    sent_completed = [
-        dict(rec=rec.__dict__, review=review.__dict__) if review else dict(rec=rec.__dict__)
-        for rec, review in(
-            db.query(Rec, Review)
-            .join(Review, Rec.id == Review.rec_id, isouter=True)
-            .filter(Rec.sentTo == user_id, Rec.status == 'completed', Rec.isPost == False)
-            .all()
-    )]    
-    return {'pending': sent_pending, 'accepted': sent_accepted,'completed': sent_completed, 'rejected': sent_rejected}
+def get_pending_sent_recs(db: Session, user_id: str):
+    recs = db.query(Rec).join(PendingRec, Rec.pending_recs).filter_by(Rec.sender_id == user_id)
+    return obj_list_to_dict(recs) 
 
 def get_posts(db: Session, user_id: str):
     return db.query(Rec).filter(Rec.createdBy == user_id).all()
@@ -94,3 +85,7 @@ def get_posts(db: Session, user_id: str):
 def get_non_user_posts(db: Session, user_id: str):
 
     return db.query(Rec).filter(Rec.isPost == True, Rec.createdBy != user_id).all()
+
+
+def obj_list_to_dict(obj_list):
+    return [entry.__dict__ for entry in obj_list]

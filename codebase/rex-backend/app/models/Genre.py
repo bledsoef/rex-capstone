@@ -7,3 +7,7 @@ class Genre(Base):
     __tablename__ = 'genres'
     
     id = Column(String, primary_key=True)
+
+    albums = relationship("Album", backref="genre")
+    artists = relationship("Artist", backref="genre")
+    songs = relationship("Song", backref="genre")
