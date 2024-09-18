@@ -16,7 +16,7 @@ class Rec(Base):
     artist_id = Column(Integer, ForeignKey('artists.id'), nullable=True, default=None)
     album_id = Column(Integer, ForeignKey('albums.id'), nullable=True, default=None)
     is_post = Column(Boolean, default=False)
-   
+
     reviews = relationship("Review", backref="rec")
     pending_recs = relationship("PendingRec", backref="rec")
     accepted_recs = relationship("AcceptedRec", backref="rec")

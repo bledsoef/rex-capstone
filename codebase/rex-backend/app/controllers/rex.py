@@ -17,14 +17,13 @@ async def createRec(request: Request, db :Session = Depends(get_db)):
 
 
 @router.get("/getPendingSentRecsForUser")
-async def getPendingSentRecsForUser(username: str, db: Session = Depends(get_db)):
+async def getPendingSentRecsForUser(username: int, db: Session = Depends(get_db)):
     try:
         sent_recs = get_pending_sent_recs(db, username)
-        print(sent_recs) 
         return sent_recs
     except Exception as e:
         print(e)
-        return {"message": "Failed to get recs"}
+        return []
 
 @router.post("/acceptRecFromPost")
 async def acceptRecFromPost(request: Request, db :Session = Depends(get_db)):
