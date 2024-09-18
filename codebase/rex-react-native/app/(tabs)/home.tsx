@@ -45,7 +45,7 @@ export default function Home() {
           <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
           <ThemedText type="defaultSemiBold">app-example</ThemedText>.
         </ThemedText>
-        <Link href="/landing">Go to Landing Page</Link>
+        <Link href={"/index"}> Go to Landing Page</Link>
       </ThemedView>
     </ParallaxScrollView>
   );
