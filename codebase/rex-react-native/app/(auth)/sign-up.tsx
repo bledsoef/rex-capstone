@@ -7,39 +7,86 @@ import {
   View,
   Image,
   StyleSheet,
+  Alert
 } from "react-native";
+import { FormField } from "@/components/FormField";
 import { RexButton } from "@/components/RexButton";
 import { Redirect, router } from "expo-router";
 
 export default function SignUp() {
-  const [email, setEmail] = useState<any>("");
-  const [password, setPassword] = useState<any>("");
-  function login() {
-    auth().signInWithEmailAndPassword(email, password);
+  const [form, setForm] = useState<any>({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  async function signUp() {
+    if (form.username == "" || form.email == "" || form.password == "" || form.confirmPassword == "") {
+      Alert.alert("Please fill out all fields.")
+      return
+    }
+    if (form.password != form.confirmPassword) {
+      Alert.alert("Your passwords do not match.")
+      return
+    }
+    auth().createUserWithEmailAndPassword(form.email, form.password) .then(() => {
+      console.log('User account created & signed in!');
+    })
+    .catch(error => {
+      if (error.code === 'auth/email-already-in-use') {
+        Alert.alert('That email address is already in use!');
+      }
+  
+      if (error.code === 'auth/invalid-email') {
+        Alert.alert('That email address is invalid!');
+      }
+  
+      console.error(error);
+    });
   }
   return (
     <SafeAreaView className="flex-1 text-2xl bg-white">
       <ScrollView className="h-full">
-        <View className="w-full justify-center items-center h-full px-4">
+        <View className="w-full h-full px-4">
           <View className="relative mt-5">
-            <Text
-              style={styles.textWithShadow}
-              className="text-7xl text-primary text-center font-jbold"
-            >
-              Rex
+            <Text className="text-4xl text-primary font-jbold pb-4">
+              Sign Up
             </Text>
           </View>
-          <RexButton
-            title={"Log In"}
-            handlePress={() => router.push("/sign-in")}
-            containerStyles={"bg-primary w-full"}
-            textStyles={"text-white"}
+          <FormField
+            title={"Username"}
+            value={form.firstName}
+            handleChangeText={(e: any) => setForm({ ...form, username: e })}
+            otherStyles={"py-1"}
+          />
+
+          <FormField
+            title={"Email"}
+            value={form.email}
+            handleChangeText={(e: any) => setForm({ ...form, email: e })}
+            otherStyles={"py-1"}
+            type={"email-address"}
+          />
+          <FormField
+            title={"Password"}
+            value={form.password}
+            handleChangeText={(e: any) => setForm({ ...form, password: e })}
+            otherStyles={"py-1"}
+          />
+
+          <FormField
+            title={"Confirm Password"}
+            value={form.confirmPassword}
+            handleChangeText={(e: any) =>
+              setForm({ ...form, confirmPassword: e })
+            }
+            otherStyles={"py-1"}
           />
           <RexButton
             title={"Sign Up"}
-            handlePress={() => router.push("/sign-up")}
-            containerStyles={"bg-white w-full"}
-            textStyles={"text-primary"}
+            handlePress={() => signUp()}
+            containerStyles={"bg-primary w-full mt-8"}
+            textStyles={"text-white"}
           />
         </View>
       </ScrollView>
@@ -47,10 +94,4 @@ export default function SignUp() {
   );
 }
 
-const styles = StyleSheet.create({
-  textWithShadow: {
-    textShadowColor: "#D3D3D3", // Color of the shadow
-    textShadowOffset: { width: 2, height: 2 }, // Shadow offset (x and y)
-    textShadowRadius: 1, // Shadow blur radius
-  },
-});
+const styles = StyleSheet.create({});

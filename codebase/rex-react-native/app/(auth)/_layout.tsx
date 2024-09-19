@@ -17,7 +17,7 @@ SplashScreen.preventAutoHideAsync();
 export default function AuthLayout() {
   return (
     <>
-      <Stack>
+      <Stack screenOptions={{ headerShown: false}}>
         <Stack.Screen name="sign-in" options={{ headerShown: false }} />
         <Stack.Screen name="sign-up" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
