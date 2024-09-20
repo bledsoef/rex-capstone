@@ -15,10 +15,10 @@ import { Redirect, router } from "expo-router";
 
 export default function SignUp() {
   const [form, setForm] = useState<any>({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+    username: "finnbledsoe",
+    email: "bledsoefinn000@gmail.com",
+    password: "fusssss",
+    confirmPassword: "fusssss",
   });
   async function signUp() {
     if (form.username == "" || form.email == "" || form.password == "" || form.confirmPassword == "") {
@@ -29,6 +29,21 @@ export default function SignUp() {
       Alert.alert("Your passwords do not match.")
       return
     }
+    var res = await fetch("http://127.0.0.1:8000/createUser",       
+      {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      }
+    )
+    var json = await res.json()
+    console.log(json)
+    if (json["success"] == false) {
+      Alert.alert(json["message"]);
+      return
+    } 
     auth().createUserWithEmailAndPassword(form.email, form.password) .then(() => {
       console.log('User account created & signed in!');
     })
@@ -42,7 +57,9 @@ export default function SignUp() {
       }
   
       console.error(error);
+      return
     });
+    router.replace("/rex")
   }
   return (
     <SafeAreaView className="flex-1 text-2xl bg-white">
@@ -55,7 +72,7 @@ export default function SignUp() {
           </View>
           <FormField
             title={"Username"}
-            value={form.firstName}
+            value={form.username}
             handleChangeText={(e: any) => setForm({ ...form, username: e })}
             otherStyles={"py-1"}
           />

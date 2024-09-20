@@ -59,7 +59,6 @@ This suite of routes contains all necessary endpoints relating to recs.
 `/getCompletedSentRecsForUser`
 `/getArchivedSentRecsForUser`
 `/getPendingReceivedRecsForUser`
-`/getAcceptedReceivedRecsForUser`
 `/getCompletedReceivedRecsForUser`
 `/getArchivedReceivedRecsForUser`
 `/getFeed`

@@ -14,4 +14,5 @@ async def createUser(request: Request, db:Session = Depends(get_db)):
         return {"message": "There is already a user with this email/username.", "success":False}
     except Exception as e:
         print("Error creating user", e)
+        return {"message": "Error creating user.", "success":False} 
 

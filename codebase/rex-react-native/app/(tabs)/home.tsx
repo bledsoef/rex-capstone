@@ -1,53 +1,35 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-import { Link } from 'expo-router';
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-
+import { View, StyleSheet, Text, SafeAreaView, ScrollView, Image } from 'react-native';
+import auth from "@react-native-firebase/auth";
+import storage from "@react-native-firebase/storage";
+import { useEffect, useState } from 'react';
 export default function Home() {
+  var currentUser = auth().currentUser
+  // var profileUrl = storage().ref(`/${currentUser}.png`).getDownloadURL()
+  const [imageUrl, setImageUrl] = useState<any>("")
+  useEffect(() => {
+    fetchImageDownloadUrl()
+  }, [])
+  async function fetchImageDownloadUrl() {
+    storage().ref(`/profileImages/${currentUser}.png`).getDownloadURL()
+        .then((res) => setImageUrl(res))
+        .catch((error) => {
+        // Handle any errors
+        console.error("Error getting download URL:", error);
+        });
+  }
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-        <Link href={"/index"}> Go to Landing Page</Link>
-      </ThemedView>
-    </ParallaxScrollView>
+   <SafeAreaView className='bg-white min-h-screen'>
+    <ScrollView className="h-full">
+      <View className="w-full h-full px-4">
+        <View className="relative mt-5">
+          <Text className="text-3xl text-primary font-jbold pb-4">
+            Feed
+          </Text>
+          <Image source={imageUrl} resizeMode='contain' className='w-full h-[300px]"'></Image>
+        </View>
+      </View>
+    </ScrollView>
+   </SafeAreaView>
   );
 }
 

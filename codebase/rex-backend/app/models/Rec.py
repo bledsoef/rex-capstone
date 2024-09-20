@@ -19,6 +19,5 @@ class Rec(Base):
 
     reviews = relationship("Review", backref="rec")
     pending_recs = relationship("PendingRec", backref="rec")
-    accepted_recs = relationship("AcceptedRec", backref="rec")
     completed_recs = relationship("CompletedRec", backref="rec")
     archived_recs = relationship("ArchivedRec", backref="rec")

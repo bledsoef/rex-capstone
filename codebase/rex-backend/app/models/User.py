@@ -7,7 +7,7 @@ from app.models.Rec import Rec
 
 class User(Base):
     __tablename__ = 'users'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     username = Column(String)
     email = Column(String)
     first_name = Column(String)
@@ -15,6 +15,7 @@ class User(Base):
     created_at = Column(Date)
     is_artist = Column(Boolean)
     account_type = Column(String)
+    profile_image_url = Column(String)
     
     sent_recs = relationship("Rec", foreign_keys=[Rec.sender_id], backref="sender")
     received_recs = relationship("Rec", foreign_keys=[Rec.recipient_id], backref="recipient")

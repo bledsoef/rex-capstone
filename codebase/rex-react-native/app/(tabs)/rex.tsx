@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { Image, StyleSheet, Platform, SafeAreaView, View } from 'react-native';
 
 import { useEffect, useState } from 'react';
 import { ThemedText } from '@/components/ThemedText';
@@ -44,11 +44,13 @@ export default function Library() {
   }, [])
   const [sentRecs, setSentRecs] = useState<any[]>([])
   return (
-    <ScrollView>
-      {sentRecs.map((rec, index) => (
-        <ThemedText key={index} type="title">{rec.title}</ThemedText>
-      ))}
-      <Button onPress={apiCall} title={"Create Rec"}/>
-    </ScrollView>
+    <SafeAreaView>
+      <View>
+        {sentRecs.map((rec, index) => (
+          <ThemedText key={index} type="title">{rec.title}</ThemedText>
+        ))}
+        <Button onPress={apiCall} title={"Create Rec"}/>
+      </View>
+    </SafeAreaView>
   )
 }

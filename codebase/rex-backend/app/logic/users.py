@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app.models.AcceptedRec import AcceptedRec
+from sqlalchemy import func
 from app.models.Album import Album
 from app.models.AlbumArtist import AlbumArtist
 from app.models.ArchivedRec import ArchivedRec
@@ -19,11 +19,25 @@ from app.models.User import User
 from app.models.UserFollowedPlaylist import UserFollowedPlaylist
 from app.models.UserLikedAlbum import UserLikedAlbum
 from app.models.UserLikedSong import UserLikedSong
+from datetime import datetime
 def create_new_user(db: Session, user_data):
     try:
-        new_user = User(**user_data)
+        user = db.query(User).filter(User.email == user_data["email"]).first()
+        if user:
+            return False
+        max_id = db.query(func.max(User.id)).scalar()
+        new_user = User(
+            id=max_id+1,
+            username=user_data["username"], 
+            email=user_data["email"], 
+            first_name="", 
+            last_name="", 
+            created_at=datetime.now(), 
+            is_artist=False,
+            account_type="free")
         db.add(new_user)
         db.commit()
         return True
     except Exception as e:
+        print(e)
         return False

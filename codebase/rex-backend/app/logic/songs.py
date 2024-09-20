@@ -1,5 +1,4 @@
 from sqlalchemy.orm import Session, aliased
-from app.models.AcceptedRec import AcceptedRec
 from app.models.Album import Album
 from app.models.AlbumArtist import AlbumArtist
 from app.models.ArchivedRec import ArchivedRec
