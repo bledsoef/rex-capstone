@@ -53,7 +53,7 @@ with Session(engine) as session:
 
     artist_1 = Artist(
         id=1,
-        name="Test Artist",
+        name="Bloc Party",
         genre_id="Rock",
         bio="asfdljasdf",
         image_url=""
@@ -85,7 +85,7 @@ with Session(engine) as session:
         id=1,
         title="Test",
         body="Super sweet song",
-        sender_id=1,
+        sender_id=2,
         recipient_id=2,
         created_at=datetime(2024, 6, 5),
         song_id=1,

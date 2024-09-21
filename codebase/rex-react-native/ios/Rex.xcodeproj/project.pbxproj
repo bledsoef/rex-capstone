@@ -12,7 +12,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
 		4B9D670C2A6E3C5B57811BD5 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = BC715168483BA685F3F2A407 /* PrivacyInfo.xcprivacy */; };
-		6AA7D5632C9D13F100BC2657 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6AA7D5622C9D13F100BC2657 /* GoogleService-Info.plist */; };
+		6AA7D5652C9D220C00BC2657 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6AA7D5642C9D220B00BC2657 /* GoogleService-Info.plist */; };
 		9C7A9F96FCC54AABA0CBAC80 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED026BCC3B4C4694B9877532 /* noop-file.swift */; };
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
 		B37B9BFA5168C3B9C714087E /* Pods_Rex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7659F2D4F416067B246DE72 /* Pods_Rex.framework */; };
@@ -26,7 +26,7 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Rex/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Rex/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Rex/main.m; sourceTree = "<group>"; };
-		6AA7D5622C9D13F100BC2657 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		6AA7D5642C9D220B00BC2657 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6C2E3173556A471DD304B334 /* Pods-Rex.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rex.debug.xcconfig"; path = "Target Support Files/Pods-Rex/Pods-Rex.debug.xcconfig"; sourceTree = "<group>"; };
 		7A4D352CD337FB3A3BF06240 /* Pods-Rex.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rex.release.xcconfig"; path = "Target Support Files/Pods-Rex/Pods-Rex.release.xcconfig"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = Rex/SplashScreen.storyboard; sourceTree = "<group>"; };
@@ -54,6 +54,7 @@
 		13B07FAE1A68108700A75B9A /* Rex */ = {
 			isa = PBXGroup;
 			children = (
+				6AA7D5642C9D220B00BC2657 /* GoogleService-Info.plist */,
 				BB2F792B24A3F905000567C9 /* Supporting */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -87,7 +88,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				6AA7D5622C9D13F100BC2657 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* Rex */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
@@ -206,7 +206,7 @@
 			files = (
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				6AA7D5632C9D13F100BC2657 /* GoogleService-Info.plist in Resources */,
+				6AA7D5652C9D220C00BC2657 /* GoogleService-Info.plist in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
 				4B9D670C2A6E3C5B57811BD5 /* PrivacyInfo.xcprivacy in Resources */,
 			);
@@ -499,10 +499,7 @@
 				LIBRARY_SEARCH_PATHS = "$(SDKROOT)/usr/lib/swift\"$(inherited)\"";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -571,10 +568,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(SDKROOT)/usr/lib/swift\"$(inherited)\"";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
