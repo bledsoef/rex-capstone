@@ -7,10 +7,9 @@ class Rec(Base):
     __tablename__ = 'recs'
     
     id = Column(Integer, primary_key=True)
-    title = Column(String)
     body = Column(String, nullable=False)
     sender_id = Column(Integer, ForeignKey('users.id'))
-    recipient_id = Column(Integer, ForeignKey('users.id'))
+    recipient_id = Column(Integer, ForeignKey('users.id'), nullable=True)
     created_at = Column(Date)
     song_id = Column(Integer, ForeignKey('songs.id'), nullable=True, default=None)
     artist_id = Column(Integer, ForeignKey('artists.id'), nullable=True, default=None)
