@@ -94,7 +94,14 @@ This suite of routes contains all necessary endpoints relating to recs.
 
 #### Media
 
-This suite of routes contains all necessary endpoints relating to media.
+This suite of routes contains all necessary endpoints relating to media (albums, songs).
+
+`/playSong` - POST: Given a rec ID, delete the current PendingRec object and create a new ArchivedRec object with the rec ID.
+
+`/shuffleAlbum` - GET: Given a rec ID, delete the current PendingRec object and create a new ArchivedRec object with the rec ID.
+
+`/archiveRec` - POST: Given a rec ID, delete the current PendingRec object and create a new ArchivedRec object with the rec ID.
+
 
 #### Stats
 
