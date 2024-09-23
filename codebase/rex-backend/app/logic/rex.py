@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session, aliased
+from sqlalchemy import func
 from app.models.Album import Album
 from app.models.AlbumArtist import AlbumArtist
 from app.models.ArchivedRec import ArchivedRec
@@ -40,33 +41,41 @@ def create_new_rec(db: Session, rec_data):
     
     return True
 
-def accept_rec_from_user(db: Session, rec_id):
-    try:
-        rec = db.query(Rec).filter(Rec.id == rec_id).first()
-        rec.status = 'accepted'
-        db.add(rec)
-        db.commit()
-    except Exception as e:
-        print(e)
-        return False
-    return True
-
 def accept_rec_from_post(db: Session, rec_id: int, user_id: str):
     try:
-        rec = db.query(Rec).filter(Rec.id == rec_id).first()
-        new_rec = Rec(createdBy=rec.createdBy, mediaName=rec.mediaName, artistName=rec.artistName, description=rec.description, sentTo=user_id, image=rec.image,status="accepted", isPost=False)
+        rec: Rec = db.query(Rec).filter(Rec.id == rec_id).first()
+        rec_id = db.query(func.max(Rec.id)).scalar() + 1
+        new_rec = Rec(
+            id=rec_id,
+            sender_id=rec.sender_id,
+            body=rec.body,
+            created_at=rec.created_at,
+            recipient_id=user_id,
+            song_id=rec.song_id if rec.song_id else None,
+            artist_id=rec.artist_id if rec.artist_id else None, 
+            album_id=rec.album_id if rec.album_id else None, 
+            isPost=False
+        )
+        pending_rec_id = db.query(func.max(PendingRec.id)).scalar() + 1
+        new_pending_rec = PendingRec(
+            rec=pending_rec_id,
+            updated=datetime.now()
+        )
         db.add(new_rec)
+        db.add(new_pending_rec)
         db.commit()
     except Exception as e:
         print(e)
         return False
     return True
 
-def reject_rec(db: Session, rec_id):
+def archive_rec(db: Session, rec_id):
     try:
-        rec = db.query(Rec).filter(Rec.id == rec_id).first()
-        rec.status ='rejected'
-        db.add(rec)
+        pending_rec = db.query(PendingRec).filter(PendingRec.rec_id==rec_id).first()
+        db.delete(pending_rec)
+        archived_rec_id = db.query(func.max(PendingRec.id)).scalar() + 1
+        archived_rec = ArchivedRec(id=archived_rec_id, rec_id=rec_id)
+        db.add(archived_rec)
         db.commit()
     except Exception as e:
         print(e)
@@ -76,7 +85,6 @@ def reject_rec(db: Session, rec_id):
 def get_received_recs(db: Session, user_id: str):
     received_pending = [entry.__dict__ for entry in db.query(Rec).filter(Rec.sentTo == user_id, Rec.status == 'pending').all()]
     received_rejected = [entry.__dict__ for entry in db.query(Rec).filter(Rec.sentTo == user_id, Rec.status == 'rejected').all()]
-    received_accepted = [entry.__dict__ for entry in db.query(Rec).filter(Rec.sentTo == user_id, Rec.status == 'accepted').all()]
     received_completed = [
         dict(rec=rec.__dict__, review=review.__dict__) if review else dict(rec=rec.__dict__)
         for rec, review in(
@@ -85,7 +93,7 @@ def get_received_recs(db: Session, user_id: str):
             .filter(Rec.sentTo == user_id, Rec.status == 'completed')
             .all()
     )]
-    return {'pending': received_pending, 'accepted': received_accepted, 'completed': received_completed, 'rejected': received_rejected}
+    return {'pending': received_pending, 'completed': received_completed, 'rejected': received_rejected}
 
 def get_requests(db: Session, user_id: str):
     return [entry.__dict__ for entry in db.query(Rec).filter(Rec.sentTo == user_id, Rec.status == 'pending').all()]
@@ -98,9 +106,11 @@ def get_pending_sent_recs(db: Session, user_id: int):
 def get_posts(db: Session, user_id: str):
     return db.query(Rec).filter(Rec.createdBy == user_id).all()
 
-def get_non_user_posts(db: Session, user_id: str):
-
-    return db.query(Rec).filter(Rec.isPost == True, Rec.createdBy != user_id).all()
+def get_non_user_posts(db: Session, email: str):
+    print(email)
+    user = db.query(User).filter(User.email == email).first()
+    print(user)
+    return db.query(Rec).filter(Rec.is_post == True, Rec.sender_id != user.id).all()
 
 
 def obj_list_to_dict(obj_list):

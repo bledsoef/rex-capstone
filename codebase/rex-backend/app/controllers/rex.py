@@ -35,21 +35,11 @@ async def acceptRecFromPost(request: Request, db :Session = Depends(get_db)):
         print(e)
         return {"message": "Failed to create rec"}
 
-@router.post("/acceptRecFromUser")
-async def acceptRecFromUser(request: Request, db :Session = Depends(get_db)):
+@router.post("/archiveRec")
+async def archiveRec(request: Request, db: Session = Depends(get_db)):
     data = await request.json()
     try:
-        accept_rec_from_user(db, data['rec_id'])
-        return {"message": "Rec accepted."}
-    except Exception as e:
-        print(e)
-        return {"message": "Failed to create rec"}
-
-@router.post("/rejectRec")
-async def rejectRec(request: Request, db :Session = Depends(get_db)):
-    data = await request.json()
-    try:
-        reject_rec(db, data["rec_id"])
+        archive_rec(db, data["rec_id"])
         return {"message": "Rec accepted."}
     except Exception as e:
         print(e)
@@ -75,9 +65,9 @@ async def getReceivedRecsForUser(username: str, db: Session = Depends(get_db)):
         return {"message": "Failed to get recs"}
 
 @router.get("/getFeedForUser")
-async def getFeed(username: str, db: Session = Depends(get_db)):
+async def getFeed(email: str, db: Session = Depends(get_db)):
     try:
-        non_user_posts = get_non_user_posts(db, username)
+        non_user_posts = get_non_user_posts(db, email)
         result = []
         for post in non_user_posts:
             reviews = [entry.__dict__ for entry in get_post_reviews(db, post.id)]
