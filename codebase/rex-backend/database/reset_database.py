@@ -46,11 +46,23 @@ with Session(engine) as session:
         is_artist=False,
         account_type="paid"
     )
+    bledsoefinn0 = User(
+        id=3,
+        username="bledsoefinn0",
+        email="bledsoefinn0@gmail.com",
+        first_name="Finn",
+        last_name="Bledsoe",
+        created_at=datetime(2024, 4, 4),
+        is_artist=False,
+        account_type="paid"
+    )
 
     genre_1 = Genre(
         id="Rock"
     )
-
+    genre_2 = Genre(
+        id="Lofi"
+    )
     artist_1 = Artist(
         id=1,
         name="Bloc Party",
@@ -58,10 +70,16 @@ with Session(engine) as session:
         bio="asfdljasdf",
         image_url=""
     )
-
+    artist_2 = Artist(
+        id=2,
+        name="AVBE",
+        genre_id="Lofi",
+        bio="asfdljasdf",
+        image_url=""
+    )
     album_1 = Album(
         id=1,
-        title="Test Album",
+        title="Silent Alarm",
         artist_id=1,
         genre_id="Rock",
         release_date=datetime(2024, 4, 4),
@@ -80,28 +98,44 @@ with Session(engine) as session:
         image_url="",
         audio_url=""
     )
+    song_2 = Song(
+        id=2,
+        title="Night in Kyoto",
+        artist_id=1,
+        album_id=None,
+        genre_id="Lofi",
+        duration=117,
+        release_date=datetime(2024, 6, 5),
+        popularity=1,
+        image_url="",
+        audio_url=""
+    )
 
     rec_1 = Rec(
         id=1,
-        title="Test",
-        body="Super sweet song",
+        body="If you like Bloc Party you will love this song!",
         sender_id=2,
-        recipient_id=2,
+        recipient_id=None,
         created_at=datetime(2024, 6, 5),
-        song_id=1,
-        is_post=False
+        album_id=1,
+        is_post=True
     )
     
-    pending_rec_1 = PendingRec(
-        id=1,
-        rec_id=1,
-        updated=datetime(2024, 4, 4)
-    )
-    session.add_all([bledsoef, bahrs]) # Users
-    session.add_all([genre_1]) # Genres
-    session.add_all([artist_1]) # Artists
+    # pending_rec_1 = PendingRec(
+    #     id=1,
+    #     rec_id=1,
+    #     updated=datetime(2024, 4, 4)
+    # )
+    session.add_all([bledsoef, bahrs, bledsoefinn0]) # Users
+    session.commit()
+    session.add_all([genre_1, genre_2]) # Genres
+    session.commit()
+    session.add_all([artist_1, artist_2]) # Artists
+    session.commit()
     session.add_all([album_1]) # Album
-    session.add_all([song_1]) # Song
+    session.commit()
+    session.add_all([song_1, song_2]) # Song
+    session.commit()
     session.add_all([rec_1]) # Rec
-    session.add_all([pending_rec_1]) # PendingRec
+    # session.add_all([]) # PendingRec
     session.commit()
