@@ -24,10 +24,22 @@ export default function Home() {
     author: "Bloc Party",
     authorId: "",
     title: "Positive Tension",
-    mediaId: ""
+    mediaId: "1"
   };
   const [imageUrl, setImageUrl] = useState<any>("");
+  const [posts, setPosts] = useState<any>("");
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/getFeedForUser?email=${currentUser?.email}`);
+        const data = await response.json();
+        console.log("posts", data)
+        setPosts(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData()
     fetchImageDownloadUrl();
   }, []);
   async function fetchImageDownloadUrl() {
@@ -53,7 +65,10 @@ export default function Home() {
               ></Image>
             </Pressable>
           </View>
-          <Rec sender={sender} media={media} timeCreated={"2 days ago"}></Rec>
+          {posts && posts.map((rec: { [x: string]: any; }, index: any) => (
+            <Rec sender={rec["sender"]}></Rec>
+          ))}
+          <Rec sender={sender} media={media} description={"If you like Bloc Party you will love this song!"} timeCreated={"2 days ago"}></Rec>
         </View>
       </ScrollView>
     </SafeAreaView>
