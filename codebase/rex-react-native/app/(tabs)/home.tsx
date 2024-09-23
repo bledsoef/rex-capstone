@@ -66,7 +66,7 @@ export default function Home() {
             </Pressable>
           </View>
           {posts && posts.map((rec: { [x: string]: any; }, index: any) => (
-            <Rec sender={rec["sender"]}></Rec>
+            <Rec index={index} sender={rec["user"]} media={rec["media"]} description={rec["rec"]["body"]} timeCreated={rec["rec"]["created_at"]}></Rec>
           ))}
           <Rec sender={sender} media={media} description={"If you like Bloc Party you will love this song!"} timeCreated={"2 days ago"}></Rec>
         </View>
