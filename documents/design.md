@@ -16,20 +16,21 @@ This is where the API routes are located for each section of the architecture.
 
 This suite of routes contains all necessary endpoints relating to artists.
 
-`/uploadSong`
-`/registerArtist`
+`/uploadSong` - The actual file will be uploaded on the frontend, but given a packet of song data from the frontend, this route will create a new Song object.
+`/uploadAlbum` - The song files will be uploaded on the frontend, but given a packet of album data from the frontend, this route will create a new Album object and Song objects for all of the songs in the album.
+`/registerArtist` - The artist's profile picture will be uploaded on the frontend but this will take in a packet of data and create a new Artist object.
 
 #### Playlists
 
 This suite of routes contains all necessary endpoints relating to playlists.
 
-`/createPlaylist`
-`/addSong`
-`/removeSong`
-`/followPlaylist`
-`/unfollowPlaylist`
-`/deletePlaylist`
-`/renamePlaylist`
+`/createPlaylist` - The playlist image will be uploaded on the frontend, but given a packet of playlist data from the frontend, this route will create a new Playlist object.
+`/addSong` - Given a playlist ID and a song ID, this route will create a new PlaylistSong object.
+`/removeSong` -  Given a playlist ID and a song ID, this route will delete the existing PlaylistSong object.
+`/followPlaylist` - Given a playlist ID and a user ID, this route will create a new UserFollowedPlaylist object.
+`/unfollowPlaylist` - Given a playlist ID and a user ID, this route will delete the existing UserFollowedPlaylist object.
+`/deletePlaylist` - Given a playlist ID, this route will delete the existing Playlist object.
+`/renamePlaylist` - Given a playlist ID and a new name string, this route will modify the existing Playlist object with the new name.
 
 #### Reviews
 
@@ -73,35 +74,3 @@ This suite of routes contains all necessary endpoints relating to stats.
 #### Users
 
 This suite of routes contains all necessary endpoints relating to users.
-
-### Logic
-
-#### Artists
-
-This suite of routes contains all necessary endpoints relating to artists.
-
-#### Playlists
-
-This suite of routes contains all necessary endpoints relating to playlists.
-
-#### Reviews
-
-This suite of routes contains all necessary endpoints relating to reviews.
-
-#### Rex
-
-This suite of routes contains all necessary endpoints relating to recs.
-
-#### Media
-
-This suite of routes contains all necessary endpoints relating to media.
-
-#### Stats
-
-This suite of routes contains all necessary endpoints relating to stats.
-
-#### Users
-
-This suite of routes contains all necessary endpoints relating to users.
-
-### Models
