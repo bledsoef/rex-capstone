@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session, aliased
-from sqlalchemy import func
+from sqlalchemy import func, or_
 from app.models.Album import Album
 from app.models.AlbumArtist import AlbumArtist
 from app.models.ArchivedRec import ArchivedRec
@@ -107,10 +107,36 @@ def get_posts(db: Session, user_id: str):
     return db.query(Rec).filter(Rec.createdBy == user_id).all()
 
 def get_non_user_posts(db: Session, email: str):
-    print(email)
     user = db.query(User).filter(User.email == email).first()
-    print(user)
-    return db.query(Rec).filter(Rec.is_post == True, Rec.sender_id != user.id).all()
+    result = (
+        db.query(Rec, User, Playlist, Song, Album)
+            .outerjoin(User, Rec.sender_id == User.id)
+            .outerjoin(Playlist, Rec.playlist_id == Playlist.id)
+            .outerjoin(Song, Rec.song_id == Song.id)
+            .outerjoin(Album, Rec.album_id == Album.id)
+            .filter(Rec.is_post == True, Rec.sender_id != user.id)
+            .filter(or_(Rec.playlist_id.isnot(None), Rec.song_id.isnot(None), Rec.album_id.isnot(None)))
+        .all()
+    )   
+    filtered_results = []
+    for rec, user, playlist, song, album in result:
+        media_object = None
+        media_type = None
+        if playlist:
+            media_type = "playlist"
+            media_object = db.query(Playlist).join(User, Playlist.created_by==User.id).filter(Playlist.id == playlist.id).first()
+        
+        if song:
+            media_type = "song"
+            media_object = db.query(Song).join(Artist, Song.artist_id==Artist.id).filter(Song.id == song.id).first()
+
+        if album:
+            media_type = "album"
+            media_object = db.query(Album).join(Artist, Album.artist_id==Artist.id).first()
+
+        filtered_results.append({"rec":rec.__dict__, "user": user, "media": media_object.__dict__, "media_type": media_type})
+    print(filtered_results)
+    return filtered_results
 
 
 def obj_list_to_dict(obj_list):
