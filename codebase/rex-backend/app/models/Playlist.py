@@ -12,3 +12,5 @@ class Playlist(Base):
     created_by = Column(Integer)
     updated_at = Column(Date)
     image_url = Column(String)
+
+    recs = relationship("Rec", backref="playlist")
