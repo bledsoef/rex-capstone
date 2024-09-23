@@ -17,7 +17,9 @@ This is where the API routes are located for each section of the architecture.
 This suite of routes contains all necessary endpoints relating to artists.
 
 `/uploadSong` - The actual file will be uploaded on the frontend, but given a packet of song data from the frontend, this route will create a new Song object.
+
 `/uploadAlbum` - The song files will be uploaded on the frontend, but given a packet of album data from the frontend, this route will create a new Album object and Song objects for all of the songs in the album.
+
 `/registerArtist` - The artist's profile picture will be uploaded on the frontend but this will take in a packet of data and create a new Artist object.
 
 #### Playlists
@@ -25,21 +27,32 @@ This suite of routes contains all necessary endpoints relating to artists.
 This suite of routes contains all necessary endpoints relating to playlists.
 
 `/createPlaylist` - The playlist image will be uploaded on the frontend, but given a packet of playlist data from the frontend, this route will create a new Playlist object.
+
 `/addSong` - Given a playlist ID and a song ID, this route will create a new PlaylistSong object.
+
 `/removeSong` -  Given a playlist ID and a song ID, this route will delete the existing PlaylistSong object.
+
 `/followPlaylist` - Given a playlist ID and a user ID, this route will create a new UserFollowedPlaylist object.
+
 `/unfollowPlaylist` - Given a playlist ID and a user ID, this route will delete the existing UserFollowedPlaylist object.
+
 `/deletePlaylist` - Given a playlist ID, this route will delete the existing Playlist object.
+
 `/renamePlaylist` - Given a playlist ID and a new name string, this route will modify the existing Playlist object with the new name.
+
+`/getPlaylistsForUser` - Given a user ID, get all UserFollowedPlaylists that have that user ID or Playlist object that has that creator.
 
 #### Reviews
 
 This suite of routes contains all necessary endpoints relating to reviews.
 
-`/createReview`
-`/deleteReview`
-`/createReviewComment`
-`/deleteReviewComment`
+`/createReview` - Given a data packet containing the review data (rating, comment, rec_id, creator), this route will create a new Review object.
+
+`/deleteReview` - Given a review ID, this route will delete an existing Review object. 
+
+`/createReviewComment` - Given a data packet containing the review comment data (comment, review_id, creator), this route will create a ReviewComment object. 
+
+`/deleteReviewComment` - Given a review comment ID, this route will delete an existing ReviewComment object. 
 `/updateReview`
 `/getReviewCommentsForReview`
 `/getReviewsForRec`
