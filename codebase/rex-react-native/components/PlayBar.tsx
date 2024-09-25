@@ -2,7 +2,7 @@ import { Link } from "expo-router";
 import { useState, useEffect, type ComponentProps } from "react";
 import { Pressable, Text, StyleSheet, View, Image } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import { Audio } from "expo-av";
+import { Audio } from "expo-av"
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebaseConfig";
 
@@ -27,7 +27,7 @@ export function PlayBar({ song }: any) {
   }, []);
 
   const getAudioDownloadURL = async () => {
-    const fileRef = ref(storage, `/audioFiles/${song.id}.jpg`);
+    const fileRef = ref(storage, `/audioFiles/${song.id}.mp3`);
     const res = getDownloadURL(fileRef)
       .then((res) => sound(res))
       .catch((error) => {
