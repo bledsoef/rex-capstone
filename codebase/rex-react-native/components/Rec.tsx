@@ -8,6 +8,8 @@ export function Rec({
   media,
   sender,
   description,
+  recID,
+  mediaCreator,
   timeCreated,
   containerStyles,
   textStyles,
@@ -25,25 +27,22 @@ export function Rec({
     getDownloadURL(fileRef)
       .then((res) => setSenderImageUrl(res))
       .catch((error) => {
-        // Handle any errors
         console.error("Error getting download URL:", error);
       });
   }
   async function fetchAuthorImageDownloadUrl() {
-    const fileRef = ref(storage, `/artistImages/${media.author}.jpg`);
+    const fileRef = ref(storage, `/artistImages/${mediaCreator.id}.jpg`);
     getDownloadURL(fileRef)
       .then((res) => setAuthorImageUrl(res))
       .catch((error) => {
-        // Handle any errors
         console.error("Error getting download URL:", error);
       });
   }
   async function fetchMediaImageDownloadUrl() {
-    const fileRef = ref(storage, `/albumImages/${media.mediaId}.jpg`);
+    const fileRef = ref(storage, `/albumImages/${media.id}.jpg`);
     getDownloadURL(fileRef)
       .then((res) => setMediaImageUrl(res))
       .catch((error) => {
-        // Handle any errors
         console.error("Error getting download URL:", error);
       });
   }
@@ -81,7 +80,7 @@ export function Rec({
             <Text
               className={`font-jsemibold ml-3 text-[#3D3D3D] text-xl ${textStyles}`}
             >
-              {media.author}
+              {mediaCreator.name}
             </Text>
           </View>
         </View>
