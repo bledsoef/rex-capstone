@@ -8,7 +8,6 @@ import app.controllers.users as users
 import app.controllers.reviews as reviews
 import app.controllers.playlists as playlists
 import app.controllers.rex as rex
-import app.controllers.songs as songs
 import app.controllers.stats as stats
 
 app = FastAPI()
@@ -23,7 +22,6 @@ app.add_middleware(
 app.include_router(artists.router)
 app.include_router(reviews.router)
 app.include_router(rex.router)
-app.include_router(songs.router)
 app.include_router(users.router)
 app.include_router(playlists.router)
 app.include_router(stats.router)

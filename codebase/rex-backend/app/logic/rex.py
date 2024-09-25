@@ -122,20 +122,22 @@ def get_non_user_posts(db: Session, email: str):
     for rec, user, playlist, song, album in result:
         media_object = None
         media_type = None
+        media_creator = None
         if playlist:
             media_type = "playlist"
-            media_object = db.query(Playlist).join(User, Playlist.created_by==User.id).filter(Playlist.id == playlist.id).first()
-        
+            media_object = db.query(Playlist, User).join(User, Playlist.created_by==User.id).filter(Playlist.id == playlist.id).first()
+            media_creator = media_object.user.__dict__
         if song:
             media_type = "song"
-            media_object = db.query(Song).join(Artist, Song.artist_id==Artist.id).filter(Song.id == song.id).first()
+            media_object = db.query(Song, Artist).join(Artist, Song.artist_id==Artist.id).filter(Song.id == song.id).first()
+            media_creator = media_object.artist.__dict__
 
         if album:
             media_type = "album"
             media_object = db.query(Album).join(Artist, Album.artist_id==Artist.id).first()
-
-        filtered_results.append({"rec":rec.__dict__, "user": user, "media": media_object.__dict__, "media_type": media_type})
-    print(filtered_results)
+            media_creator = media_object.artist.__dict__
+        
+        filtered_results.append({"rec":rec.__dict__, "user": user, "media_creator": media_creator, "media": media_object.__dict__, "media_type": media_type})
     return filtered_results
 
 
