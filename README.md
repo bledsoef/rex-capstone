@@ -12,16 +12,19 @@ Practically every content creation site has native sharing and socializing capab
 
 ## Prerequisites
 
-I intend on making this a mobile application, and would like this to be primarily targeted towards IOS devices though. This means it will likely need a Flutter Install or a Swift install. Unfortunately, getting it pushed onto the App store is a long, expensive process, so I may make it cross platform so there is an easily accessible website version as well.
+I will be creating this with React Native, meaning it can be used on any platform, but I will be primarily targetting it for iOS. This means React Native, Cocoapods, Node.js and Expo all need to be installed. Unfortunately, getting it pushed onto the App store is a long, expensive process, so I may make it cross platform so there is an easily accessible website version as well.
 
 ## Requirements
 - [Requirements](https://github.com/CSC493-Computing-Design-Practicum/csc493-cdp-bledsoef/blob/main/requirements.md)
 
+## Design
+- [Requirements](https://github.com/CSC493-Computing-Design-Practicum/csc493-cdp-bledsoef/blob/main/design.md)
+
 ## Built With
 
-- [Swift]([http://www.aframework1.io/](https://www.swift.org/)): Apple's development tool/language for IOS and MacOS applications.
-- [Flutter](https://flutter.dev/): A cross-platform development tool by Google that allows code to be developed in one place and be applicable to multiple platforms.
-- IDE, if applicable
+- [React Native]([https://reactnative.dev/)): An extension on React made to easily create cross platform applications.
+- [TypeScript](https://www.typescriptlang.org/): A statically typed programming language extending off of JavaScript.
+- [VS Code](https://code.visualstudio.com/): The text editor used in development of this project.
 
 ## Author
 

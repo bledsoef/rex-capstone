@@ -75,7 +75,7 @@ Requirement revision history: None
 ```yaml
 Number: 9
 Statement: Users should be able to poke their friends who have not yet checked out their recommendation. 
-Evaluation Method: TODO.
+Evaluation Method: Unit testing and UI testing.
 Dependency: 6.
 Priority: High.
 Requirement revision history: None
@@ -84,7 +84,7 @@ Requirement revision history: None
 ```yaml
 Number: 10
 Statement: Users should be able to like songs which will place them in a "Liked Songs" list in their library. 
-Evaluation Method: TODO.
+Evaluation Method: Unit testing and UI testing.
 Dependency: None.
 Priority: High.
 Requirement revision history: None
@@ -93,7 +93,7 @@ Requirement revision history: None
 ```yaml
 Number: 11
 Statement: Users should be able to create playlists and add songs to these playlists. 
-Evaluation Method: TODO.
+Evaluation Method: Unit testing and UI testing.
 Dependency: None.
 Priority: High.
 Requirement revision history: None
@@ -102,7 +102,7 @@ Requirement revision history: None
 ```yaml
 Number: 12
 Statement: Users should be able to play albums or playlists in their entirety by selecting a song, and then linearly going through the rest of the playlist/album. 
-Evaluation Method: TODO.
+Evaluation Method: Unit testing and UI testing.
 Dependency: None.
 Priority: High.
 Requirement revision history: None
@@ -111,7 +111,7 @@ Requirement revision history: None
 ```yaml
 Number: 13
 Statement: Users should be able to play albums or playlists on "shuffle" which means it will randomly choose the order of the songs in that playlist.
-Evaluation Method: TODO.
+Evaluation Method: Unit testing and UI testing.
 Dependency: None.
 Priority: High.
 Requirement revision history: None
@@ -120,7 +120,7 @@ Requirement revision history: None
 ```yaml
 Number: 14
 Statement: Users should be able to "review" recommendations and mark them as completed.
-Evaluation Method: TODO.
+Evaluation Method: Unit testing and UI testing.
 Dependency: None.
 Priority: High.
 Requirement revision history: None
@@ -129,7 +129,7 @@ Requirement revision history: None
 ```yaml
 Number: 15
 Statement: Users should be able to set a priority on a Rec that will allow them to be reminded after a certain period of time if they have not completed it.
-Evaluation Method: TODO.
+Evaluation Method: Unit testing and UI testing.
 Dependency: None.
 Priority: Medium.
 Requirement revision history: None
@@ -138,9 +138,18 @@ Requirement revision history: None
 ```yaml
 Number: 16
 Statement: When users press play on a song, a request to the backend should be triggered, querying the song url. The song url will then be passed to the frontend via api request and the audio file will be pulled down on the client side.
-Evaluation Method: TODO.
+Evaluation Method: Unit testing and UI testing.
 Dependency: None.
 Priority: Medium.
+Requirement revision history: None
+```
+
+```yaml
+Number: 17
+Statement: Users should be able to sign in with an existing account, or create a new account. This data will be stored in their session and track who is currently using the app.
+Evaluation Method: UI testing.
+Dependency: None.
+Priority: Essential.
 Requirement revision history: None
 ```
 
@@ -156,7 +165,7 @@ Requirement revision history: None
 
 ```yaml
 Number: 2
-Statement: Files uploaded by artists should be stored in a cloud provider, likely Google Cloud.
+Statement: Files uploaded by artists should be stored in a cloud provider, likely Firebase.
 Evaluation Method: TODO.
 Dependency: None.
 Priority: High.
