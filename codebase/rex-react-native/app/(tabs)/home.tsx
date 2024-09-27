@@ -14,15 +14,19 @@ import { useEffect, useState } from "react";
 import { router } from "expo-router";
 import { Rec } from "@/components/Rec";
 import { PlayBar } from "@/components/PlayBar";
+import { useMusicPlayer } from "@/components/PlayerContext";
+import { useUserContext } from "@/components/UserContext";
 export default function Home() {
-  var currentUser = auth().currentUser;
-  const [imageUrl, setImageUrl] = useState<any>("");
+  const { currentSong, currentAlbum, isPlaying, sound, playSong, togglePlayPause, setSound } = useMusicPlayer();
+  const { currentUser, profileImage, setProfileImage, setCurrentUser } = useUserContext();
+  console.log('profileImage', profileImage)
+  // var currentUser = auth().currentUser;
   const [posts, setPosts] = useState<any>("");
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://127.0.0.1:8000/getFeedForUser?email=${currentUser?.email}`
+          `http://127.0.0.1:8000/getFeedForUser?email=${currentUser["email"]}`
         );
         const data = await response.json();
         setPosts(data);
@@ -31,16 +35,7 @@ export default function Home() {
       }
     };
     fetchData();
-    fetchImageDownloadUrl();
   }, []);
-  async function fetchImageDownloadUrl() {
-    const fileRef = ref(storage, `/profileImages/${currentUser?.email}.jpg`);
-    getDownloadURL(fileRef)
-      .then((res) => setImageUrl(res))
-      .catch((error) => {
-        console.error("Error getting download URL:", error);
-      });
-  }
   return (
     <SafeAreaView className="bg-white min-h-screen">
       <ScrollView className="h-full">
@@ -49,13 +44,16 @@ export default function Home() {
             <Text className="text-3xl text-primary font-jbold pb-4">Feed</Text>
             <Pressable onPress={() => router.push("/")}>
               <Image
-                source={{ uri: imageUrl }}
+                source={{ uri: profileImage }}
                 style={styles.image}
                 resizeMode="cover"
                 className="w-[40] h-[40]"
               ></Image>
             </Pressable>
           </View>
+          {/* <Pressable onPress={() => togglePlayPause()}>
+            <Text>Change state of button</Text>
+          </Pressable> */}
           {posts &&
             posts.map((rec: { [x: string]: any }, index: any) => (
               <Rec

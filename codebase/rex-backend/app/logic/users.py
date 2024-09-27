@@ -41,3 +41,7 @@ def create_new_user(db: Session, user_data):
     except Exception as e:
         print(e)
         return False
+
+def get_user(db: Session, email):
+    user = db.query(User).filter(User.email == email).first()
+    return user.__dict__

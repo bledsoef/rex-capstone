@@ -47,7 +47,7 @@ export function PlayBar() {
   }
 
   return (
-    <View className={`w-[95%] bottom-[70] rounded-lg justify-center absolute mb-1 right-2 left-2 p-2 bg-[#E8E8E8]`}>
+    <View className={`w-[95%] bottom-[9%] rounded-lg justify-center opacity-95 absolute mb-1 right-2 left-2 p-2 bg-[#E8E8E8]`}>
       <View className="flex flex-row justify-between items-center">
         <View className="flex flex-row items-center">
           <Image

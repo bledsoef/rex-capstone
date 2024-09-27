@@ -14,11 +14,13 @@ export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <MusicPlayerProvider>
+    <>
       <Tabs
         screenOptions={{
           tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
           headerShown: false,
+          tabBarStyle: { height: "9%" },
+
         }}
       >
         <Tabs.Screen
@@ -71,6 +73,6 @@ export default function TabLayout() {
         />
       </Tabs>
       <PlayBar/>
-    </MusicPlayerProvider>
+    </>
   );
 }

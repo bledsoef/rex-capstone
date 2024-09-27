@@ -11,9 +11,25 @@ import {
 import { images } from "../constants";
 import { RexButton } from "@/components/RexButton";
 import { Redirect, router } from "expo-router";
+import { ref, getDownloadURL } from "firebase/storage";
+import { storage } from "@/firebaseConfig";
 import auth from "@react-native-firebase/auth";
+import { useUserContext } from "@/components/UserContext";
 export default function Landing() {
+  const { currentUser, profileImage, setProfileImage, setCurrentUser } = useUserContext();
   async function loginbledsoef() {
+    async function fetchImageDownloadUrl(email: string) {
+      const fileRef = ref(storage, `/profileImages/${email}.jpg`);
+      getDownloadURL(fileRef)
+        .then((res) => setProfileImage(res))
+        .catch((error) => {
+          console.error("Error getting download URL:", error);
+        });
+    }
+
+    var res = await fetch(`http://127.0.0.1:8000/getUser?email=bledsoefinn0@gmail.com`)
+    var user = await res.json()
+    setCurrentUser(user)
     auth().signInWithEmailAndPassword("bledsoefinn0@gmail.com", "Fuzby2004") .then(() => {
       console.log('User signed in!');
     })
@@ -23,6 +39,7 @@ export default function Landing() {
       console.error(error);
       return
     });
+    await fetchImageDownloadUrl(user["email"])
     router.replace("/rex")
   }
   return (
