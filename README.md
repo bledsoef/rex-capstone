@@ -22,9 +22,14 @@ I will be creating this with React Native, meaning it can be used on any platfor
 
 ## Built With
 
-- [React Native]([https://reactnative.dev/)): An extension on React made to easily create cross platform applications.
+- [React Native]([https://reactnative.dev/): An extension on React made to easily create cross platform applications.
 - [TypeScript](https://www.typescriptlang.org/): A statically typed programming language extending off of JavaScript.
-- [VS Code](https://code.visualstudio.com/): The text editor used in development of this project.
+- [Nativewind](https://www.nativewind.dev/): A Tailwind CSS extension meant for React Native and cross platform development
+- [FastAPI](https://fastapi.tiangolo.com/): A quick, light, and scalable backend framework for creating endpoints in Python.
+- [Python](https://www.python.org/): The primary programming language used for the backend development.
+- [SQLAlchemy](https://www.sqlalchemy.org/): A Python ORM used for interfacing with SQL DBs as an alternative to straight SQL.
+- [PostgreSQL](https://www.postgresql.org/): The relation SQL database used for content storage.
+- [Firebase](https://firebase.google.com/): Used for cloud file storage like audio, profile pictures, album pictures, etc.
 
 ## Author
 
