@@ -22,7 +22,7 @@ I will be creating this with React Native, meaning it can be used on any platfor
 
 ## Built With
 
-- [React Native]([https://reactnative.dev/): An extension on React made to easily create cross platform applications.
+- [React Native](https://reactnative.dev/): An extension on React made to easily create cross platform applications.
 - [TypeScript](https://www.typescriptlang.org/): A statically typed programming language extending off of JavaScript.
 - [Nativewind](https://www.nativewind.dev/): A Tailwind CSS extension meant for React Native and cross platform development
 - [FastAPI](https://fastapi.tiangolo.com/): A quick, light, and scalable backend framework for creating endpoints in Python.
