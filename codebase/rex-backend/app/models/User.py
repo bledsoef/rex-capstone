@@ -15,7 +15,6 @@ class User(Base):
     created_at = Column(Date)
     is_artist = Column(Boolean)
     account_type = Column(String)
-    profile_image_url = Column(String)
     
     sent_recs = relationship("Rec", foreign_keys=[Rec.sender_id], backref="sender")
     received_recs = relationship("Rec", foreign_keys=[Rec.recipient_id], backref="recipient")

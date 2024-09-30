@@ -12,7 +12,6 @@ class Album(Base):
     artist_id = Column(Integer, ForeignKey('artists.id'))
     genre_id = Column(String, ForeignKey('genres.id'))
     release_date = Column(Date)
-    image_url = Column(String)
     
     recs = relationship("Rec", backref="album")
     songs = relationship("Song", backref="album")

@@ -9,7 +9,6 @@ class Artist(Base):
     name = Column(String)
     genre_id = Column(String, ForeignKey('genres.id'))
     bio = Column(String)
-    image_url = Column(String)
     
     recs = relationship("Rec", backref="artist")
     albums = relationship("Album", backref="artist")
