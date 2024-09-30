@@ -9,7 +9,7 @@ import app.controllers.reviews as reviews
 import app.controllers.playlists as playlists
 import app.controllers.rex as rex
 import app.controllers.stats as stats
-
+import app.controllers.media as media
 app = FastAPI()
 
 app.add_middleware(
@@ -25,6 +25,7 @@ app.include_router(rex.router)
 app.include_router(users.router)
 app.include_router(playlists.router)
 app.include_router(stats.router)
+app.include_router(media.router)
 
 Base.metadata.create_all(bind=engine)
 handler = Mangum(app)
