@@ -68,14 +68,12 @@ with Session(engine) as session:
         name="Bloc Party",
         genre_id="Rock",
         bio="asfdljasdf",
-        image_url=""
     )
     artist_2 = Artist(
         id=2,
         name="AVBE",
         genre_id="Lofi",
         bio="asfdljasdf",
-        image_url=""
     )
     album_1 = Album(
         id=1,
@@ -83,7 +81,28 @@ with Session(engine) as session:
         artist_id=1,
         genre_id="Rock",
         release_date=datetime(2024, 4, 4),
-        image_url=""
+    )
+
+    album_2 = Album(
+        id=2,
+        title="Night in Kyoto",
+        artist_id=2,
+        genre_id="Lofi",
+        release_date=datetime(2024, 4, 4),
+    )
+
+    liked_album_1 = UserLikedAlbum(
+        id=1,
+        album_id=album_2.id,
+        user_id=bledsoefinn0.id,
+        liked_at=datetime(2024, 4, 6)
+    )
+
+    liked_album_2 = UserLikedAlbum(
+        id=2,
+        album_id=album_1.id,
+        user_id=bledsoefinn0.id,
+        liked_at=datetime(2024, 4, 6)
     )
 
     song_1 = Song(
@@ -95,8 +114,6 @@ with Session(engine) as session:
         duration=50,
         release_date=datetime(2024, 6, 5),
         popularity=1,
-        image_url="",
-        audio_url=""
     )
     song_2 = Song(
         id=2,
@@ -107,8 +124,6 @@ with Session(engine) as session:
         duration=117,
         release_date=datetime(2024, 6, 5),
         popularity=1,
-        image_url="",
-        audio_url=""
     )
 
     rec_1 = Rec(
@@ -132,7 +147,9 @@ with Session(engine) as session:
     session.commit()
     session.add_all([artist_1, artist_2]) # Artists
     session.commit()
-    session.add_all([album_1]) # Album
+    session.add_all([album_1, album_2]) # Album
+    session.commit()
+    session.add_all([liked_album_1, liked_album_2]) # Album
     session.commit()
     session.add_all([song_1, song_2]) # Song
     session.commit()
