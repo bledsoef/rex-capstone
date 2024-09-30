@@ -15,7 +15,7 @@ import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebaseConfig";
 import { router } from "expo-router";
 import { useUserContext } from "@/components/UserContext";
-export default function Library() {
+export default function Rex() {
   const { currentUser, profileImage, setProfileImage, setCurrentUser } = useUserContext();
   const [sentRecs, setSentRecs] = useState<any[]>([]);
   async function apiCall() {

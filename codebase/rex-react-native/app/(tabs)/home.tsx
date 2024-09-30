@@ -19,7 +19,6 @@ import { useUserContext } from "@/components/UserContext";
 export default function Home() {
   const { currentSong, currentAlbum, isPlaying, sound, playSong, togglePlayPause, setSound } = useMusicPlayer();
   const { currentUser, profileImage, setProfileImage, setCurrentUser } = useUserContext();
-  console.log('profileImage', profileImage)
   // var currentUser = auth().currentUser;
   const [posts, setPosts] = useState<any>("");
   useEffect(() => {
