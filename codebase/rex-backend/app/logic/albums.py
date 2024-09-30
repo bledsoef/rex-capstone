@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session, aliased
+from app.logic.utils import obj_list_to_dict
 from app.models.Album import Album
 from app.models.AlbumArtist import AlbumArtist
 from app.models.ArchivedRec import ArchivedRec
@@ -20,9 +21,9 @@ from app.models.UserLikedAlbum import UserLikedAlbum
 from app.models.UserLikedSong import UserLikedSong
 from datetime import datetime
 
-def get_liked_albums(db: Session, user_id):
-    liked_albums = db.query(UserLikedAlbum).filter_by(user_id)
-    return liked_albums
+def get_user_liked_albums(db: Session, user_id):
+    liked_albums = db.query(UserLikedAlbum, Album).join(Album, Album.id==UserLikedAlbum.album_id).filter(UserLikedAlbum.user_id == user_id)
+    return [album.__dict__ for liked_album, album in liked_albums]
 
 def like_song(db: Session, song_id, user_id) -> str:
     liked_album = UserLikedAlbum(user_id=user_id, song_id=song_id)

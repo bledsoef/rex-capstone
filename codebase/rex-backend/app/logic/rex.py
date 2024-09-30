@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session, aliased
 from sqlalchemy import func, or_
+from app.logic.utils import obj_list_to_dict
 from app.models.Album import Album
 from app.models.AlbumArtist import AlbumArtist
 from app.models.ArchivedRec import ArchivedRec
@@ -95,10 +96,6 @@ def get_received_recs(db: Session, user_id: str):
     )]
     return {'pending': received_pending, 'completed': received_completed, 'rejected': received_rejected}
 
-def get_requests(db: Session, user_id: str):
-    return [entry.__dict__ for entry in db.query(Rec).filter(Rec.sentTo == user_id, Rec.status == 'pending').all()]
-
-
 def get_pending_sent_recs(db: Session, user_id: int):
     recs = db.query(Rec).join(PendingRec, Rec.pending_recs).filter(Rec.sender_id == user_id)
     return obj_list_to_dict(recs) 
@@ -141,5 +138,3 @@ def get_non_user_posts(db: Session, email: str):
     return filtered_results
 
 
-def obj_list_to_dict(obj_list):
-    return [entry.__dict__ for entry in obj_list]
