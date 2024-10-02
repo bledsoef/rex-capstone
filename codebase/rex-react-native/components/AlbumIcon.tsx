@@ -4,6 +4,7 @@ import { Pressable, Text, Image } from "react-native";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebaseConfig";
 import { useState, useEffect } from "react";
+import { images } from "@/constants";
 export function AlbumIcon({ album, handlePress }: any) {
   const [mediaImageUrl, setMediaImageUrl] = useState<any>("");
   async function fetchMediaImageDownloadUrl() {
@@ -23,7 +24,7 @@ export function AlbumIcon({ album, handlePress }: any) {
         onPress={handlePress}
       >
         <Image
-          source={{ uri: mediaImageUrl }}
+          source={{ uri: mediaImageUrl ? mediaImageUrl : images.default_cover}}
           className="w-full h-full"
           resizeMode="contain"
         ></Image>

@@ -5,6 +5,7 @@ import { Audio } from "expo-av";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebaseConfig";
 import { useMusicPlayer } from "./PlayerContext";
+import { images } from "@/constants";
 
 export function PlayBar() {
   const { currentSong, currentAlbum, isPlaying, sound, playSong, togglePlayPause, setSound } = useMusicPlayer();
@@ -51,7 +52,7 @@ export function PlayBar() {
       <View className="flex flex-row justify-between items-center">
         <View className="flex flex-row items-center">
           <Image
-            source={{ uri: imageUrl }}
+            source={{ uri: imageUrl ? imageUrl : images.default_cover }}
             className={`w-[60] h-[60] mr-2`}
             resizeMode="cover"
           />

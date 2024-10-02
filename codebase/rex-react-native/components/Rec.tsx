@@ -4,6 +4,7 @@ import { Pressable, Text, StyleSheet, View, Image } from "react-native";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebaseConfig";
 import { useState, useEffect } from "react";
+import { images } from "@/constants";
 export function Rec({
   media,
   sender,
@@ -54,7 +55,7 @@ export function Rec({
       <View className="flex flex-row border-b-[1px] border-[#E2E2E2] justify-between w-full items-center p-3">
         <View className="flex flex-row items-center">
           <Image
-            source={{ uri: senderImageUrl }}
+            source={{ uri: senderImageUrl ? senderImageUrl : images.default_cover }}
             style={styles.image}
             className="w-[30] h-[30]"
             resizeMode="cover"
@@ -72,8 +73,8 @@ export function Rec({
           </Text>
           <View className="flex flex-row items-center">
             <Image
-              source={{ uri: authorImageUrl }}
-              style={styles.image}
+            source={{ uri: authorImageUrl ? authorImageUrl : images.default_cover }}
+            style={styles.image}
               className="w-[30] h-[30]"
               resizeMode="cover"
             />
@@ -88,7 +89,7 @@ export function Rec({
       <Text className="py-2 px-1 font-jregular text-xl">{description}</Text>
 
       <Image
-        source={{ uri: mediaImageUrl }}
+        source={{ uri: mediaImageUrl ? mediaImageUrl : images.default_cover }}
         className="w-full h-[350px] pb-5"
         resizeMode="contain"
       />
