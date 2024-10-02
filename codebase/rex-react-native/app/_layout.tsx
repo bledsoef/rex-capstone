@@ -41,10 +41,10 @@ export default function RootLayout() {
       <MusicPlayerProvider>
         <UserProvider>
           <Stack>
+            <Stack.Screen name="(album)" options={{ headerShown: false }} />
             <Stack.Screen name="(auth)" options={{ headerShown: false }} />
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="index" options={{ headerShown: false }} />
-            <Stack.Screen name="album/[album]" options={{ headerShown: false }} />
           </Stack>
         </UserProvider>
       </MusicPlayerProvider>
