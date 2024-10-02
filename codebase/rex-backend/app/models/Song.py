@@ -15,6 +15,7 @@ class Song(Base):
     duration = Column(Integer)
     release_date = Column(Date)
     popularity = Column(Integer)
+    index = Column(Integer)
     
     recs = relationship("Rec", backref="song")
     liked_by_users = relationship("UserLikedSong", backref="song")
