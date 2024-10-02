@@ -53,3 +53,8 @@ def check_status_of_song(db: Session, song_id, user_id, rec_creation: datetime):
         return {"listened_to": False}
 
     return {"listened_to": True, "last_listened_to": listened_song.listened_on}
+
+def get_songs_for_album(db: Session, album_id):
+    songs = db.query(Song).filter_by(album_id = album_id).order_by(Song.index)
+    album = db.query(Album).filter_by(id = album_id).first()
+    return {"album": album.__dict__, "songs": [song.__dict__ for song in songs]}

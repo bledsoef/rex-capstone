@@ -28,7 +28,18 @@ async def getUserLikedSongs(user_id: str, db: Session = Depends(get_db)):
 async def getUserLikedAlbums(user_id: str, db: Session = Depends(get_db)):
     try:
         liked_albums = get_user_liked_albums(db, user_id)
+        print(liked_albums)
         return liked_albums
     except Exception as e:
         print(e)
         return {"message": f"Failed to fetch liked songs for user {user_id}"} 
+
+
+@router.get("/getSongsForAlbum")
+async def getSongsForAlbum(album_id: str, db: Session = Depends(get_db)):
+    try:
+        songs = get_songs_for_album(db, album_id)
+        return songs
+    except Exception as e:
+        print(e)
+        return {"message": f"Failed to fetch songs for album_id {album_id}"} 
