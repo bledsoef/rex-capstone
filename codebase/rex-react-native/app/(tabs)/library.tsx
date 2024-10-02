@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { router } from "expo-router";
 import { AlbumIcon } from "@/components/AlbumIcon";
 import { useUserContext } from "@/components/UserContext";
+import { images } from "@/constants";
 export default function Library() {
   const { currentUser, profileImage, setProfileImage, setCurrentUser } =
     useUserContext();
@@ -23,7 +24,6 @@ export default function Library() {
         );
         const data = await response.json();
         setLikedAlbums(data);
-        console.log(data);
       } catch (error) {
         console.log(error);
       }
@@ -42,7 +42,7 @@ export default function Library() {
             <View className="flex flex-row space-x-3">
               <Pressable onPress={() => router.push("/")}>
                 <Image
-                  source={{ uri: profileImage }}
+                  source={{ uri: profileImage ? profileImage : images.profile }}
                   style={styles.image}
                   resizeMode="cover"
                   className="w-[40] h-[40]"
@@ -53,7 +53,14 @@ export default function Library() {
           <View className="flex flex-wrap flex-row w-full">
             {likedAlbums &&
               likedAlbums.map((album, index) => {
-                return <AlbumIcon key={index} album={album} handlePress={() => router.push(`/album/${album["id"]}`)}></AlbumIcon>;
+                console.log(album);
+                return (
+                  <AlbumIcon
+                    key={index}
+                    album={album}
+                    handlePress={() => router.push(`/(album)/${album["id"]}`)}
+                  ></AlbumIcon>
+                );
               })}
           </View>
 

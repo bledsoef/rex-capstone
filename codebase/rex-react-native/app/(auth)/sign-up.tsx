@@ -7,7 +7,7 @@ import {
   View,
   Image,
   StyleSheet,
-  Alert
+  Alert,
 } from "react-native";
 import { FormField } from "@/components/FormField";
 import { RexButton } from "@/components/RexButton";
@@ -21,45 +21,49 @@ export default function SignUp() {
     confirmPassword: "fusssss",
   });
   async function signUp() {
-    if (form.username == "" || form.email == "" || form.password == "" || form.confirmPassword == "") {
-      Alert.alert("Please fill out all fields.")
-      return
+    if (
+      form.username == "" ||
+      form.email == "" ||
+      form.password == "" ||
+      form.confirmPassword == ""
+    ) {
+      Alert.alert("Please fill out all fields.");
+      return;
     }
     if (form.password != form.confirmPassword) {
-      Alert.alert("Your passwords do not match.")
-      return
+      Alert.alert("Your passwords do not match.");
+      return;
     }
-    var res = await fetch("http://127.0.0.1:8000/createUser",       
-      {
-        method: "POST",
-        headers: {
+    var res = await fetch("http://127.0.0.1:8000/createUser", {
+      method: "POST",
+      headers: {
         "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form),
-      }
-    )
-    var json = await res.json()
-    console.log(json)
+      },
+      body: JSON.stringify(form),
+    });
+    var json = await res.json();
     if (json["success"] == false) {
       Alert.alert(json["message"]);
-      return
-    } 
-    auth().createUserWithEmailAndPassword(form.email, form.password) .then(() => {
-      console.log('User account created & signed in!');
-    })
-    .catch(error => {
-      if (error.code === 'auth/email-already-in-use') {
-        Alert.alert('That email address is already in use!');
-      }
-  
-      if (error.code === 'auth/invalid-email') {
-        Alert.alert('That email address is invalid!');
-      }
-  
-      console.error(error);
-      return
-    });
-    router.replace("/rex")
+      return;
+    }
+    auth()
+      .createUserWithEmailAndPassword(form.email, form.password)
+      .then(() => {
+        console.log("User account created & signed in!");
+      })
+      .catch((error) => {
+        if (error.code === "auth/email-already-in-use") {
+          Alert.alert("That email address is already in use!");
+        }
+
+        if (error.code === "auth/invalid-email") {
+          Alert.alert("That email address is invalid!");
+        }
+
+        console.error(error);
+        return;
+      });
+    router.replace("/rex");
   }
   return (
     <SafeAreaView className="flex-1 text-2xl bg-white">

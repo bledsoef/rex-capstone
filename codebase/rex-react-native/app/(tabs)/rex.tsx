@@ -15,6 +15,7 @@ import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebaseConfig";
 import { router } from "expo-router";
 import { useUserContext } from "@/components/UserContext";
+import { images } from "@/constants";
 export default function Rex() {
   const { currentUser, profileImage, setProfileImage, setCurrentUser } = useUserContext();
   const [sentRecs, setSentRecs] = useState<any[]>([]);
@@ -46,13 +47,11 @@ export default function Rex() {
         );
         const data = await response.json();
         setSentRecs(data);
-        console.log("sentRecs", sentRecs);
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
-    console.log("profile", profileImage)
   }, []);
   return (
     <SafeAreaView className="bg-white min-h-screen">
@@ -65,7 +64,7 @@ export default function Rex() {
               <CreateRecButton handlePress={apiCall} />
               <Pressable onPress={() => router.push("/")}>
                 <Image
-                  source={{ uri: profileImage }}
+                  source={{ uri: profileImage ? profileImage : images.profile }}
                   style={styles.image}
                   resizeMode="cover"
                   className="w-[40] h-[40]"
