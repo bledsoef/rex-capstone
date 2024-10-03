@@ -18,15 +18,6 @@ import { useMusicPlayer } from "@/components/PlayerContext";
 import { useUserContext } from "@/components/UserContext";
 import { images } from "@/constants";
 export default function Home() {
-  // const {
-  //   currentSong,
-  //   currentAlbum,
-  //   isPlaying,
-  //   sound,
-  //   playSong,
-  //   togglePlayPause,
-  //   setSound,
-  // } = useMusicPlayer();
   const { currentUser, profileImage, setProfileImage, setCurrentUser } =
     useUserContext();
   // var currentUser = auth().currentUser;
@@ -76,10 +67,8 @@ export default function Home() {
                 recID={rec.rec.id}
               ></Rec>
             ))}
-          {/* <Rec sender={sender} media={media} description={"If you like Bloc Party you will love this song!"} timeCreated={"2 days ago"}></Rec> */}
         </View>
       </ScrollView>
-      {/* <PlayBar song={{ name: "Banquet", artist: "Bloc Party", id: 2 }} album={{id: 1}}/> */}
     </SafeAreaView>
   );
 }
