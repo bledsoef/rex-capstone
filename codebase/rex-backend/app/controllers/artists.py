@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from database.config import get_db
 from app.logic.playlists import *
 from app.logic.songs import *
+from app.logic.artists import *
 router = APIRouter()
 
 @router.post("/createArtist")
@@ -24,3 +25,12 @@ async def uploadSong(request: Request, db: Session = Depends(get_db)):
     except Exception as e:
         print(e)
         return {"message": "Failed to upload song"}
+
+@router.get("/getArtistsForSong")
+def getArtistsForSong(song_id: int, db: Session = Depends(get_db)):
+    try:
+        artists = get_artists_for_song(db, song_id)
+        return artists
+    except Exception as e:
+        print(e)
+        return {"message": f"Failed to fetch artists for song ID {song_id}"} 
