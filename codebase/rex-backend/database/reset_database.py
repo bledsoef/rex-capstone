@@ -65,13 +65,19 @@ with Session(engine) as session:
     )
     artist_1 = Artist(
         id=1,
-        name="Bloc Party",
-        genre_id="Rock",
+        name="Loksii",
+        genre_id="Lofi",
         bio="asfdljasdf",
     )
     artist_2 = Artist(
         id=2,
         name="AVBE",
+        genre_id="Lofi",
+        bio="asfdljasdf",
+    )
+    artist_3 = Artist(
+        id=3,
+        name="Amaski",
         genre_id="Lofi",
         bio="asfdljasdf",
     )
@@ -85,7 +91,7 @@ with Session(engine) as session:
 
     album_2 = Album(
         id=2,
-        title="Night in Kyoto",
+        title="Unlicensed",
         artist_id=2,
         genre_id="Lofi",
         release_date=datetime(2024, 4, 4),
@@ -107,15 +113,22 @@ with Session(engine) as session:
 
     song_1 = Song(
         id=1,
-        title="Test Song",
+        title="Flow",
         artist_id=1,
         album_id=2,
-        genre_id="Rock",
+        genre_id="Lofi",
         duration=50,
         index=1,
         release_date=datetime(2024, 6, 5),
         popularity=1,
     )
+
+    song_artist_1 = SongArtist(
+        id=1,
+        song_id=song_1.id,
+        artist_id=artist_1.id
+    )
+
     song_2 = Song(
         id=2,
         title="Night in Kyoto",
@@ -126,6 +139,30 @@ with Session(engine) as session:
         duration=117,
         release_date=datetime(2024, 6, 5),
         popularity=1,
+    )
+
+    song_artist_2 = SongArtist(
+        id=2,
+        song_id=song_2.id,
+        artist_id=artist_2.id
+    ) 
+
+    song_3 = Song(
+        id=3,
+        title="Night Detective",
+        artist_id=3,
+        album_id=2,
+        genre_id="Lofi",
+        index=3,
+        duration=117,
+        release_date=datetime(2024, 6, 5),
+        popularity=1,
+    )
+
+    song_artist_3 = SongArtist(
+        id=3,
+        song_id=song_3.id,
+        artist_id=artist_3.id
     )
 
     rec_1 = Rec(
@@ -147,13 +184,15 @@ with Session(engine) as session:
     session.commit()
     session.add_all([genre_1, genre_2]) # Genres
     session.commit()
-    session.add_all([artist_1, artist_2]) # Artists
+    session.add_all([artist_1, artist_2, artist_3]) # Artists
     session.commit()
     session.add_all([album_1, album_2]) # Album
     session.commit()
     session.add_all([liked_album_1, liked_album_2]) # Album
     session.commit()
-    session.add_all([song_1, song_2]) # Song
+    session.add_all([song_1, song_2, song_3]) # Song
+    session.commit()
+    session.add_all([song_artist_1, song_artist_2, song_artist_3]) # SongArtist
     session.commit()
     session.add_all([rec_1]) # Rec
     # session.add_all([]) # PendingRec
