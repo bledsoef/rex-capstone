@@ -5,7 +5,8 @@ import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebaseConfig";
 import { useState, useEffect } from "react";
 import { images } from "@/constants";
-export function AlbumIcon({ album, handlePress }: any) {
+import { router } from "expo-router";
+export function AlbumIcon({ album, route }: any) {
   const [mediaImageUrl, setMediaImageUrl] = useState<any>("");
   async function fetchMediaImageDownloadUrl() {
     const fileRef = ref(storage, `/albumImages/${album.id}.jpg`);
@@ -20,8 +21,8 @@ export function AlbumIcon({ album, handlePress }: any) {
   }, []);
   return (
       <Pressable
-        className={`rounded-xl justify-center w-[45%] items-center p-3`}
-        onPress={handlePress}
+        className={`rounded-xl justify-center flex w-[48%] items-center p-3`}
+        onPress={() => {router.push(route)}}
       >
         <Image
           source={{ uri: mediaImageUrl ? mediaImageUrl : images.default_cover}}

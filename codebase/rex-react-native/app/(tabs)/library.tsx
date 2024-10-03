@@ -34,7 +34,7 @@ export default function Library() {
     <SafeAreaView className="bg-white min-h-screen">
       <ScrollView className="h-full">
         <View className="w-full h-full px-4">
-          <View className="relative mt-5 flex flex-row justify-between">
+          <View className="relative mt-5 mb-2 flex flex-row justify-between">
             <Text className="text-3xl text-primary font-jbold pb-4">
               Library
             </Text>
@@ -50,7 +50,7 @@ export default function Library() {
               </Pressable>
             </View>
           </View>
-          <View className="flex flex-wrap flex-row w-full">
+          <View className="flex items-center justify-around flex-wrap flex-row w-full">
             {likedAlbums &&
               likedAlbums.map((album, index) => {
                 console.log(album);
@@ -58,16 +58,14 @@ export default function Library() {
                   <AlbumIcon
                     key={index}
                     album={album}
-                    handlePress={() => router.push(`/(album)/${album["id"]}`)}
+                    route={`/(tabs)/album/${album["id"]}`}
                   ></AlbumIcon>
                 );
               })}
           </View>
 
-          {/* <Rec sender={sender} media={media} description={"If you like Bloc Party you will love this song!"} timeCreated={"2 days ago"}></Rec> */}
         </View>
       </ScrollView>
-      {/* <PlayBar song={{ name: "Banquet", artist: "Bloc Party", id: 2 }} album={{id: 1}}/> */}
     </SafeAreaView>
   );
 }
