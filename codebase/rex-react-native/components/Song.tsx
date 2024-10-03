@@ -1,23 +1,62 @@
-import { Link } from "expo-router";
-import { type ComponentProps } from "react";
-import { Pressable, Text, StyleSheet } from "react-native";
-
+import { Pressable, Text, View } from "react-native";
+import { useMusicPlayer } from "./PlayerContext";
+import { AntDesign } from "@expo/vector-icons";
+import { useState, useEffect } from "react";
 export function Song({
   song,
+  album,
+  artist,
   handlePress,
   containerStyles,
   textStyles,
   isLoading,
 }: any) {
+  const { currentSong, playSong } = useMusicPlayer();
+  const updatePlaybar = () => {
+    playSong(song, album, artists);
+  };
+  const [artists, setArtists] = useState<any[]>([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `http://127.0.0.1:8000/getArtistsForSong?song_id=${song.id}`
+        );
+        const data = await response.json();
+        setArtists(data);
+        console.log(data)
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <Pressable
-      className={`rounded w-full justify-center items-center ${containerStyles}`}
-      onPress={handlePress}
+      className={` bg-slate-50 border border-slate-100 w-full ${containerStyles}`}
+      onPress={updatePlaybar}
       // activeOpacity={0.7}
     >
-      <Text className={`font-jsemibold text-2xl p-4 ${textStyles}`}>
-        {song.title}
-      </Text>
+      <View className="flex flex-row justify-between items-center">
+        <View className="py-2">
+          <Text className={`font-jregular text-xl px-4`}>{song.title}</Text>
+          <Text className={`font-jlight text-lg px-4`}>
+            {artists && artists.map((artist: any, index: number) => {
+              console.log(artist.name)
+              if (index != artists.length-1) {
+                return `${artist.name}, `;
+              } else {
+                return artist.name
+              }
+            })}
+            {!artists && artist.name}
+          </Text>
+        </View>
+        <Pressable className="pr-3">
+          <AntDesign size={33} name="ellipsis1" />
+        </Pressable>
+      </View>
     </Pressable>
   );
 }
