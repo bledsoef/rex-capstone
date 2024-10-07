@@ -171,7 +171,7 @@ with Session(engine) as session:
         sender_id=2,
         recipient_id=None,
         created_at=datetime(2024, 6, 5),
-        album_id=1,
+        album_id=2,
         is_post=True
     )
     
