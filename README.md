@@ -1,4 +1,5 @@
 # *Rex*
+![rex](https://github.com/user-attachments/assets/5679e5d7-fe44-41a0-8d28-245fd0200c36)
 
 ### Project Concept
 - [Project Concept](https://github.com/CSC493-Computing-Design-Practicum/csc493-cdp-bledsoef/blob/main/concept.md)
