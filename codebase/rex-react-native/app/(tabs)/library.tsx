@@ -53,7 +53,6 @@ export default function Library() {
           <View className="flex items-center justify-around flex-wrap flex-row w-full">
             {likedAlbums &&
               likedAlbums.map((album, index) => {
-                console.log(album);
                 return (
                   <AlbumIcon
                     key={index}

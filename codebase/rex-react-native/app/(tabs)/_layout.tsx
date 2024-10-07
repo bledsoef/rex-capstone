@@ -5,10 +5,6 @@ import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { PlayBar } from "@/components/PlayBar";
-import { View } from "react-native";
-import { MusicPlayerProvider } from "@/components/PlayerContext";
-import { NavigationContainer } from "@react-navigation/native";
-import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();

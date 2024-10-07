@@ -30,7 +30,6 @@ export default function AlbumPage() {
     const fetchData = async () => {
       var data;
       try {
-        console.log(album);
         const response = await fetch(
           `http://127.0.0.1:8000/getSongsForAlbum?album_id=${album}`
         );

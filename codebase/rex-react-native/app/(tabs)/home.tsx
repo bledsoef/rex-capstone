@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   View,
   StyleSheet,
   Text,
@@ -39,8 +40,8 @@ export default function Home() {
   return (
     <SafeAreaView className="bg-white min-h-screen">
       <ScrollView className="h-full">
-        <View className="w-full h-full px-4">
-          <View className="relative mt-5 flex flex-row justify-between">
+        <View className="w-full h-full">
+          <View className="relative mt-5 flex flex-row justify-between px-4">
             <Text className="text-3xl text-primary font-jbold pb-4">Feed</Text>
             <Pressable onPress={() => router.push("/")}>
               <Image
@@ -55,9 +56,11 @@ export default function Home() {
             <Text>Change state of button</Text>
           </Pressable> */}
           {posts &&
-            posts.map((rec: { [x: string]: any }, index: any) => (
-              <Rec
+            posts.map((rec: { [x: string]: any }, index: any) => {
+              return <Rec
+                currentUser={currentUser}
                 key={index}
+                acceptedStatus={rec.added_to_collection}
                 index={index}
                 sender={rec.user}
                 mediaCreator={rec.media_creator}
@@ -66,7 +69,7 @@ export default function Home() {
                 timeCreated={rec.rec.created_at}
                 recID={rec.rec.id}
               ></Rec>
-            ))}
+})}
         </View>
       </ScrollView>
     </SafeAreaView>
