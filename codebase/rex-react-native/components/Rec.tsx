@@ -1,15 +1,18 @@
 import { Link } from "expo-router";
 import { type ComponentProps } from "react";
-import { Pressable, Text, StyleSheet, View, Image } from "react-native";
+import { ActivityIndicator, Text, StyleSheet, View, Image } from "react-native";
 import { ref, getDownloadURL } from "firebase/storage";
+import AddToCollection from "./AddToCollection";
 import { storage } from "@/firebaseConfig";
 import { useState, useEffect } from "react";
 import { images } from "@/constants";
 export function Rec({
+  currentUser,
   media,
   sender,
   description,
   recID,
+  acceptedStatus,
   mediaCreator,
   timeCreated,
   containerStyles,
@@ -18,11 +21,20 @@ export function Rec({
   const [senderImageUrl, setSenderImageUrl] = useState<any>("");
   const [authorImageUrl, setAuthorImageUrl] = useState<any>("");
   const [mediaImageUrl, setMediaImageUrl] = useState<any>("");
+  const [isLoading, setIsLoading] = useState<any>(true);
   useEffect(() => {
-    fetcherSenderImageDownloadUrl();
-    fetchAuthorImageDownloadUrl();
-    fetchMediaImageDownloadUrl();
+    async function fetchData() {
+      setIsLoading(true);
+      await fetcherSenderImageDownloadUrl();
+      await fetchAuthorImageDownloadUrl();
+      await fetchMediaImageDownloadUrl();
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
+    }
+    fetchData();
   }, []);
+  useEffect(() => {}, []);
   async function fetcherSenderImageDownloadUrl() {
     const fileRef = ref(storage, `/profileImages/${sender.email}.jpg`);
     getDownloadURL(fileRef)
@@ -48,54 +60,75 @@ export function Rec({
       });
   }
   return (
-    <View
-      className={`rounded-xl bg-[#F6F6F6] flex-col justify-between flex-grow items-center ${containerStyles}`}
-      // activeOpacity={0.7}
-    >
-      <View className="flex flex-row border-b-[1px] border-[#E2E2E2] justify-between w-full items-center p-3">
-        <View className="flex flex-row items-center">
-          <Image
-            source={{ uri: senderImageUrl ? senderImageUrl : images.default_cover }}
-            style={styles.image}
-            className="w-[30] h-[30]"
-            resizeMode="cover"
-          />
-          <Text className="ml-2 text-base font-jsemibold">
-            {sender.username}
-          </Text>
-        </View>
-        <Text className="font-jregular">{timeCreated}</Text>
-      </View>
-      <View className="flex flex-row p-3 w-full ">
-        <View className="flex flex-col w-full">
-          <Text className={`font-jsemibold text-2xl ${textStyles}`}>
-            {media.title}
-          </Text>
-          <View className="flex flex-row items-center">
-            <Image
-            source={{ uri: authorImageUrl ? authorImageUrl : images.default_cover }}
-            style={styles.image}
-              className="w-[30] h-[30]"
-              resizeMode="cover"
-            />
-            <Text
-              className={`font-jsemibold ml-3 text-[#3D3D3D] text-xl ${textStyles}`}
-            >
-              {mediaCreator.name}
-            </Text>
-          </View>
-        </View>
-      </View>
-      <Text className="py-2 px-1 font-jregular text-xl">{description}</Text>
+    <>
+      <View
+        className={` bg-[#F6F6F6] flex-col justify-between flex-grow items-center ${containerStyles}`}
+        // activeOpacity={0.7}
+      >
+        {!isLoading && (
+          <>
+            <View className="flex flex-row border-b-[1px] border-[#E2E2E2] justify-between w-full items-center py-3 px-5">
+              <View className="flex flex-row items-center">
+                <Image
+                  source={{
+                    uri: senderImageUrl ? senderImageUrl : images.default_cover,
+                  }}
+                  style={styles.image}
+                  className="w-[30] h-[30]"
+                  resizeMode="cover"
+                />
+                <Text className="ml-2 text-base font-jsemibold">
+                  {sender.username}
+                </Text>
+              </View>
+              <Text className="font-jregular">{timeCreated}</Text>
+            </View>
+            <View className="flex flex-row p-5 w-full justify-between items-center">
+              <View className="flex flex-col">
+                <Text className={`font-jsemibold text-2xl ${textStyles}`}>
+                  {media.title}
+                </Text>
+                <View className="flex flex-row items-center">
+                  <Image
+                    source={{
+                      uri: authorImageUrl
+                        ? authorImageUrl
+                        : images.default_cover,
+                    }}
+                    style={styles.image}
+                    className="w-[30] h-[30]"
+                    resizeMode="cover"
+                  />
+                  <Text
+                    className={`font-jsemibold ml-3 text-[#3D3D3D] text-xl ${textStyles}`}
+                  >
+                    {mediaCreator.name}
+                  </Text>
+                </View>
+              </View>
+              <AddToCollection
+                acceptedStatus={acceptedStatus}
+                userID={currentUser["id"]}
+              />
+            </View>
 
-      <Image
-        source={{ uri: mediaImageUrl ? mediaImageUrl : images.default_cover }}
-        className="w-full h-[350px] pb-5"
-        resizeMode="contain"
-      />
-      <View>
+            <Image
+              source={{
+                uri: mediaImageUrl ? mediaImageUrl : images.default_cover,
+              }}
+              className="w-full h-full pb-5"
+              resizeMode="contain"
+            />
+            {/* <Text className="py-2 px-1 font-jregular text-xl">{description}</Text> */}
+          </>
+        )}
+        {isLoading && (
+          <View className="items-center justify-center">
+            <ActivityIndicator size={"large"} />
+          </View>
+        )}
       </View>
-    </View>
+    </>
   );
 }
 const styles = StyleSheet.create({
