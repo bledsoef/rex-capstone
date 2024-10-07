@@ -100,9 +100,6 @@ def get_pending_sent_recs(db: Session, user_id: int):
     recs = db.query(Rec).join(PendingRec, Rec.pending_recs).filter(Rec.sender_id == user_id)
     return obj_list_to_dict(recs) 
 
-def get_posts(db: Session, user_id: str):
-    return db.query(Rec).filter(Rec.createdBy == user_id).all()
-
 def get_non_user_posts(db: Session, email: str):
     user = db.query(User).filter(User.email == email).first()
     result = (
@@ -130,11 +127,17 @@ def get_non_user_posts(db: Session, email: str):
             media_creator = media_object.artist.__dict__
 
         if album:
+            print(album)
             media_type = "album"
-            media_object = db.query(Album).join(Artist, Album.artist_id==Artist.id).first()
+            media_object = db.query(Album).join(Artist, Album.artist_id==Artist.id).filter(Album.id == album.id).first()
             media_creator = media_object.artist.__dict__
+            print(media_object)
         
-        filtered_results.append({"rec":rec.__dict__, "user": user, "media_creator": media_creator, "media": media_object.__dict__, "media_type": media_type})
+        pendingRec = db.query(Rec).filter(Rec.post_rec == rec.id).first()
+        addedToCollection = False
+        if pendingRec:
+            addedToCollection = True
+        filtered_results.append({"rec":rec.__dict__, "user": user, "media_creator": media_creator, "media": media_object.__dict__, "media_type": media_type, "added_to_collection": addedToCollection})
     return filtered_results
 
 
