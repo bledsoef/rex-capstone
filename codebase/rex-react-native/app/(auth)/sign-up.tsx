@@ -8,6 +8,7 @@ import {
   Image,
   StyleSheet,
   Alert,
+  Pressable,
 } from "react-native";
 import { FormField } from "@/components/FormField";
 import { RexButton } from "@/components/RexButton";
@@ -109,6 +110,18 @@ export default function SignUp() {
             containerStyles={"bg-primary w-full mt-8"}
             textStyles={"text-white"}
           />
+        </View>
+        <View className="flex justify-center">
+          <Pressable
+            className="p-1"
+            onPress={() => {
+              router.replace("/(auth)/sign-in")
+            }}
+          >
+            <Text className="text-center font-jregular">
+              Already have an account? <Text className="text-primary underline">Sign in</Text>
+            </Text>
+          </Pressable>
         </View>
       </ScrollView>
     </SafeAreaView>

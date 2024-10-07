@@ -5,11 +5,11 @@ import {
   ScrollView,
   SafeAreaView,
   View,
-  Image,
   StyleSheet,
+  Pressable,
 } from "react-native";
+import { router } from "expo-router";
 import { FormField } from "@/components/FormField";
-import { Redirect, router } from "expo-router";
 import { RexButton } from "@/components/RexButton";
 
 export default function SignIn() {
@@ -22,10 +22,12 @@ export default function SignIn() {
   }
   return (
     <SafeAreaView className="flex-1 text-2xl bg-white">
-      <ScrollView className="h-full">
+      <ScrollView className="h-full w-full">
         <View className="w-full h-full px-4">
           <View className="relative mt-5">
-            <Text className="text-4xl text-primary font-jbold pb-4">Log In</Text>
+            <Text className="text-4xl text-primary font-jbold pb-4">
+              Log In
+            </Text>
           </View>
           <FormField
             title={"Email"}
@@ -46,6 +48,18 @@ export default function SignIn() {
             containerStyles={"bg-primary w-full mt-8"}
             textStyles={"text-white"}
           />
+        </View>
+        <View className="flex justify-center">
+          <Pressable
+            className="p-1"
+            onPress={() => {
+              router.replace("/(auth)/sign-up")
+            }}
+          >
+            <Text className="text-center font-jregular">
+              New to Rex? <Text className="text-primary underline">Create an account</Text>
+            </Text>
+          </Pressable>
         </View>
       </ScrollView>
     </SafeAreaView>
