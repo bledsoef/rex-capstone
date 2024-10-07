@@ -40,7 +40,7 @@ export default function Landing() {
       return
     });
     await fetchImageDownloadUrl(user["email"])
-    router.replace("/rex")
+    router.replace("/home")
   }
   return (
     <SafeAreaView className="flex-1 text-2xl bg-white">

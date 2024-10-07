@@ -60,7 +60,6 @@ export function PlayBar() {
                 <Text className="flex text-base font-jlight">
                   {currentArtists &&
                     currentArtists.map((artist: any, index: number) => {
-                      console.log(artist.name);
                       if (index != currentArtists.length - 1) {
                         return `${artist.name}, `;
                       } else {

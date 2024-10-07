@@ -6,10 +6,6 @@ export function Song({
   song,
   album,
   artist,
-  handlePress,
-  containerStyles,
-  textStyles,
-  isLoading,
 }: any) {
   const { currentSong, playSong } = useMusicPlayer();
   const updatePlaybar = () => {
@@ -24,7 +20,6 @@ export function Song({
         );
         const data = await response.json();
         setArtists(data);
-        console.log(data)
       } catch (error) {
         console.log(error);
       }
@@ -34,7 +29,7 @@ export function Song({
 
   return (
     <Pressable
-      className={` bg-slate-50 border border-slate-100 w-full ${containerStyles}`}
+      className={` bg-slate-50 border border-slate-100 w-full`}
       onPress={updatePlaybar}
       // activeOpacity={0.7}
     >
@@ -43,7 +38,6 @@ export function Song({
           <Text className={`font-jregular text-xl px-4`}>{song.title}</Text>
           <Text className={`font-jlight text-lg px-4`}>
             {artists && artists.map((artist: any, index: number) => {
-              console.log(artist.name)
               if (index != artists.length-1) {
                 return `${artist.name}, `;
               } else {
