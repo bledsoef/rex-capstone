@@ -68,11 +68,6 @@ async def getReceivedRecsForUser(username: str, db: Session = Depends(get_db)):
 async def getFeedForUser(email: str, db: Session = Depends(get_db)):
     try:
         non_user_posts = get_non_user_posts(db, email)
-        # result = []
-        # for post in non_user_posts:
-        #     reviews = [entry.__dict__ for entry in get_post_reviews(db, post.id)]
-        #     result.append({"post":post, "reviews": reviews})
-        # print(result)
         return non_user_posts
     except Exception as e:
         print(e)
