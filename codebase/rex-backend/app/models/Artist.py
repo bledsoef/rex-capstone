@@ -11,8 +11,6 @@ class Artist(Base):
     bio = Column(String)
     
     recs = relationship("Rec", backref="artist")
-    albums = relationship("Album", backref="artist")
-    songs = relationship("Song", backref="artist")
     album_artists = relationship("AlbumArtist", backref="artist")
     song_artists = relationship("SongArtist", backref="artist")
 

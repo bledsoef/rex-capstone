@@ -9,6 +9,7 @@ from app.models.Genre import Genre
 from app.models.PendingRec import PendingRec
 from app.models.Playlist import Playlist
 from app.models.PlaylistSong import PlaylistSong
+from app.models.PlaylistCreator import PlaylistCreator
 from app.models.Rec import Rec
 from app.models.Review import Review
 from app.models.ReviewComment import ReviewComment

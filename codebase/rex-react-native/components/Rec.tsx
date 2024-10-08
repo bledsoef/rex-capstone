@@ -13,7 +13,7 @@ export function Rec({
   description,
   recID,
   acceptedStatus,
-  mediaCreator,
+  mediaCreators,
   timeCreated,
   containerStyles,
   textStyles,
@@ -44,7 +44,7 @@ export function Rec({
       });
   }
   async function fetchAuthorImageDownloadUrl() {
-    const fileRef = ref(storage, `/artistImages/${mediaCreator.id}.jpg`);
+    const fileRef = ref(storage, `/artistImages/${mediaCreators[0].id}.jpg`);
     getDownloadURL(fileRef)
       .then((res) => setAuthorImageUrl(res))
       .catch((error) => {
@@ -102,7 +102,7 @@ export function Rec({
                   <Text
                     className={`font-jsemibold ml-3 text-[#3D3D3D] text-xl ${textStyles}`}
                   >
-                    {mediaCreator.name}
+                    {mediaCreators[0].name}
                   </Text>
                 </View>
               </View>

@@ -7,6 +7,7 @@ from app.models.Artist import Artist
 from app.models.CompletedRec import CompletedRec
 from app.models.Genre import Genre
 from app.models.PendingRec import PendingRec
+from app.models.PlaylistCreator import PlaylistCreator
 from app.models.Playlist import Playlist
 from app.models.PlaylistSong import PlaylistSong
 from app.models.Rec import Rec
@@ -84,7 +85,6 @@ with Session(engine) as session:
     album_1 = Album(
         id=1,
         title="Silent Alarm",
-        artist_id=1,
         genre_id="Rock",
         release_date=datetime(2024, 4, 4),
     )
@@ -92,9 +92,14 @@ with Session(engine) as session:
     album_2 = Album(
         id=2,
         title="Unlicensed",
-        artist_id=2,
         genre_id="Lofi",
         release_date=datetime(2024, 4, 4),
+    )
+
+    album_artist_1 = AlbumArtist(
+        id=1,
+        album_id=2,
+        artist_id=2
     )
 
     liked_album_1 = UserLikedAlbum(
@@ -114,7 +119,6 @@ with Session(engine) as session:
     song_1 = Song(
         id=1,
         title="Flow",
-        artist_id=1,
         album_id=2,
         genre_id="Lofi",
         duration=50,
@@ -132,7 +136,6 @@ with Session(engine) as session:
     song_2 = Song(
         id=2,
         title="Night in Kyoto",
-        artist_id=1,
         album_id=2,
         genre_id="Lofi",
         index=2,
@@ -150,7 +153,6 @@ with Session(engine) as session:
     song_3 = Song(
         id=3,
         title="Night Detective",
-        artist_id=3,
         album_id=2,
         genre_id="Lofi",
         index=3,
@@ -187,6 +189,8 @@ with Session(engine) as session:
     session.add_all([artist_1, artist_2, artist_3]) # Artists
     session.commit()
     session.add_all([album_1, album_2]) # Album
+    session.commit()
+    session.add_all([album_artist_1])
     session.commit()
     session.add_all([liked_album_1, liked_album_2]) # Album
     session.commit()

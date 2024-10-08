@@ -9,7 +9,6 @@ class Song(Base):
     
     id = Column(Integer, primary_key=True)
     title = Column(String)
-    artist_id = Column(Integer, ForeignKey('artists.id'), nullable=True)
     album_id = Column(Integer, ForeignKey('albums.id'))
     genre_id = Column(String, ForeignKey('genres.id'))
     duration = Column(Integer)
@@ -19,7 +18,6 @@ class Song(Base):
     
     recs = relationship("Rec", backref="song")
     liked_by_users = relationship("UserLikedSong", backref="song")
-    album_artists = relationship("AlbumArtist", backref="song")
     song_artists = relationship("SongArtist", backref="song")
     playlist_songs = relationship("PlaylistSong", backref="song")
 

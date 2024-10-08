@@ -4,10 +4,9 @@ from sqlalchemy.orm import relationship
 from database.config import Base
 from typing import List
 
-
-class AlbumArtist(Base):
-    __tablename__ = 'album_artists'
+class PlaylistCreator(Base):
+    __tablename__ = 'playlist_creators'
     
     id = Column(Integer, primary_key=True)
-    album_id = Column(Integer, ForeignKey('albums.id'))
-    artist_id = Column(Integer, ForeignKey('artists.id'))
+    playlist_id = Column(Integer, ForeignKey('playlists.id'))
+    user_id = Column(Integer, ForeignKey('users.id'))

@@ -10,6 +10,7 @@ from app.models.Genre import Genre
 from app.models.PendingRec import PendingRec
 from app.models.Playlist import Playlist
 from app.models.PlaylistSong import PlaylistSong
+from app.models.PlaylistCreator import PlaylistCreator
 from app.models.Rec import Rec
 from app.models.Review import Review
 from app.models.ReviewComment import ReviewComment
@@ -116,28 +117,30 @@ def get_non_user_posts(db: Session, email: str):
     for rec, user, playlist, song, album in result:
         media_object = None
         media_type = None
-        media_creator = None
+        media_creators = None
         if playlist:
             media_type = "playlist"
-            media_object = db.query(Playlist, User).join(User, Playlist.created_by==User.id).filter(Playlist.id == playlist.id).first()
-            media_creator = media_object.user.__dict__
+            creators = db.query(User).join(PlaylistCreator, PlaylistCreator.user_id==User.id).filter_by(playlist_id = playlist.id).first()
+            media_object = playlist.__dict__
+            media_creators = obj_list_to_dict(creators)
+
         if song:
             media_type = "song"
-            media_object = db.query(Song, Artist).join(Artist, Song.artist_id==Artist.id).filter(Song.id == song.id).first()
-            media_creator = media_object.artist.__dict__
+            artists = db.query(Artist).join(SongArtist, SongArtist.artist_id==Artist.id).filter_by(song_id = song.id)
+            media_object = song.__dict__
+            media_creators = obj_list_to_dict(artists)
 
         if album:
-            print(album)
             media_type = "album"
-            media_object = db.query(Album).join(Artist, Album.artist_id==Artist.id).filter(Album.id == album.id).first()
-            media_creator = media_object.artist.__dict__
-            print(media_object)
+            artists = db.query(Artist).join(AlbumArtist, AlbumArtist.artist_id==Artist.id).filter_by(album_id = album.id)
+            media_object = album.__dict__
+            media_creators = obj_list_to_dict(artists)
         
         pendingRec = db.query(Rec).filter(Rec.post_rec == rec.id).first()
         addedToCollection = False
         if pendingRec:
             addedToCollection = True
-        filtered_results.append({"rec":rec.__dict__, "user": user, "media_creator": media_creator, "media": media_object.__dict__, "media_type": media_type, "added_to_collection": addedToCollection})
+        filtered_results.append({"rec":rec.__dict__, "user": user, "media_creators": media_creators, "media": media_object, "media_type": media_type, "added_to_collection": addedToCollection})
     return filtered_results
 
 

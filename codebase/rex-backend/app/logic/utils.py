@@ -36,8 +36,13 @@ def search(db: Session, query: str):
         artists = db.query(Artist).join(SongArtist, SongArtist.artist_id==Artist.id).filter_by(song_id = song.id).all()
         songResults.append({'song': song, 'artists': obj_list_to_dict(artists), 'album': album})
 
+    albumResults = []
+    for album in albums:
+        artists = db.query(Artist).join(AlbumArtist, AlbumArtist.artist_id==Artist.id).filter_by(album_id = album.id).all()
+        albumResults.append({'artists': obj_list_to_dict(artists), 'album': album})
+
     results = {
-        'albums': albums,
+        'albums': albumResults,
         'songs': songResults,
         'artists': artists
     }

@@ -63,7 +63,7 @@ export default function Home() {
                 acceptedStatus={rec.added_to_collection}
                 index={index}
                 sender={rec.user}
-                mediaCreator={rec.media_creator}
+                mediaCreators={rec.media_creators}
                 media={rec.media}
                 description={rec.rec.body}
                 timeCreated={rec.rec.created_at}

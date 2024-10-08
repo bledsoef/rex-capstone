@@ -9,10 +9,10 @@ class Album(Base):
     
     id = Column(Integer, primary_key=True)
     title = Column(String)
-    artist_id = Column(Integer, ForeignKey('artists.id'))
     genre_id = Column(String, ForeignKey('genres.id'))
     release_date = Column(Date)
     
+    album_artists = relationship("AlbumArtist", backref="album") 
     recs = relationship("Rec", backref="album")
     songs = relationship("Song", backref="album")
     liked_by_users = relationship("UserLikedAlbum", backref="album")
