@@ -13,7 +13,7 @@ export function CreateRecButton({
   return (
     <View className={``}>
       <Pressable
-        className={`rounded-full flex shadow-xl bg-primary justify-center w-[40] h-[40] items-center p-2`}
+        className={`rounded-full flex shadow-xl bg-rex justify-center w-[40] h-[40] items-center p-2`}
         onPress={handlePress}
       >
         <FontAwesome5 color={"white"} size={20} className="" name={"pen"} />

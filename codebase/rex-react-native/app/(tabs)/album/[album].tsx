@@ -69,7 +69,7 @@ export default function AlbumPage() {
             className="w-[75%] mx-auto mt-4 h-[75%]"
           ></Image>
           <View className="mt-5 flex flex-col">
-            <Text className="text-3xl text-primary font-jbold pb-1">
+            <Text className="text-3xl text-rex font-jbold pb-1">
               {albumData["title"]}
             </Text>
             <View className="flex flex-row items-center pb-2 space-x-2">
@@ -81,7 +81,7 @@ export default function AlbumPage() {
                 className="w-[30] h-[30]"
                 resizeMode="cover"
               />
-              <Text className="text-2xl text-primary font-jsemibold">
+              <Text className="text-2xl text-rex font-jsemibold">
                 {artist["name"]}
               </Text>
             </View>

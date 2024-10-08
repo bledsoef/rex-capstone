@@ -18,13 +18,13 @@ export default function AddToCollection({
       {acceptedStatus != true && (
         <Pressable
           onPress={addToCollection}
-          className="border rounded-xl border-primary p-2"
+          className="border rounded-xl border-rex p-2"
         >
-          <Text className="text-primary font-jbold text-base">Accept Rec</Text>
+          <Text className="text-rex font-jbold text-base">Accept Rec</Text>
         </Pressable>
       )}
       {acceptedStatus == true && (
-        <Pressable className="border rounded-xl border-primary  bg-primary p-2">
+        <Pressable className="border rounded-xl border-rex  bg-rex p-2">
           <Text className="text-white font-jbold text-base">Accepted</Text>
         </Pressable>
       )}

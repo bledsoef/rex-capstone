@@ -15,6 +15,7 @@ import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebaseConfig";
 import auth from "@react-native-firebase/auth";
 import { useUserContext } from "@/components/UserContext";
+import { useColorScheme } from "react-native";
 export default function Landing() {
   const { currentUser, profileImage, setProfileImage, setCurrentUser } = useUserContext();
   async function loginbledsoef() {
@@ -43,7 +44,7 @@ export default function Landing() {
     router.replace("/home")
   }
   return (
-    <SafeAreaView className="flex-1 text-2xl bg-white">
+    <SafeAreaView className="flex-1 text-2xl bg-primarywhite">
       <ScrollView className="h-full">
         <View className="w-full justify-center items-center h-full px-4">
           <Image
@@ -54,7 +55,7 @@ export default function Landing() {
           <View className="relative mt-5">
             <Text
               style={styles.textWithShadow}
-              className="text-7xl text-primary text-center font-jbold"
+              className="text-7xl text-rex text-center font-jbold"
             >
               Rex
             </Text>
@@ -62,20 +63,20 @@ export default function Landing() {
           <RexButton
             title={"Log In"}
             handlePress={() => router.push("/(auth)/sign-in")}
-            containerStyles={"bg-primary w-full"}
-            textStyles={"text-white"}
+            containerStyles={"bg-rex w-full"}
+            textStyles={"text-primarywhite"}
           />
           <RexButton
             title={"Sign Up"}
             handlePress={() => router.push("/(auth)/sign-up")}
-            containerStyles={"bg-white w-full"}
-            textStyles={"text-primary"}
+            containerStyles={"w-full"}
+            textStyles={"text-rex"}
           />
           <RexButton            
             title={"Bypass with bledsoef"}
             handlePress={() => loginbledsoef()}
-            containerStyles={"bg-white w-full"}
-            textStyles={"text-primary"}/>
+            containerStyles={"w-full"}
+            textStyles={"text-rex"}/>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -84,7 +85,7 @@ export default function Landing() {
 
 const styles = StyleSheet.create({
   textWithShadow: {
-    textShadowColor: "#D3D3D3", // Color of the shadow
+    textShadowColor: "#1f1f1f", // Color of the shadow
     textShadowOffset: { width: 2, height: 2 }, // Shadow offset (x and y)
     textShadowRadius: 1, // Shadow blur radius
   },

@@ -12,7 +12,7 @@ export function SearchBar({
 }: any) {
   return (
     <View className={`space-y-2 ${otherStyles}`}>
-      <View className="border-2 flex flex-row items-center px-4 border-gray-100 w-full h-16 bg-gray-100 rounded-2xl focus:border-primary">
+      <View className="border-2 flex flex-row items-center px-4 border-gray-100 w-full h-16 bg-gray-100 rounded-2xl focus:border-rex">
         <TextInput
           className="text-base flex-1 font-jregular w-full"
           placeholder={placeholder}

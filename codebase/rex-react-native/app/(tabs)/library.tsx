@@ -35,7 +35,7 @@ export default function Library() {
       <ScrollView className="h-full">
         <View className="w-full h-full px-4">
           <View className="relative mt-5 mb-2 flex flex-row justify-between">
-            <Text className="text-3xl text-primary font-jbold pb-4">
+            <Text className="text-3xl text-rex font-jbold pb-4">
               Library
             </Text>
 

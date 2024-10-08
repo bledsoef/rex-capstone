@@ -58,7 +58,7 @@ export default function Rex() {
       <ScrollView className="h-full">
         <View className="w-full h-full px-4">
           <View className="relative mt-5 flex flex-row justify-between">
-            <Text className="text-3xl text-primary font-jbold pb-4">Rex</Text>
+            <Text className="text-3xl text-rex font-jbold pb-4">Rex</Text>
 
             <View className="flex flex-row space-x-3">
               <CreateRecButton handlePress={apiCall} />

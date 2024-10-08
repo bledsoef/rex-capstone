@@ -4,7 +4,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#50BA6F"
+        rex: "#50BA6F",
+        primarydark: "#121212",
+        primarywhite: "#ffffff",
+        secondarydark: "#1f1f1f",
+        secondarywhite: "#F6F6F6"
       },
       fontFamily: {
       jthin: ["JosefinSansThin", "sans-serif"],

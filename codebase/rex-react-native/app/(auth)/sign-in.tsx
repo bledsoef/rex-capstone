@@ -25,7 +25,7 @@ export default function SignIn() {
       <ScrollView className="h-full w-full">
         <View className="w-full h-full px-4">
           <View className="relative mt-5">
-            <Text className="text-4xl text-primary font-jbold pb-4">
+            <Text className="text-4xl text-rex font-jbold pb-4">
               Log In
             </Text>
           </View>
@@ -45,7 +45,7 @@ export default function SignIn() {
           <RexButton
             title={"Log In"}
             handlePress={() => login()}
-            containerStyles={"bg-primary w-full mt-8"}
+            containerStyles={"bg-rex w-full mt-8"}
             textStyles={"text-white"}
           />
         </View>
@@ -57,7 +57,7 @@ export default function SignIn() {
             }}
           >
             <Text className="text-center font-jregular">
-              New to Rex? <Text className="text-primary underline">Create an account</Text>
+              New to Rex? <Text className="text-rex underline">Create an account</Text>
             </Text>
           </Pressable>
         </View>

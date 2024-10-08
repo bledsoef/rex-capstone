@@ -25,7 +25,7 @@ export function FormField({
       <Text className={`text-base text-gray-900 font-jregular rounded-xl`}>
         {title}
       </Text>
-      <View className="border-2 flex flex-row items-center px-4 border-gray-100 w-full h-16 bg-gray-100 rounded-2xl focus:border-primary">
+      <View className="border-2 flex flex-row items-center px-4 border-gray-100 w-full h-16 bg-gray-100 rounded-2xl focus:border-rex">
         <TextInput
           className="text-base flex-1 font-jregular w-full"
           placeholder={placeholder}

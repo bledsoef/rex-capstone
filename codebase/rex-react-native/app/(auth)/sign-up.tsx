@@ -71,7 +71,7 @@ export default function SignUp() {
       <ScrollView className="h-full">
         <View className="w-full h-full px-4">
           <View className="relative mt-5">
-            <Text className="text-4xl text-primary font-jbold pb-4">
+            <Text className="text-4xl text-rex font-jbold pb-4">
               Sign Up
             </Text>
           </View>
@@ -107,7 +107,7 @@ export default function SignUp() {
           <RexButton
             title={"Sign Up"}
             handlePress={() => signUp()}
-            containerStyles={"bg-primary w-full mt-8"}
+            containerStyles={"bg-rex w-full mt-8"}
             textStyles={"text-white"}
           />
         </View>
@@ -119,7 +119,7 @@ export default function SignUp() {
             }}
           >
             <Text className="text-center font-jregular">
-              Already have an account? <Text className="text-primary underline">Sign in</Text>
+              Already have an account? <Text className="text-rex underline">Sign in</Text>
             </Text>
           </Pressable>
         </View>

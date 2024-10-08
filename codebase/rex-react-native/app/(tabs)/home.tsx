@@ -42,7 +42,7 @@ export default function Home() {
       <ScrollView className="h-full">
         <View className="w-full h-full">
           <View className="relative mt-5 flex flex-row justify-between px-4">
-            <Text className="text-3xl text-primary font-jbold pb-4">Feed</Text>
+            <Text className="text-3xl text-rex font-jbold pb-4">Feed</Text>
             <Pressable onPress={() => router.push("/")}>
               <Image
                 source={{ uri: profileImage ? profileImage : images.profile }}
