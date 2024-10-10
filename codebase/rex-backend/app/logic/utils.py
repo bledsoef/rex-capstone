@@ -8,6 +8,7 @@ from app.models.CompletedRec import CompletedRec
 from app.models.Genre import Genre
 from app.models.PendingRec import PendingRec
 from app.models.Playlist import Playlist
+from app.models.Connection import Connection
 from app.models.PlaylistSong import PlaylistSong
 from app.models.Rec import Rec
 from app.models.Review import Review
