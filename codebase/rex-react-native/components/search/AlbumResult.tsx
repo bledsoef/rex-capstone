@@ -21,7 +21,7 @@ export function AlbumResult({ album, artists }: any) {
   return (
     <Pressable
       className={` bg-slate-50 flex-row border justify-between items-center border-slate-100 w-full`}
-      onPress={() => {router.push(`/(tabs)/album/${album["id"]}`)}}
+      onPress={() => {router.push(`/(tabs)/album/${album["id"]}`)}}      // activeOpacity={0.7}
     >
       <View className="flex flex-row items-center">
         <Image
