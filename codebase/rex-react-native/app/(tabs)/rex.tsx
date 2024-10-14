@@ -16,6 +16,7 @@ import { storage } from "@/firebaseConfig";
 import { router } from "expo-router";
 import { useUserContext } from "@/components/UserContext";
 import { images } from "@/constants";
+import { CreateRecModal } from "@/components/CreateRecModal";
 export default function Rex() {
   const { currentUser, profileImage, setProfileImage, setCurrentUser } = useUserContext();
   const [sentRecs, setSentRecs] = useState<any[]>([]);
@@ -39,6 +40,10 @@ export default function Rex() {
     var data = await response.json();
     setSentRecs(data);
   }
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const handleShowModal = (bool: boolean) => {
+    setModalVisible(bool)
+  }
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -59,9 +64,8 @@ export default function Rex() {
         <View className="w-full h-full px-4">
           <View className="relative mt-5 flex flex-row justify-between">
             <Text className="text-3xl text-rex font-jbold pb-4">Rex</Text>
-
             <View className="flex flex-row space-x-3">
-              <CreateRecButton handlePress={apiCall} />
+              <CreateRecButton handlePress={() => handleShowModal(true)} />
               <Pressable onPress={() => router.push("/")}>
                 <Image
                   source={{ uri: profileImage ? profileImage : images.profile }}
@@ -78,6 +82,7 @@ export default function Rex() {
                 {rec.title}
               </ThemedText>
             ))}
+            <CreateRecModal isVisible={modalVisible} onModalVisibilityChange={handleShowModal} />
         </View>
       </ScrollView>
     </SafeAreaView>

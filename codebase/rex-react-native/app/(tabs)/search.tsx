@@ -3,6 +3,7 @@ import { SearchBar } from "@/components/search/SearchBar";
 import { SongResult } from "@/components/search/SongResult";
 import { useState } from "react";
 import { AlbumResult } from "@/components/search/AlbumResult";
+import { RecentlyPlayed } from "@/components/search/RecentlyPlayed";
 export default function Search() {
   const queryDB = async (searchQuery: any) => {
     const res = await fetch(
@@ -32,18 +33,21 @@ export default function Search() {
           handleChangeText={(e: any) => handleSetSearchQuery(e)}
           otherStyles={"py-1"}
         />
-        {songs &&
-          songs.map((song, index) => {
-            return (
-              <SongResult
-                key={index}
-                album={song.album}
-                artists={song.artists}
-                song={song.song}
-              ></SongResult>
-            );
-          })}
-        {/* {artists &&
+        {searchQuery && (
+          <>
+            <Text className="text-xl font-jsemibold">Results</Text>
+            {songs &&
+              songs.map((song, index) => {
+                return (
+                  <SongResult
+                    key={index}
+                    album={song.album}
+                    artists={song.artists}
+                    song={song.song}
+                  ></SongResult>
+                );
+              })}
+            {/* {artists &&
           artists.map((artist, index) => {
             return (
               <Song
@@ -54,16 +58,19 @@ export default function Search() {
               ></Song>
             );
           })} */}
-        {albums &&
-          albums.map((album, index) => {
-            return (
-              <AlbumResult
-                key={index}
-                album={album.album}
-                artists={album.artists}
-              ></AlbumResult>
-            );
-          })}
+            {albums &&
+              albums.map((album, index) => {
+                return (
+                  <AlbumResult
+                    key={index}
+                    album={album.album}
+                    artists={album.artists}
+                  ></AlbumResult>
+                );
+              })}
+          </>
+        )}
+        {!searchQuery && <RecentlyPlayed />}
       </View>
     </SafeAreaView>
   );
