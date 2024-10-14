@@ -22,10 +22,26 @@ export default function AlbumPage() {
   const { currentUser, profileImage, setProfileImage, setCurrentUser } =
     useUserContext();
   const [songs, setSongs] = useState<any[]>([]);
-  const [albumData, setAlbum] = useState<any>([]);
-  const [artist, setArtist] = useState<any>([]);
+  const [albumData, setAlbum] = useState<any>({});
+  const [artists, setArtists] = useState<any>([]);
   const [albumImage, setAlbumImage] = useState<any>([]);
-  const [authorImageUrl, setAuthorImageUrl] = useState<any>([]);
+  const [authorImageUrls, setAuthorImageUrls] = useState<any>([]);
+
+  const fetchArtistImages = async () => {
+    try {
+      const imageURLs = await Promise.all(
+        artists.map(async (artist: any) => {
+          const authorFileRef = ref(storage, `/artistImages/${artist.id}.jpg`);
+          const url = await getDownloadURL(authorFileRef);
+          return url;
+        })
+      );
+      setAuthorImageUrls(imageURLs);
+    } catch (error) {
+      console.error("Error fetching artist images:", error);
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       var data;
@@ -36,25 +52,23 @@ export default function AlbumPage() {
         data = await response.json();
         setSongs(data["songs"]);
         setAlbum(data["album"]);
-        setArtist(data["artist"]);
+        setArtists(data["artists"]);
+        console.log("data", data);
       } catch (error) {
         console.log(error);
       }
-      const albumFileRef = ref(storage, `/albumImages/${data["album"]["id"]}.jpg`);
-      getDownloadURL(albumFileRef)
-        .then((res) => setAlbumImage(res))
-        .catch((error) => {
-          console.error("Error getting download URL:", error);
-        });
-      const authorFileRef = ref(
+      const albumFileRef = ref(
         storage,
-        `/artistImages/${data["artist"]["id"]}.jpg`
+        `/albumImages/${data["album"]["id"]}.jpg`
       );
-      getDownloadURL(authorFileRef)
-        .then((res) => setAuthorImageUrl(res))
+      getDownloadURL(albumFileRef)
+        .then((res) => {
+          setAlbumImage(res);
+        })
         .catch((error) => {
           console.error("Error getting download URL:", error);
         });
+      fetchArtistImages();
     };
     fetchData();
   }, []);
@@ -72,24 +86,44 @@ export default function AlbumPage() {
             <Text className="text-3xl text-rex font-jbold pb-1">
               {albumData["title"]}
             </Text>
-            <View className="flex flex-row items-center pb-2 space-x-2">
-              <Image
-                source={{
-                  uri: authorImageUrl ? authorImageUrl : images.default_cover,
-                }}
-                style={styles.image}
-                className="w-[30] h-[30]"
-                resizeMode="cover"
-              />
-              <Text className="text-2xl text-rex font-jsemibold">
-                {artist["name"]}
-              </Text>
+            <View className="flex flex-col">
+              {artists &&
+                authorImageUrls &&
+                artists.map((artist: any, index: any) => {
+                  return (
+                    <View
+                      key={index}
+                      className="flex flex-row items-center pb-2 space-x-2"
+                    >
+                      <Image
+                        source={{
+                          uri: authorImageUrls
+                            ? authorImageUrls[index]
+                            : images.default_cover,
+                        }}
+                        style={styles.image}
+                        className="w-[30] h-[30]"
+                        resizeMode="cover"
+                      />
+                      <Text className="text-2xl text-rex font-jsemibold">
+                        {artist["name"]}
+                      </Text>
+                    </View>
+                  );
+                })}
             </View>
           </View>
           <View className="rounded-xl flex flex-col w-full">
             {songs &&
               songs.map((song, index) => {
-                return <Song key={index} album={albumData} artist={artist} song={song}></Song>;
+                return (
+                  <Song
+                    key={index}
+                    album={albumData}
+                    artists={artists}
+                    song={song}
+                  ></Song>
+                );
               })}
           </View>
 

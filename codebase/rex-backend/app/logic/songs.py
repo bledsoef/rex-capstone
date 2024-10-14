@@ -59,5 +59,7 @@ def check_status_of_song(db: Session, song_id, user_id, rec_creation: datetime):
 def get_songs_for_album(db: Session, album_id):
     songs = db.query(Song).filter_by(album_id = album_id).order_by(Song.index)
     album = db.query(Album).filter_by(id = album_id).first()
-    artist = db.query(Artist).filter_by(id = album.artist_id).first()
-    return {"album": album.__dict__, "songs": [song.__dict__ for song in songs], "artist": artist.__dict__}
+    album_artists = db.query(AlbumArtist).filter_by(album_id = album_id)
+    artist_ids = [artist.artist_id for artist in album_artists]
+    artists = db.query(Artist).filter(Artist.id.in_(artist_ids)).all()
+    return {"album": album.__dict__, "songs": [song.__dict__ for song in songs], "artists": [artist.__dict__ for artist in artists]}

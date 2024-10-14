@@ -161,7 +161,6 @@ const styles = StyleSheet.create({
   },
   selectedTextStyle: {
     fontSize: 14,
-    fontFamily: 
   },
   iconStyle: {
     width: 20,
