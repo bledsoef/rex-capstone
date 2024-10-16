@@ -60,7 +60,6 @@ export default function Home() {
               return <Rec
                 currentUser={currentUser}
                 key={index}
-                acceptedStatus={rec.added_to_collection}
                 index={index}
                 sender={rec.user}
                 mediaCreators={rec.media_creators}

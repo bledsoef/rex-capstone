@@ -16,7 +16,7 @@ class Rec(Base):
     album_id = Column(Integer, ForeignKey('albums.id'), nullable=True, default=None)
     playlist_id = Column(Integer, ForeignKey('playlists.id'), nullable=True, default=None)
     is_post = Column(Boolean, default=False)
-    post_rec = Column(Integer, ForeignKey('recs.id'), nullable=True, default=None)
-    status = Column(String)
+    post_rec_id = Column(Integer, ForeignKey('recs.id'), nullable=True, default=None)
+    status = Column(String, nullable=True)
 
     reviews = relationship("Review", backref="rec")

@@ -13,7 +13,6 @@ export default function AddToCollection({
       },
       body: JSON.stringify({ recID: recID, userID: userID }),
     });
-    console.log(response)
     fetchData()
   };
   const fetchData = async () => {
@@ -22,7 +21,12 @@ export default function AddToCollection({
         `http://127.0.0.1:8000/checkPostStatus?rec_id=${recID}&user_id=${userID}`
       );
       const data = await response.json();
-      setIsAccepted(data);
+      console.log(data)
+      if (!data) {
+        setIsAccepted(false);
+      } else {
+        setIsAccepted(true)
+      }
     } catch (error) {
       console.log(error);
     }

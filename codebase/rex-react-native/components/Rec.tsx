@@ -12,7 +12,6 @@ export function Rec({
   sender,
   description,
   recID,
-  acceptedStatus,
   mediaCreators,
   timeCreated,
   containerStyles,
@@ -106,10 +105,7 @@ export function Rec({
                   </Text>
                 </View>
               </View>
-              <AddToCollection
-                acceptedStatus={acceptedStatus}
-                userID={currentUser["id"]}
-              />
+              <AddToCollection recID={recID} userID={currentUser["id"]} />
             </View>
 
             <Image

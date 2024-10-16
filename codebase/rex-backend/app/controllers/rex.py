@@ -30,7 +30,7 @@ async def getPendingSentRecsForUser(user_id: int, db: Session = Depends(get_db))
 async def addToCollection(request: Request, db :Session = Depends(get_db)):
     data = await request.json()
     try:
-        accept_rec_from_post(db, data["rec_id"], data["user_id"])
+        accept_rec_from_post(db, data["recID"], data["userID"])
         return {"message": "Rec accepted."}
     except Exception as e:
         print(e)
@@ -48,7 +48,7 @@ async def archiveRec(request: Request, db: Session = Depends(get_db)):
 
 
 @router.get("/checkPostStatus")
-async def checkPostStatus(user_id, rec_id, db: Session = Depends(get_db)):
+async def checkPostStatus(rec_id, user_id, db: Session = Depends(get_db)):
     try:
         post_status = get_post_status(db, user_id, rec_id)
         return post_status

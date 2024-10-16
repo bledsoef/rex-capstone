@@ -44,9 +44,9 @@ def create_new_rec(db: Session, rec_data):
 def accept_rec_from_post(db: Session, rec_id: int, user_id: str):
     try:
         rec: Rec = db.query(Rec).filter(Rec.id == rec_id).first()
-        rec_id = db.query(func.max(Rec.id)).scalar() + 1
+        new_rec_id = db.query(func.max(Rec.id)).scalar() + 1
         new_rec = Rec(
-            id=rec_id,
+            id=new_rec_id,
             sender_id=rec.sender_id,
             body=rec.body,
             created_at=rec.created_at,
@@ -54,7 +54,9 @@ def accept_rec_from_post(db: Session, rec_id: int, user_id: str):
             song_id=rec.song_id if rec.song_id else None,
             artist_id=rec.artist_id if rec.artist_id else None, 
             album_id=rec.album_id if rec.album_id else None, 
-            isPost=False
+            is_post=False,
+            post_rec_id=rec_id,
+            status="Pending"
         )
         db.add(new_rec)
         db.commit()
@@ -128,13 +130,9 @@ def get_non_user_posts(db: Session, email: str):
             media_object = album.__dict__
             media_creators = obj_list_to_dict(artists)
         
-        pendingRec = db.query(Rec).filter(Rec.post_rec == rec.id).first()
-        addedToCollection = False
-        if pendingRec:
-            addedToCollection = True
-        filtered_results.append({"rec":rec.__dict__, "user": user, "media_creators": media_creators, "media": media_object, "media_type": media_type, "added_to_collection": addedToCollection})
+        filtered_results.append({"rec":rec.__dict__, "user": user, "media_creators": media_creators, "media": media_object, "media_type": media_type})
     return filtered_results
 
-
 def get_post_status(db: Session, user_id, rec_id):
-    user = db.query(Rec).filter()
+    post_rec = db.query(Rec).filter(Rec.post_rec_id == rec_id, Rec.recipient_id == user_id).first()
+    return True if post_rec else False
