@@ -25,3 +25,13 @@ async def getUser(email: str, db:Session = Depends(get_db)):
     except Exception as e:
         print("Error creating user", e)
         return {"message": "Error creating user.", "success":False} 
+
+    
+@router.get("/getNetworkForUser")
+async def getUser(user_id: str, db:Session = Depends(get_db)):
+    try:
+        user = get_network(db, user_id)
+        return user
+    except Exception as e:
+        print("Error getting network", e)
+        return {"message": "Error fetching network for user.", "success":False} 

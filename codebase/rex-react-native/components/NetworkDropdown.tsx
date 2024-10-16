@@ -15,13 +15,13 @@ const NetworkDropdown = ({
   placeholder = "Recipients",
 }: any) => {
   const [visible, setVisible] = useState(false);
-  const [selectedOptions, setSelectedOptions] = useState<any>([]);
+  const [selectedOptions, setSelectedOptions] = useState<any[]>([]);
 
   const handleSelect = (option: any) => {
     let newSelectedOptions = [...selectedOptions];
-    if (selectedOptions.some((o: any) => o.value === option.value)) {
+    if (selectedOptions.some((o: any) => o.id === option.id)) {
       newSelectedOptions = newSelectedOptions.filter(
-        (o) => o.value !== option.value
+        (o) => o.id !== option.id
       );
     } else {
       newSelectedOptions.push(option);
@@ -31,16 +31,15 @@ const NetworkDropdown = ({
   };
 
   const renderItem = ({ item }: any) => {
-    const isSelected = selectedOptions.some((o: any) => o.value === item.value); // Check if item is selected
+    const isSelected = selectedOptions.some((o: any) => o.id === item.id); // Check if item is selected
     return (
       <Pressable className="p-2" onPress={() => handleSelect(item)}>
         <Text
           className={`${isSelected && "text-rex font-jsemibold"} ${
             !isSelected && "font-jregular"
           } text-lg`}
-          style={[styles.optionText, isSelected && styles.selectedOptionText]}
         >
-          {item.label}
+          {item.username}
         </Text>
       </Pressable>
     );
@@ -65,7 +64,7 @@ const NetworkDropdown = ({
             <FlatList
               data={options}
               renderItem={renderItem}
-              keyExtractor={(item) => item.value.toString()}
+              keyExtractor={(item) => item.id.toString()}
             />
           </View>
         </Pressable>
@@ -83,12 +82,5 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     maxHeight: 200, // Limit height to avoid overflowing screen
     padding: 10,
-  },
-  optionText: {
-    fontSize: 16,
-  },
-  selectedOptionText: {
-    fontWeight: "bold",
-    color: "green",
   },
 });

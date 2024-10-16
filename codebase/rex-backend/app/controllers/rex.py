@@ -17,9 +17,9 @@ async def createRec(request: Request, db :Session = Depends(get_db)):
 
 
 @router.get("/getPendingSentRecsForUser")
-async def getPendingSentRecsForUser(username: int, db: Session = Depends(get_db)):
+async def getPendingSentRecsForUser(user_id: int, db: Session = Depends(get_db)):
     try:
-        sent_recs = get_pending_sent_recs(db, username)
+        sent_recs = get_pending_sent_recs(db, user_id)
         return sent_recs
     except Exception as e:
         print(e)
@@ -46,13 +46,13 @@ async def archiveRec(request: Request, db: Session = Depends(get_db)):
         return {"message": "Failed to create rec"}
 
 
-@router.get("/getRequestsForUser")
-async def getRequestsForUser(username:str, db :Session = Depends(get_db)):
-    try:
-        return get_requests(db, username)
-    except Exception as e:
-        print(e)
-        return {"message": "Failed to get requests"}
+# @router.get("/getRequestsForUser")
+# async def getRequestsForUser(username:str, db :Session = Depends(get_db)):
+#     try:
+#         return get_requests(db, username)
+#     except Exception as e:
+#         print(e)
+#         return {"message": "Failed to get requests"}
 
 @router.get("/getReceivedRecsForUser")
 async def getReceivedRecsForUser(username: str, db: Session = Depends(get_db)):

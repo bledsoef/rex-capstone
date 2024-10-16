@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import func
+from sqlalchemy import func, or_
 from app.models.Album import Album
 from app.models.AlbumArtist import AlbumArtist
 from app.models.ArchivedRec import ArchivedRec
@@ -47,3 +47,9 @@ def create_new_user(db: Session, user_data):
 def get_user(db: Session, email):
     user = db.query(User).filter(User.email == email).first()
     return user.__dict__
+
+def get_network(db: Session, user_id):
+    connections = db.query(Connection).filter_by(user_id=user_id).all()
+    network = [connection.friend.__dict__ for connection in connections]
+    print(network)
+    return network

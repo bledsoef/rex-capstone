@@ -28,9 +28,10 @@ export default function Rex() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://127.0.0.1:8000/getPendingSentRecsForUser?username=${currentUser}`
+          `http://127.0.0.1:8000/getPendingSentRecsForUser?user_id=${currentUser.id}`
         );
         const data = await response.json();
+        console.log(data)
         setSentRecs(data);
       } catch (error) {
         console.log(error);
