@@ -20,26 +20,6 @@ import { CreateRecModal } from "@/components/CreateRecModal";
 export default function Rex() {
   const { currentUser, profileImage, setProfileImage, setCurrentUser } = useUserContext();
   const [sentRecs, setSentRecs] = useState<any[]>([]);
-  async function apiCall() {
-    var rec_data = {
-      title: "Test",
-      body: "Super sweet song",
-      sender_id: "bledsoef",
-      recipient_id: "bahrs",
-      created_at: Date(),
-      song_id: 1,
-      is_post: false,
-    };
-    var response = await fetch(`http://127.0.0.1:8000/createRec`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(rec_data),
-    });
-    var data = await response.json();
-    setSentRecs(data);
-  }
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const handleShowModal = (bool: boolean) => {
     setModalVisible(bool)
@@ -48,7 +28,7 @@ export default function Rex() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://127.0.0.1:8000/getPendingSentRecsForUser?username=1"
+          `http://127.0.0.1:8000/getPendingSentRecsForUser?username=${currentUser}`
         );
         const data = await response.json();
         setSentRecs(data);
