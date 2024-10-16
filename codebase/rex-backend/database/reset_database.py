@@ -178,11 +178,28 @@ with Session(engine) as session:
         is_post=True
     )
     
-    # pending_rec_1 = PendingRec(
-    #     id=1,
-    #     rec_id=1,
-    #     updated=datetime(2024, 4, 4)
-    # )
+    connection_1 = Connection(
+        id=1,
+        user_id=bahrs.id,
+        friend_id=bledsoefinn0.id
+    )
+    connection_2 = Connection(
+        id=2,
+        user_id=bledsoefinn0.id,
+        friend_id=bahrs.id
+    )
+
+    connection_3 = Connection(
+        id=3,
+        user_id=bledsoefinn0.id,
+        friend_id=bledsoef.id
+    )
+    connection_4 = Connection(
+        id=4,
+        user_id=bledsoef.id,
+        friend_id=bledsoefinn0.id
+    )
+
     session.add_all([bledsoef, bahrs, bledsoefinn0]) # Users
     session.commit()
     session.add_all([genre_1, genre_2]) # Genres
@@ -200,5 +217,7 @@ with Session(engine) as session:
     session.add_all([song_artist_1, song_artist_2, song_artist_3]) # SongArtist
     session.commit()
     session.add_all([rec_1]) # Rec
+    session.commit()
+    session.add_all([connection_1, connection_2, connection_3, connection_4])
     # session.add_all([]) # PendingRec
     session.commit()
