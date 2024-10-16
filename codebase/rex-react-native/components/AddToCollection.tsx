@@ -1,9 +1,10 @@
+import { useEffect, useState } from "react";
 import { View, Pressable, Text } from "react-native";
 export default function AddToCollection({
-  acceptedStatus,
   recID,
   userID,
 }: any) {
+  const [isAccepted, setIsAccepted] = useState<any>(false)
   const addToCollection = async () => {
     const response = await fetch(`http://127.0.0.1:8000/addToCollection`, {
       method: "POST",
@@ -12,10 +13,26 @@ export default function AddToCollection({
       },
       body: JSON.stringify({ recID: recID, userID: userID }),
     });
+    console.log(response)
+    fetchData()
   };
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/checkPostStatus?rec_id=${recID}&user_id=${userID}`
+      );
+      const data = await response.json();
+      setIsAccepted(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchData()
+  }, []);
   return (
     <View>
-      {acceptedStatus != true && (
+      {isAccepted != true && (
         <Pressable
           onPress={addToCollection}
           className="border rounded-xl border-rex p-2"
@@ -23,7 +40,7 @@ export default function AddToCollection({
           <Text className="text-rex font-jbold text-base">Accept Rec</Text>
         </Pressable>
       )}
-      {acceptedStatus == true && (
+      {isAccepted == true && (
         <Pressable className="border rounded-xl border-rex  bg-rex p-2">
           <Text className="text-white font-jbold text-base">Accepted</Text>
         </Pressable>

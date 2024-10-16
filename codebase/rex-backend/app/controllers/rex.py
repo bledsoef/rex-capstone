@@ -19,14 +19,15 @@ async def createRec(request: Request, db :Session = Depends(get_db)):
 @router.get("/getPendingSentRecsForUser")
 async def getPendingSentRecsForUser(user_id: int, db: Session = Depends(get_db)):
     try:
-        sent_recs = get_pending_sent_recs(db, user_id)
-        return sent_recs
+        # sent_recs = get_pending_sent_recs(db, user_id)
+        # return sent_recs
+        return []
     except Exception as e:
         print(e)
         return []
 
-@router.post("/acceptRecFromPost")
-async def acceptRecFromPost(request: Request, db :Session = Depends(get_db)):
+@router.post("/addToCollection")
+async def addToCollection(request: Request, db :Session = Depends(get_db)):
     data = await request.json()
     try:
         accept_rec_from_post(db, data["rec_id"], data["user_id"])
@@ -39,13 +40,21 @@ async def acceptRecFromPost(request: Request, db :Session = Depends(get_db)):
 async def archiveRec(request: Request, db: Session = Depends(get_db)):
     data = await request.json()
     try:
-        archive_rec(db, data["rec_id"])
+        # archive_rec(db, data["rec_id"])
         return {"message": "Rec accepted."}
     except Exception as e:
         print(e)
         return {"message": "Failed to create rec"}
 
 
+@router.get("/checkPostStatus")
+async def checkPostStatus(user_id, rec_id, db: Session = Depends(get_db)):
+    try:
+        post_status = get_post_status(db, user_id, rec_id)
+        return post_status
+    except Exception as e:
+        print(e)
+        return {"message": "Failed to create rec"}
 # @router.get("/getRequestsForUser")
 # async def getRequestsForUser(username:str, db :Session = Depends(get_db)):
 #     try:

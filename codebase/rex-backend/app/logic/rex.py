@@ -3,12 +3,9 @@ from sqlalchemy import func, or_
 from app.logic.utils import obj_list_to_dict
 from app.models.Album import Album
 from app.models.AlbumArtist import AlbumArtist
-from app.models.ArchivedRec import ArchivedRec
 from app.models.Artist import Artist
-from app.models.CompletedRec import CompletedRec
 from app.models.Connection import Connection
 from app.models.Genre import Genre
-from app.models.PendingRec import PendingRec
 from app.models.Playlist import Playlist
 from app.models.PlaylistSong import PlaylistSong
 from app.models.PlaylistCreator import PlaylistCreator
@@ -59,31 +56,25 @@ def accept_rec_from_post(db: Session, rec_id: int, user_id: str):
             album_id=rec.album_id if rec.album_id else None, 
             isPost=False
         )
-        pending_rec_id = db.query(func.max(PendingRec.id)).scalar() + 1
-        new_pending_rec = PendingRec(
-            rec=pending_rec_id,
-            updated=datetime.now()
-        )
         db.add(new_rec)
-        db.add(new_pending_rec)
         db.commit()
     except Exception as e:
         print(e)
         return False
     return True
 
-def archive_rec(db: Session, rec_id):
-    try:
-        pending_rec = db.query(PendingRec).filter(PendingRec.rec_id==rec_id).first()
-        db.delete(pending_rec)
-        archived_rec_id = db.query(func.max(PendingRec.id)).scalar() + 1
-        archived_rec = ArchivedRec(id=archived_rec_id, rec_id=rec_id)
-        db.add(archived_rec)
-        db.commit()
-    except Exception as e:
-        print(e)
-        return False
-    return True
+# def archive_rec(db: Session, rec_id):
+#     try:
+#         pending_rec = db.query(PendingRec).filter(PendingRec.rec_id==rec_id).first()
+#         db.delete(pending_rec)
+#         archived_rec_id = db.query(func.max(PendingRec.id)).scalar() + 1
+#         archived_rec = ArchivedRec(id=archived_rec_id, rec_id=rec_id)
+#         db.add(archived_rec)
+#         db.commit()
+#     except Exception as e:
+#         print(e)
+#         return False
+#     return True
 
 def get_received_recs(db: Session, user_id: str):
     received_pending = [entry.__dict__ for entry in db.query(Rec).filter(Rec.sentTo == user_id, Rec.status == 'pending').all()]
@@ -98,9 +89,9 @@ def get_received_recs(db: Session, user_id: str):
     )]
     return {'pending': received_pending, 'completed': received_completed, 'rejected': received_rejected}
 
-def get_pending_sent_recs(db: Session, user_id: int):
-    recs = db.query(Rec).join(PendingRec, Rec.pending_recs).filter(Rec.sender_id == user_id)
-    return obj_list_to_dict(recs) 
+# def get_pending_sent_recs(db: Session, user_id: int):
+#     recs = db.query(Rec).join(PendingRec, Rec.pending_recs).filter(Rec.sender_id == user_id)
+#     return obj_list_to_dict(recs) 
 
 def get_non_user_posts(db: Session, email: str):
     user = db.query(User).filter(User.email == email).first()
@@ -145,3 +136,5 @@ def get_non_user_posts(db: Session, email: str):
     return filtered_results
 
 
+def get_post_status(db: Session, user_id, rec_id):
+    user = db.query(Rec).filter()

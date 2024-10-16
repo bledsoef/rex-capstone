@@ -1,12 +1,9 @@
 from sqlalchemy.orm import Session, aliased
 from app.models.Album import Album
 from app.models.AlbumArtist import AlbumArtist
-from app.models.ArchivedRec import ArchivedRec
 from app.models.Artist import Artist
-from app.models.CompletedRec import CompletedRec
 from app.models.Connection import Connection
 from app.models.Genre import Genre
-from app.models.PendingRec import PendingRec
 from app.models.Playlist import Playlist
 from app.models.PlaylistSong import PlaylistSong
 from app.models.PlaylistCreator import PlaylistCreator

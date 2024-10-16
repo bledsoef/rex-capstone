@@ -17,8 +17,6 @@ class Rec(Base):
     playlist_id = Column(Integer, ForeignKey('playlists.id'), nullable=True, default=None)
     is_post = Column(Boolean, default=False)
     post_rec = Column(Integer, ForeignKey('recs.id'), nullable=True, default=None)
+    status = Column(String)
 
     reviews = relationship("Review", backref="rec")
-    pending_recs = relationship("PendingRec", backref="rec")
-    completed_recs = relationship("CompletedRec", backref="rec")
-    archived_recs = relationship("ArchivedRec", backref="rec")
