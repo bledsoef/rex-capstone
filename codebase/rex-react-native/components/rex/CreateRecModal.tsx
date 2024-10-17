@@ -11,10 +11,10 @@ import {
 import { MultiSelect } from "react-native-element-dropdown";
 import { Menu, TextInput as TextInput2 } from "react-native-paper";
 import { icons } from "@/constants";
-import { useUserContext } from "./UserContext";
+import { useUserContext } from "@/components/UserContext";
 import { AntDesign } from "@expo/vector-icons";
-import NetworkDropdown from "./NetworkDropdown";
-import MediaSelect from "./MediaSelect";
+import NetworkDropdown from "@/components/NetworkDropdown";
+import MediaSelect from "@/components/MediaSelect";
 export function CreateRecModal({ isVisible, onModalVisibilityChange }: any) {
   const { currentUser } = useUserContext();
   const [description, setDescription] = useState<any>();

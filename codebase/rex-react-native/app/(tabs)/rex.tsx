@@ -10,14 +10,14 @@ import {
 import auth from "@react-native-firebase/auth";
 import { useEffect, useState } from "react";
 import { ThemedText } from "@/components/ThemedText";
-import { CreateRecButton } from "@/components/CreateRecButton";
+import { CreateRecButton } from "@/components/rex/CreateRecButton";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebaseConfig";
 import { router } from "expo-router";
 import { useUserContext } from "@/components/UserContext";
 import { images } from "@/constants";
-import { CreateRecModal } from "@/components/CreateRecModal";
-import { RecIcon } from "@/components/RecIcon";
+import { CreateRecModal } from "@/components/rex/CreateRecModal";
+import { RecIcon } from "@/components/rex/RecIcon";
 import { SendingReceivedToggle } from "@/components/SendingReceivedToggle";
 export default function Rex() {
   const { currentUser, profileImage, setProfileImage, setCurrentUser } =
