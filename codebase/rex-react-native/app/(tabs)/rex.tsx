@@ -18,6 +18,7 @@ import { useUserContext } from "@/components/UserContext";
 import { images } from "@/constants";
 import { CreateRecModal } from "@/components/CreateRecModal";
 import { RecIcon } from "@/components/RecIcon";
+import { SendingReceivedToggle } from "@/components/SendingReceivedToggle";
 export default function Rex() {
   const { currentUser, profileImage, setProfileImage, setCurrentUser } =
     useUserContext();
@@ -71,38 +72,7 @@ export default function Rex() {
               </Pressable>
             </View>
           </View>
-          <View className="w-full justify-center items-center">
-            <View className="bg-gray-200 flex-row flex rounded-xl w-11/12">
-              <Pressable
-                onPress={() => setToggleStatus("received")}
-                className={`w-1/2 items-center py-1 px-2 ${
-                  toggleStatus == "received" && "bg-rex rounded-xl"
-                }`}
-              >
-                <Text
-                  className={`font-jregular text-lg ${
-                    toggleStatus == "received" && "text-white"
-                  }`}
-                >
-                  Received
-                </Text>
-              </Pressable>
-              <Pressable
-                onPress={() => setToggleStatus("sent")}
-                className={`w-1/2 items-center py-1 px-2 ${
-                  toggleStatus == "sent" && "bg-rex text-white rounded-xl"
-                }`}
-              >
-                <Text
-                  className={`font-jregular text-lg ${
-                    toggleStatus == "sent" && "text-white"
-                  }`}
-                >
-                  Sent
-                </Text>
-              </Pressable>
-            </View>
-          </View>
+          <SendingReceivedToggle onToggle={setToggleStatus} toggleStatus={toggleStatus}/>
           <View className="p-2">
             <View className="flex flex-col">
               <Text className="text-lg font-jsemibold">Pending</Text>
