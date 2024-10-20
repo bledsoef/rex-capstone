@@ -36,6 +36,9 @@ I will be creating this with React Native, meaning it can be used on any platfor
 
 - **Finn Bledsoe**: *Rex* [bledsoef]((https://github.com/bledsoef))
 
+### About the Lead Developer
+Finn Bledsoe is a senior Computer Science major at Berea College. Finn has been interning and gaining experience in software development for 3 years now. As passionate music consumers, Finn and his brother Jacob frequently shared music with each other. The problem? As they were sharing strictly on iMessage, music was falling between the cracks, consistently going unlistened to. That's when Finn wanted to make Rex, so he, his brother, and others, could better share music and make music a social experience.
+
 ## Acknowledgments
 
 - I initally did a project similar to this for a hackathon. Even though the idea was my own and I will likely not use any of the same code, I still want to credit Stevenson Michel, Ali Ramazani, and Daize Njounkeng.
