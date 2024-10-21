@@ -45,10 +45,10 @@ export function RecIcon({ media, rec, sender, mediaCreators }: any) {
   return (
     <>
       <View
-        className={` bg-[#F6F6F6] flex-col justify-between flex-grow items-center`}
+        className={`rounded-lg h-[285px] w-[150px] bg-[#F6F6F6] flex-col justify-between items-center`}
         // activeOpacity={0.7}
       >
-        <View className="flex flex-row border-b-[1px] border-[#E2E2E2] justify-between w-full items-center py-3 px-5">
+        <View className="flex flex-row border-b-[1px] border-[#E2E2E2] justify-between w-full items-center p-3">
           <View className="flex flex-row items-center">
             <Image
               source={{
@@ -63,11 +63,11 @@ export function RecIcon({ media, rec, sender, mediaCreators }: any) {
             </Text>
           </View>
         </View>
-        <View className="flex flex-row p-5 w-full justify-between items-center">
+        <View className="flex flex-row p-3 w-full justify-between items-center">
           <View className="flex flex-col">
-            <Text className={`font-jsemibold text-2xl`}>{media.title}</Text>
+            <Text className={`font-jsemibold text-xl`}>{media.title}</Text>
 
-            <Text className={`font-jsemibold ml-3 text-[#3D3D3D] text-xl`}>
+            <Text className={`font-jsemibold text-[#3D3D3D] text-lg`}>
               {mediaCreators[0].name}
             </Text>
           </View>
@@ -77,17 +77,23 @@ export function RecIcon({ media, rec, sender, mediaCreators }: any) {
           source={{
             uri: mediaImageUrl ? mediaImageUrl : images.default_cover,
           }}
-          className="w-full h-full pb-5"
+          className="h-[150px] w-[150px]"
+          style={styles.media}
           resizeMode="contain"
         />
         {/* <Text className="py-2 px-1 font-jregular text-xl">{description}</Text> */}
       </View>
+
     </>
   );
 }
 const styles = StyleSheet.create({
   image: {
     borderRadius: 150 / 2,
+    overflow: "hidden",
+  },
+  media: {
+    borderRadius: 5,
     overflow: "hidden",
   },
 });

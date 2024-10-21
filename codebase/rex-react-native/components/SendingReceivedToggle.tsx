@@ -5,7 +5,7 @@ import {
 } from "react-native";
 export function SendingReceivedToggle({ onToggle, toggleStatus }: any) {
   return (
-    <View className="w-full justify-center items-center">
+    <View className="w-full justify-center items-center mb-2">
       <View className="bg-gray-200 flex-row flex rounded-xl w-11/12">
         <Pressable
           onPress={() => onToggle("received")}
