@@ -11,3 +11,10 @@ Due to limited time, in the scope of the capstone, integration testing, pipeline
 I plan on using Pytest for unit testing, and utilizing expo to create builds for non iOS systems to test cross platform functionality.
 
 ### Individual Cases can be found under the Github Issues tab
+
+The requirements for each individual test case will look like this:
+- **Test case number:** 
+- **Requirement number:** 
+- **Preconditions:** 
+- **Steps:** 
+- **Desired results:** 
