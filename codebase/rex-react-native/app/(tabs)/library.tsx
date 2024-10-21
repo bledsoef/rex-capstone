@@ -15,6 +15,7 @@ import { images } from "@/constants";
 export default function Library() {
   const { currentUser, profileImage, setProfileImage, setCurrentUser } =
     useUserContext();
+  const [likedPlaylists, setLikedPlaylists] = useState<any[]>([]);
   const [likedAlbums, setLikedAlbums] = useState<any[]>([]);
   useEffect(() => {
     const fetchData = async () => {
@@ -61,6 +62,16 @@ export default function Library() {
                   ></AlbumIcon>
                 );
               })}
+            {likedPlaylists &&
+              likedPlaylists.map((album, index) => {
+                return (
+                  <AlbumIcon
+                    key={index}
+                    album={album}
+                    route={`/(tabs)/album/${album["id"]}`}
+                  ></AlbumIcon>
+                );
+            })}
           </View>
 
         </View>

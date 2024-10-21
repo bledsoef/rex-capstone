@@ -57,6 +57,7 @@ export default function Home() {
           </Pressable> */}
           {posts &&
             posts.map((rec: { [x: string]: any }, index: any) => {
+              console.log(rec)
               return <Rec
                 currentUser={currentUser}
                 key={index}
