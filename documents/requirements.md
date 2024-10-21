@@ -1,5 +1,6 @@
 # Preliminary Software Requirements Specification (SRS)
 ## Functional requirements
+### These are now being updated and modified in the Issues tab (10/20/24)
 ```yaml
 Number: 1
 Statement: All user data (with the exception of passwords and sensitive information) should be persistently stored in a database (type TBD).
