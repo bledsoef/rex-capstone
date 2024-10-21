@@ -99,7 +99,11 @@ with Session(engine) as session:
         album_id=2,
         artist_id=2
     )
-
+    album_artist_2 = AlbumArtist(
+        id=2,
+        album_id=1,
+        artist_id=1
+    )
     liked_album_1 = UserLikedAlbum(
         id=1,
         album_id=album_2.id,
@@ -174,6 +178,16 @@ with Session(engine) as session:
         album_id=2,
         is_post=True
     )
+
+    rec_2 = Rec(
+        id=2,
+        body="Great atmospheric for studyinh",
+        sender_id=2,
+        recipient_id=None,
+        created_at=datetime(2024, 6, 5),
+        album_id=1,
+        is_post=True
+)
     
     connection_1 = Connection(
         id=1,
@@ -205,7 +219,7 @@ with Session(engine) as session:
     session.commit()
     session.add_all([album_1, album_2]) # Album
     session.commit()
-    session.add_all([album_artist_1])
+    session.add_all([album_artist_1, album_artist_2])
     session.commit()
     session.add_all([liked_album_1, liked_album_2]) # Album
     session.commit()
@@ -213,7 +227,7 @@ with Session(engine) as session:
     session.commit()
     session.add_all([song_artist_1, song_artist_2, song_artist_3]) # SongArtist
     session.commit()
-    session.add_all([rec_1]) # Rec
+    session.add_all([rec_1, rec_2]) # Rec
     session.commit()
     session.add_all([connection_1, connection_2, connection_3, connection_4])
     # session.add_all([]) # PendingRec

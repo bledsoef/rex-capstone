@@ -9,7 +9,7 @@ class Playlist(Base):
     
     id = Column(Integer, primary_key=True)
     title = Column(String)
-    updated_at = Column(Date)
+    updated_at = Column(Date, nullable=True)
 
     recs = relationship("Rec", backref="playlist")
     playlist_creators = relationship("PlaylistCreator", backref="playlist") 
