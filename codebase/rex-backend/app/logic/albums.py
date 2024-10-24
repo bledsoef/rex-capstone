@@ -24,7 +24,7 @@ def get_user_liked_albums(db: Session, user_id):
     liked_albums = db.query(UserLikedAlbum, Album).join(Album, Album.id==UserLikedAlbum.album_id).filter(UserLikedAlbum.user_id == user_id)
     return [album.__dict__ for liked_album, album in liked_albums]
 
-def like_song(db: Session, song_id, user_id) -> str:
+def like_album(db: Session, song_id, user_id) -> str:
     liked_album = UserLikedAlbum(user_id=user_id, song_id=song_id)
     db.add(liked_album)
     db.commit()

@@ -1,28 +1,79 @@
-import React, { useState } from 'react';
-import { Modal, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from "react";
+import { Modal, View, Text, StyleSheet, Pressable } from "react-native";
+import { useUserContext } from "./UserContext";
 
-const SongOptionsModal = () => {
-  const [isVisible, setIsVisible] = useState(false);
+const SongOptionsModal = ({ isVisible, onVisibilityChange, song }: any) => {
+  const { currentUser } = useUserContext();
+  const [isLiked, setIsLiked] = useState<boolean>();
+  const [update, setUpdate] = useState<number>(0)
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `http://127.0.0.1:8000/getLikedSongStatus?song_id=${song.id}`
+        );
+        const data = await response.json();
+        setIsLiked(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [update]);
+  const likeSong = async () => {
+    console.log(song.id)
+    var res = await fetch("http://127.0.0.1:8000/likeSong", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ song_id: song.id, user_id: currentUser.id }),
+    });
+    setUpdate(update+1)
+  };
 
+  const unlikeSong = async () => {
+    console.log(song.id)
+    var res = await fetch("http://127.0.0.1:8000/unlikeSong", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ song_id: song.id, user_id: currentUser.id }),
+    });
+    setUpdate(update+1)
+  };
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={() => setIsVisible(true)} style={styles.openButton}>
-        <Text>Show Overlay</Text>
-      </TouchableOpacity>
-
+    <View className="flex-1 justify-center items-center">
       <Modal
         animationType="slide"
         transparent={true}
         visible={isVisible}
-        onRequestClose={() => setIsVisible(false)}
+        onRequestClose={() => onVisibilityChange(false)}
       >
-        <View style={styles.modalBackground}>
-          <TouchableOpacity style={styles.modalBackground} onPress={() => setIsVisible(false)} />
+        <View className="flex-1 justify-end bg-transparent">
+          <Pressable
+            className="flex-1 justify-end bg-transparent"
+            onPress={() => onVisibilityChange(false)}
+          />
           <View style={styles.modalContainer}>
-            <Text>This is a half-page modal!</Text>
-            <TouchableOpacity onPress={() => setIsVisible(false)} style={styles.closeButton}>
+            {isLiked && (
+              <Pressable onPress={unlikeSong}>
+                <Text>Remove From Liked Songs</Text>
+              </Pressable>
+            )}
+            {!isLiked && (
+              <Pressable onPress={likeSong}>
+                <Text>Add to Liked Songs</Text>
+              </Pressable>
+            )}
+
+            <Pressable
+              onPress={() => onVisibilityChange(false)}
+              className="mt-[20px] bg-blue-200 rounded-lg p-2"
+            >
               <Text>Close</Text>
-            </TouchableOpacity>
+            </Pressable>
           </View>
         </View>
       </Modal>
@@ -31,38 +82,17 @@ const SongOptionsModal = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  openButton: {
-    padding: 10,
-    backgroundColor: 'lightblue',
-    borderRadius: 5,
-  },
-  modalBackground: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
   modalContainer: {
-    height: '50%', // Half page
-    backgroundColor: 'white',
+    height: "50%", // Half page
+    backgroundColor: "white",
     padding: 20,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.5,
     shadowRadius: 10,
     elevation: 5,
-  },
-  closeButton: {
-    padding: 10,
-    backgroundColor: 'lightcoral',
-    borderRadius: 5,
-    marginTop: 20,
   },
 });
 

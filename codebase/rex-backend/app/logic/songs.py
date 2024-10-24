@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session, aliased
+from sqlalchemy import func
 from app.models.Album import Album
 from app.models.AlbumArtist import AlbumArtist
 from app.models.Artist import Artist
@@ -33,18 +34,26 @@ def play_song(db: Session, song_id, user_id) -> str:
     return song.audio_url
 
 def like_song(db: Session, song_id, user_id) -> str:
-    liked_song = UserLikedSong(user_id=user_id, song_id=song_id)
+    liked_song_id = db.query(func.max(UserLikedSong.id)).scalar()
+    new_liked_song_id = liked_song_id + 1 if liked_song_id else 1
+    liked_song = UserLikedSong(id=new_liked_song_id, user_id=user_id, song_id=song_id)
     db.add(liked_song)
     db.commit()
 
 def unlike_song(db: Session, song_id, user_id) -> str:
-    unliked_song = db.query(UserLikedSong).filter_by(song_id=song_id, user_id=user_id)
+    unliked_song = db.query(UserLikedSong).filter_by(song_id=song_id, user_id=user_id).first()
     db.delete(unliked_song)
     db.commit()
 
 def get_user_liked_songs(db: Session, user_id):
     liked_songs = db.query(UserLikedSong).filter_by(user_id=user_id).order_by(UserLikedSong.liked_at)
     return liked_songs
+
+def get_liked_song_status(db: Session, song_id):
+    status = db.query(UserLikedSong).filter(UserLikedSong.song_id == song_id).first()
+    if status:
+        return True
+    return False
 
 def check_status_of_song(db: Session, song_id, user_id, rec_creation: datetime):
     listened_song: SongListen = db.query(SongListen).filter_by(song_id=song_id, user_id=user_id).first()

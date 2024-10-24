@@ -3,8 +3,10 @@ import { useMusicPlayer } from "./PlayerContext";
 import { AntDesign } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
 import { Artists } from "./Artists";
+import SongOptionsModal from "./SongOptionsModal";
 export function Song({ song, album, artist }: any) {
   const { currentSong, playSong } = useMusicPlayer();
+  const [isVisible, setIsVisible] = useState(false);
   const updatePlaybar = () => {
     playSong(song, album, artists);
   };
@@ -25,26 +27,29 @@ export function Song({ song, album, artist }: any) {
   }, []);
 
   return (
-    <Pressable
-      className={` bg-slate-50 border border-slate-100 w-full`}
-      onPress={updatePlaybar}
-      // activeOpacity={0.7}
-    >
-      <View className="flex flex-row justify-between items-center">
-        <View className="py-[2px]">
-          <Text
-            className={`font-jregular ${
-              currentSong && song.id == currentSong.id ? "text-rex" : ""
-            } text-xl px-4`}
-          >
-            {song.title}
-          </Text>
-         <Artists artists={artists} artist={artist}/> 
+    <View>
+      <SongOptionsModal isVisible={isVisible} song={song} onVisibilityChange={(e: any) => setIsVisible(e)} />
+      <Pressable
+        className={` bg-slate-50 border border-slate-100 w-full`}
+        onPress={updatePlaybar}
+        // activeOpacity={0.7}
+      >
+        <View className="flex flex-row justify-between items-center">
+          <View className="py-[2px]">
+            <Text
+              className={`font-jregular ${
+                currentSong && song.id == currentSong.id ? "text-rex" : ""
+              } text-xl px-4`}
+            >
+              {song.title}
+            </Text>
+            <Artists artists={artists} artist={artist} />
+          </View>
+          <Pressable onPress={() => {setIsVisible(true)}} className="pr-3">
+            <AntDesign size={33} name="ellipsis1" />
+          </Pressable>
         </View>
-        <Pressable className="pr-3">
-          <AntDesign size={33} name="ellipsis1" />
-        </Pressable>
-      </View>
-    </Pressable>
+      </Pressable>
+    </View>
   );
 }

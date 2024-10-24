@@ -27,11 +27,19 @@ async def getUserLikedSongs(user_id: str, db: Session = Depends(get_db)):
         print(e)
         return {"message": f"Failed to fetch liked songs for user {user_id}"} 
 
+@router.get("/getLikedSongStatus")
+async def getLikedSongStatus(song_id: str, db: Session = Depends(get_db)):
+    try:
+        status = get_liked_song_status(db, song_id)
+        return status
+    except Exception as e:
+        print(e)
+        return {"message": f"Failed to fetch liked song status for song_id {song_id}"} 
+
 @router.get("/getLibraryForUser")
 async def getLibraryForUser(user_id: str, db: Session = Depends(get_db)):
     try:
         playlists = get_user_playlists(db, user_id)
-        print(playlists)
         liked_albums = get_user_liked_albums(db, user_id)
         return {"playlists": playlists, "albums": liked_albums}
     except Exception as e:
@@ -75,3 +83,23 @@ async def recentlyPlayed(user_id: str, db: Session = Depends(get_db)):
     except Exception as e:
         print(e)
         return {"message": f"Failed to fetch recently played songs for user {user_id}"}  
+
+@router.post("/likeSong")
+async def likeSong(request: Request, db: Session = Depends(get_db)):
+    data = await request.json()
+    try:
+        songs = like_song(db, data["song_id"], data["user_id"])
+        return songs
+    except Exception as e:
+        print(e)
+        return {"message": "Failed to create playlist"}
+     
+@router.post("/unlikeSong")
+async def unlikeSong(request: Request, db: Session = Depends(get_db)):
+    data = await request.json()
+    try:
+        songs = unlike_song(db, data["song_id"], data["user_id"])
+        return songs
+    except Exception as e:
+        print(e)
+        return {"message": "Failed to create playlist"}

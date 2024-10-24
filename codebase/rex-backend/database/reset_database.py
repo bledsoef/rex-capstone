@@ -223,11 +223,12 @@ with Session(engine) as session:
         user_id=3
     )
 
-    liked_playlist_song_1 = PlaylistSong(
+    liked_song_1 = UserLikedSong(
         id=1,
-        playlist_id=1,
         song_id=1,
+        user_id=bledsoefinn0.id
     )
+
 
     session.add_all([bledsoef, bahrs, bledsoefinn0]) # Users
     session.commit()
@@ -251,7 +252,7 @@ with Session(engine) as session:
     session.commit()
     session.add_all([liked_playlist_1]) # Playlist
     session.commit()
-    session.add_all([liked_playlist_song_1]) # PlaylistSong
+    session.add_all([liked_song_1]) # UserLikedSongs
     session.commit()
     session.add_all([liked_playlist_creator_1]) # PlaylistCreator
     session.commit()

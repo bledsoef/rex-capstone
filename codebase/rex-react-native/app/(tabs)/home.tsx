@@ -21,7 +21,6 @@ import { images } from "@/constants";
 export default function Home() {
   const { currentUser, profileImage, setProfileImage, setCurrentUser } =
     useUserContext();
-  // var currentUser = auth().currentUser;
   const [posts, setPosts] = useState<any>("");
   useEffect(() => {
     const fetchData = async () => {
@@ -52,9 +51,6 @@ export default function Home() {
               ></Image>
             </Pressable>
           </View>
-          {/* <Pressable onPress={() => togglePlayPause()}>
-            <Text>Change state of button</Text>
-          </Pressable> */}
           {posts &&
             posts.map((rec: { [x: string]: any }, index: any) => {
               return <RecPost
