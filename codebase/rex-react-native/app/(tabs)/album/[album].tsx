@@ -53,6 +53,7 @@ export default function AlbumPage() {
         setSongs(data["songs"]);
         setAlbum(data["album"]);
         setArtists(data["artists"]);
+        console.log(album)
       } catch (error) {
         console.log(error);
       }

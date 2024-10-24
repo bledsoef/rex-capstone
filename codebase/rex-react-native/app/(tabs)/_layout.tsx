@@ -71,6 +71,7 @@ export default function TabLayout() {
           options={{
             tabBarButton: () => null,
             title: "Rex",
+            unmountOnBlur: true, // Add this to ensure the tab is unmounted on blur
             tabBarIcon: ({ color, focused }) => (
               <TabBarIcon
                 name={focused ? "megaphone" : "megaphone-outline"}

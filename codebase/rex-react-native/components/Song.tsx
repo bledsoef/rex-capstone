@@ -2,11 +2,8 @@ import { Pressable, Text, View } from "react-native";
 import { useMusicPlayer } from "./PlayerContext";
 import { AntDesign } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
-export function Song({
-  song,
-  album,
-  artist,
-}: any) {
+import { Artists } from "./Artists";
+export function Song({ song, album, artist }: any) {
   const { currentSong, playSong } = useMusicPlayer();
   const updatePlaybar = () => {
     playSong(song, album, artists);
@@ -34,18 +31,15 @@ export function Song({
       // activeOpacity={0.7}
     >
       <View className="flex flex-row justify-between items-center">
-        <View className="py-2">
-          <Text className={`font-jregular text-xl px-4`}>{song.title}</Text>
-          <Text className={`font-jlight text-lg px-4`}>
-            {artists && artists.map((artist: any, index: number) => {
-              if (index != artists.length-1) {
-                return `${artist.name}, `;
-              } else {
-                return artist.name
-              }
-            })}
-            {!artists && artist.name}
+        <View className="py-[2px]">
+          <Text
+            className={`font-jregular ${
+              currentSong && song.id == currentSong.id ? "text-rex" : ""
+            } text-xl px-4`}
+          >
+            {song.title}
           </Text>
+         <Artists artists={artists} artist={artist}/> 
         </View>
         <Pressable className="pr-3">
           <AntDesign size={33} name="ellipsis1" />

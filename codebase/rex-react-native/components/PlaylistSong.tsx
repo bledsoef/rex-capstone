@@ -1,12 +1,15 @@
-import { Pressable, Text, View } from "react-native";
+import { Pressable, Text, View, Image } from "react-native";
 import { useMusicPlayer } from "./PlayerContext";
 import { AntDesign } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
-export function PlaylistSong({
-  song,
-}: any) {
+import { ref, getDownloadURL } from "firebase/storage";
+import { storage } from "@/firebaseConfig";
+import { images } from "@/constants";
+import { Artists } from "./Artists";
+export function PlaylistSong({ song }: any) {
   const { currentSong, playSong } = useMusicPlayer();
   const [album, setAlbum] = useState<any[]>([]);
+  const [albumMediaURL, setAlbumMediaURL] = useState<any>("");
   const updatePlaybar = () => {
     playSong(song, album, artists);
   };
@@ -30,10 +33,20 @@ export function PlaylistSong({
         );
         const data = await response.json();
         setAlbum(data);
+        const albumFileRef = ref(storage, `/albumImages/${data["id"]}.jpg`);
+        getDownloadURL(albumFileRef)
+          .then((res) => {
+            setAlbumMediaURL(res);
+          })
+          .catch((error) => {
+            console.log("it is me");
+            console.error("Error getting download URL:", error);
+          });
       } catch (error) {
         console.log(error);
       }
     };
+    fetchAlbumData();
     fetchArtistData();
   }, []);
 
@@ -44,18 +57,26 @@ export function PlaylistSong({
       // activeOpacity={0.7}
     >
       <View className="flex flex-row justify-between items-center">
-        <View className="py-2">
-          <Text className={`font-jregular text-xl px-4`}>{song.title}</Text>
-          <Text className={`font-jlight text-lg px-4`}>
-            {artists && artists.map((artist: any, index: number) => {
-              if (index != artists.length-1) {
-                return `${artist.name}, `;
-              } else {
-                return artist.name
-              }
-            })}
-          </Text>
+        <View className="flex flex-row items-center h-full ">
+          <Image
+            source={{
+              uri: albumMediaURL ? albumMediaURL : images.default_cover,
+            }}
+            className="w-[60] h-[60]"
+            resizeMode="contain"
+          ></Image>
+          <View className="py-[2px]">
+            <Text
+              className={`font-jregular ${
+                currentSong && song.id == currentSong.id ? "text-rex" : ""
+              } text-xl px-4`}
+            >
+              {song.title}
+            </Text>
+            <Artists artists={artists} artist={null}/> 
+          </View>
         </View>
+
         <Pressable className="pr-3">
           <AntDesign size={33} name="ellipsis1" />
         </Pressable>

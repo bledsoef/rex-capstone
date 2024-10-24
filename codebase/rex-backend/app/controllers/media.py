@@ -48,6 +48,16 @@ async def getSongsForAlbum(album_id: str, db: Session = Depends(get_db)):
         print(e)
         return {"message": f"Failed to fetch songs for album_id {album_id}"} 
 
+@router.get("/getAlbumForSong")
+async def getAlbumForSong(song_id: str, db: Session = Depends(get_db)):
+    try:
+        album = get_album_for_song(db, song_id)
+        return album
+    except Exception as e:
+        print(e)
+        return {"message": f"Failed to fetch album for song_id {song_id}"} 
+
+
 @router.get("/search")
 async def Search(query: str, db: Session = Depends(get_db)):
     try:

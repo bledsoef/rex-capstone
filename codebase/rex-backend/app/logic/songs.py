@@ -60,3 +60,7 @@ def get_songs_for_album(db: Session, album_id):
     artist_ids = [artist.artist_id for artist in album_artists]
     artists = db.query(Artist).filter(Artist.id.in_(artist_ids)).all()
     return {"album": album.__dict__, "songs": [song.__dict__ for song in songs], "artists": [artist.__dict__ for artist in artists]}
+
+def get_album_for_song(db: Session, song_id):
+    album = db.query(Album).join(Song, Song.album_id == Album.id).filter(Song.id == song_id).first()
+    return album.__dict__
