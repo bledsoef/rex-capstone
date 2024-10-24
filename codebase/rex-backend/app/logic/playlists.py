@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, Request
+from app.logic.utils import obj_list_to_dict
 from sqlalchemy.orm import Session
 from app.models.Album import Album
 from app.models.AlbumArtist import AlbumArtist
@@ -18,6 +19,7 @@ from app.models.User import User
 from app.models.UserFollowedPlaylist import UserFollowedPlaylist
 from app.models.UserLikedAlbum import UserLikedAlbum
 from app.models.UserLikedSong import UserLikedSong
+
 def create_new_playlist(db: Session, playlist_data):
     try:
         new_playlist = Playlist(**playlist_data)
@@ -67,3 +69,23 @@ def unfollow_playlist(db: Session, user_id, playlist_id):
     except Exception as e:
         print(e)
         return "failure"
+    
+def get_user_playlists(db: Session, user_id):
+    try:
+        created_playlists = db.query(Playlist).join(PlaylistCreator, PlaylistCreator.playlist_id == Playlist.id).filter(PlaylistCreator.user_id == user_id).all()
+        print(created_playlists)
+        followed_playlists = db.query(Playlist).join(UserFollowedPlaylist, UserFollowedPlaylist.playlist_id == Playlist.id).filter(UserFollowedPlaylist.user_id == user_id).all()
+        return obj_list_to_dict(created_playlists + followed_playlists)
+    except Exception as e:
+        print(e)
+        return False
+
+def get_songs_for_playlist(db: Session, playlist_id):
+    try:
+        playlist = db.query(Playlist).filter(Playlist.id == playlist_id).first()
+        playlist_songs = db.query(Song).join(PlaylistSong, PlaylistSong.song_id == Song.id).filter(PlaylistSong.playlist_id == playlist_id).all()
+        playlist_creators = db.query(User).join(PlaylistCreator, PlaylistCreator.user_id == User.id).filter(PlaylistCreator.playlist_id == playlist_id).all() 
+        return {"playlist": playlist.__dict__,"songs": obj_list_to_dict(playlist_songs), "creators": playlist_creators}
+    except Exception as e:
+        print(e)
+        return False

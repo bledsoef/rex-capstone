@@ -35,6 +35,22 @@ def create_new_user(db: Session, user_data):
             is_artist=False,
             account_type="free")
         db.add(new_user)
+
+        max_id = db.query(func.max(Playlist.id)).scalar()
+        liked_songs = Playlist(
+            id=max_id+1,
+            title="My Liked Songs",
+            updated_at=None)
+        db.add(liked_songs)
+        
+        max_id = db.query(func.max(PlaylistCreator.id)).scalar()
+        playlist_creator = PlaylistCreator(
+            id=max_id,
+            user_id=user.id,
+            playlist_id=liked_songs.id
+            )
+
+        db.add(playlist_creator)
         db.commit()
         return True
     except Exception as e:

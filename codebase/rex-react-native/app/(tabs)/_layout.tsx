@@ -16,7 +16,6 @@ export default function TabLayout() {
           tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
           headerShown: false,
           tabBarStyle: { height: "9%" },
-
         }}
       >
         <Tabs.Screen
@@ -80,8 +79,21 @@ export default function TabLayout() {
             ),
           }}
         />
+        <Tabs.Screen
+          name="playlist/[playlist]"
+          options={{
+            tabBarButton: () => null,
+            title: "Rex",
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon
+                name={focused ? "megaphone" : "megaphone-outline"}
+                color={color}
+              />
+            ),
+          }}
+        />
       </Tabs>
-      <PlayBar/>
+      <PlayBar />
     </>
   );
 }

@@ -4,6 +4,7 @@ from database.config import get_db
 from app.logic.songs import *
 from app.logic.albums import *
 from app.logic.utils import *
+from app.logic.playlists import *
 
 router = APIRouter()    
 
@@ -26,11 +27,13 @@ async def getUserLikedSongs(user_id: str, db: Session = Depends(get_db)):
         print(e)
         return {"message": f"Failed to fetch liked songs for user {user_id}"} 
 
-@router.get("/getUserLikedAlbums")
-async def getUserLikedAlbums(user_id: str, db: Session = Depends(get_db)):
+@router.get("/getLibraryForUser")
+async def getLibraryForUser(user_id: str, db: Session = Depends(get_db)):
     try:
+        playlists = get_user_playlists(db, user_id)
+        print(playlists)
         liked_albums = get_user_liked_albums(db, user_id)
-        return liked_albums
+        return {"playlists": playlists, "albums": liked_albums}
     except Exception as e:
         print(e)
         return {"message": f"Failed to fetch liked songs for user {user_id}"} 

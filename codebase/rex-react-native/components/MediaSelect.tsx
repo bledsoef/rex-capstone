@@ -21,7 +21,6 @@ export default function MediaSelect({ onSelect }: any) {
     setAlbums(data["albums"]);
     setArtists(data["artists"]);
     setSongs(data["songs"]);
-    console.log(albums);
   };
   const handleSetSearchQuery = (query: any) => {
     setSearchQuery(query);
@@ -82,7 +81,6 @@ export default function MediaSelect({ onSelect }: any) {
                 data={albums}
                 renderItem={renderItem}
                 keyExtractor={(item: any) => {
-                  console.log(item);
                   return item.album.id.toString();
                 }}
               />

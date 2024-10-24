@@ -6,10 +6,17 @@ import { storage } from "@/firebaseConfig";
 import { useState, useEffect } from "react";
 import { images } from "@/constants";
 import { router } from "expo-router";
-export function AlbumIcon({ album, route }: any) {
+export function PlaylistIcon({ playlist, route }: any) {
   const [mediaImageUrl, setMediaImageUrl] = useState<any>("");
   async function fetchMediaImageDownloadUrl() {
-    const fileRef = ref(storage, `/albumImages/${album.id}.jpg`);
+    var fileRef
+    if (playlist.title == "My Liked Songs") {
+      fileRef = ref(storage, `/playlistImages/liked.png`);
+
+    } else {
+      fileRef = ref(storage, `/playlistImages/${playlist.id}.jpg`);
+
+    }
     getDownloadURL(fileRef)
       .then((res) => setMediaImageUrl(res))
       .catch((error) => {
@@ -21,7 +28,7 @@ export function AlbumIcon({ album, route }: any) {
   }, []);
   return (
       <Pressable
-        className={`rounded-xl justify-center mb-6 h-[190px] flex w-[48%] items-center p-3`}
+        className={`rounded-xl justify-center flex h-[190px] w-[48%] items-center p-3`}
         onPress={() => {router.push(route)}}
       >
         <Image
@@ -29,7 +36,7 @@ export function AlbumIcon({ album, route }: any) {
           className="w-full h-full"
           resizeMode="contain"
         ></Image>
-        <Text className={`font-jsemibold p-4`}>{album.title}</Text>
+        <Text className={`font-jsemibold p-4`}>{playlist.title}</Text>
       </Pressable>
   );
 }

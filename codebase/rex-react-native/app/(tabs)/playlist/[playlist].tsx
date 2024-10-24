@@ -12,26 +12,25 @@ import { storage } from "@/firebaseConfig";
 import { PlayBar } from "@/components/PlayBar";
 import { useEffect, useState } from "react";
 import { router } from "expo-router";
-import { AlbumIcon } from "@/components/AlbumIcon";
 import { useUserContext } from "@/components/UserContext";
 import { useLocalSearchParams } from "expo-router";
-import { Song } from "@/components/Song";
+import { PlaylistSong } from "@/components/PlaylistSong";
 import { images } from "@/constants";
-export default function AlbumPage() {
-  const { album } = useLocalSearchParams();
+export default function PlaylistPage() {
+  const { playlist } = useLocalSearchParams();
   const { currentUser, profileImage, setProfileImage, setCurrentUser } =
     useUserContext();
   const [songs, setSongs] = useState<any[]>([]);
-  const [albumData, setAlbum] = useState<any>({});
-  const [artists, setArtists] = useState<any>([]);
-  const [albumImage, setAlbumImage] = useState<any>([]);
+  const [playlistData, setPlaylist] = useState<any>({});
+  const [creators, setCreators] = useState<any>([]);
+  const [playlistImage, setPlaylistImage] = useState<any>([]);
   const [authorImageUrls, setAuthorImageUrls] = useState<any>([]);
 
   const fetchArtistImages = async () => {
     try {
       const imageURLs = await Promise.all(
-        artists.map(async (artist: any) => {
-          const authorFileRef = ref(storage, `/artistImages/${artist.id}.jpg`);
+        creators.map(async (user: any) => {
+          const authorFileRef = ref(storage, `/profileImages/${user.email}.jpg`);
           const url = await getDownloadURL(authorFileRef);
           return url;
         })
@@ -47,22 +46,26 @@ export default function AlbumPage() {
       var data;
       try {
         const response = await fetch(
-          `http://127.0.0.1:8000/getSongsForAlbum?album_id=${album}`
+          `http://127.0.0.1:8000/getSongsForPlaylist?playlist_id=${playlist}`
         );
         data = await response.json();
         setSongs(data["songs"]);
-        setAlbum(data["album"]);
-        setArtists(data["artists"]);
+        setPlaylist(data["playlist"]);
+        setCreators(data["creators"]);
       } catch (error) {
         console.log(error);
       }
-      const albumFileRef = ref(
-        storage,
-        `/albumImages/${data["album"]["id"]}.jpg`
-      );
-      getDownloadURL(albumFileRef)
+      var fileRef
+      if (data["playlist"]["title"]== "My Liked Songs") {
+        fileRef = ref(storage, `/playlistImages/liked.png`);
+  
+      } else {
+        fileRef = ref(storage, `/playlistImages/${data["playlist"]["id"]}.jpg`);
+  
+      }
+      getDownloadURL(fileRef)
         .then((res) => {
-          setAlbumImage(res);
+          setPlaylistImage(res);
         })
         .catch((error) => {
           console.error("Error getting download URL:", error);
@@ -77,18 +80,18 @@ export default function AlbumPage() {
       <ScrollView className="h-full">
         <View className="w-full h-full px-4">
           <Image
-            source={{ uri: albumImage ? albumImage : images.profile }}
+            source={{ uri: playlistImage ? playlistImage : images.profile }}
             resizeMode="contain"
             className="w-[75%] mx-auto mt-4 h-[75%]"
           ></Image>
           <View className="mt-5 flex flex-col">
             <Text className="text-3xl text-rex font-jbold pb-1">
-              {albumData["title"]}
+              {playlistData["title"]}
             </Text>
             <View className="flex flex-col">
-              {artists &&
+              {creators &&
                 authorImageUrls &&
-                artists.map((artist: any, index: any) => {
+                creators.map((creator: any, index: any) => {
                   return (
                     <View
                       key={index}
@@ -104,8 +107,8 @@ export default function AlbumPage() {
                         className="w-[30] h-[30]"
                         resizeMode="cover"
                       />
-                      <Text className="text-2xl text-rex font-jsemibold">
-                        {artist["name"]}
+                      <Text className="text-2xl text-black font-jregular">
+                        {creator["first_name"]} {creator["last_name"]}
                       </Text>
                     </View>
                   );
@@ -116,12 +119,10 @@ export default function AlbumPage() {
             {songs &&
               songs.map((song, index) => {
                 return (
-                  <Song
+                  <PlaylistSong
                     key={index}
-                    album={albumData}
-                    artists={artists}
                     song={song}
-                  ></Song>
+                  ></PlaylistSong>
                 );
               })}
           </View>

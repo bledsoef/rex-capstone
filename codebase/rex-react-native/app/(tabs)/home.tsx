@@ -13,7 +13,7 @@ import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebaseConfig";
 import { useEffect, useState } from "react";
 import { router } from "expo-router";
-import { Rec } from "@/components/Rec";
+import { RecPost } from "@/components/RecPost";
 import { PlayBar } from "@/components/PlayBar";
 import { useMusicPlayer } from "@/components/PlayerContext";
 import { useUserContext } from "@/components/UserContext";
@@ -57,8 +57,7 @@ export default function Home() {
           </Pressable> */}
           {posts &&
             posts.map((rec: { [x: string]: any }, index: any) => {
-              console.log(rec)
-              return <Rec
+              return <RecPost
                 currentUser={currentUser}
                 key={index}
                 index={index}
@@ -68,7 +67,7 @@ export default function Home() {
                 description={rec.rec.body}
                 timeCreated={rec.rec.created_at}
                 recID={rec.rec.id}
-              ></Rec>
+              ></RecPost>
 })}
         </View>
       </ScrollView>

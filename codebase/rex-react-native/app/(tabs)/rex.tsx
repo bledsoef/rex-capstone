@@ -40,7 +40,6 @@ export default function Rex() {
         const data = await response.json();
         setSentRecs(data["sent"]);
         setReceivedRecs(data["received"]);
-        console.log("DATAAAAA", data);
       } catch (error) {
         console.log(error);
       }

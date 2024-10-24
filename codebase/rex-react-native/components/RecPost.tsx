@@ -14,7 +14,7 @@ import { storage } from "@/firebaseConfig";
 import { useState, useEffect } from "react";
 import { images } from "@/constants";
 
-export function Rec({
+export function RecPost({
   currentUser,
   media,
   sender,
@@ -71,7 +71,7 @@ export function Rec({
   return (
     <>
       <View
-        className={` bg-[#F6F6F6] flex-col justify-between flex-grow items-center ${containerStyles}`}
+        className={` bg-[#F6F6F6] border-t-[2px] border-[#E2E2E2] flex-col justify-between flex-grow items-center ${containerStyles}`}
         // activeOpacity={0.7}
       >
         <>

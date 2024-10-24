@@ -12,6 +12,7 @@ import { router } from "expo-router";
 import { AlbumIcon } from "@/components/AlbumIcon";
 import { useUserContext } from "@/components/UserContext";
 import { images } from "@/constants";
+import { PlaylistIcon } from "@/components/PlaylistIcon";
 export default function Library() {
   const { currentUser, profileImage, setProfileImage, setCurrentUser } =
     useUserContext();
@@ -21,10 +22,11 @@ export default function Library() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://127.0.0.1:8000/getUserLikedAlbums?user_id=${currentUser["id"]}`
+          `http://127.0.0.1:8000/getLibraryForUser?user_id=${currentUser["id"]}`
         );
         const data = await response.json();
-        setLikedAlbums(data);
+        setLikedAlbums(data["albums"]);
+        setLikedPlaylists(data["playlists"]);
       } catch (error) {
         console.log(error);
       }
@@ -63,13 +65,13 @@ export default function Library() {
                 );
               })}
             {likedPlaylists &&
-              likedPlaylists.map((album, index) => {
+              likedPlaylists.map((playlist, index) => {
                 return (
-                  <AlbumIcon
+                  <PlaylistIcon
                     key={index}
-                    album={album}
-                    route={`/(tabs)/album/${album["id"]}`}
-                  ></AlbumIcon>
+                    playlist={playlist}
+                    route={`/(tabs)/playlist/${playlist["id"]}`}
+                  ></PlaylistIcon>
                 );
             })}
           </View>
