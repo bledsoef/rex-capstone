@@ -9,7 +9,7 @@ import {
   Dimensions,
 } from "react-native";
 import { ref, getDownloadURL } from "firebase/storage";
-import AddToCollection from "./AddToCollection";
+import AddToCollection from "@/components/rex/AddToCollection";
 import { storage } from "@/firebaseConfig";
 import { useState, useEffect } from "react";
 import { images } from "@/constants";

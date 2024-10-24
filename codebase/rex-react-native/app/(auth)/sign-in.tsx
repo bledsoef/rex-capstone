@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 import { FormField } from "@/components/FormField";
-import { RexButton } from "@/components/RexButton";
+import { RexButton } from "@/components/landingPage/RexButton";
 
 export default function SignIn() {
   const [form, setForm] = useState<any>({

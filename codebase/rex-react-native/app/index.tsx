@@ -9,7 +9,7 @@ import {
   Alert
 } from "react-native";
 import { images } from "../constants";
-import { RexButton } from "@/components/RexButton";
+import { RexButton } from "@/components/landingPage/RexButton";
 import { Redirect, router } from "expo-router";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebaseConfig";

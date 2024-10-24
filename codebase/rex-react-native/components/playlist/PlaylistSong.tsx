@@ -1,11 +1,11 @@
 import { Pressable, Text, View, Image } from "react-native";
-import { useMusicPlayer } from "./PlayerContext";
+import { useMusicPlayer } from "../PlayerContext";
 import { AntDesign } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebaseConfig";
 import { images } from "@/constants";
-import { Artists } from "./Artists";
+import { Artists } from "../Artists";
 export function PlaylistSong({ song }: any) {
   const { currentSong, playSong } = useMusicPlayer();
   const [album, setAlbum] = useState<any[]>([]);

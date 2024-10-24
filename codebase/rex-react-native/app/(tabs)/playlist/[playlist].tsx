@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { router } from "expo-router";
 import { useUserContext } from "@/components/UserContext";
 import { useLocalSearchParams } from "expo-router";
-import { PlaylistSong } from "@/components/PlaylistSong";
+import { PlaylistSong } from "@/components/playlist/PlaylistSong";
 import { images } from "@/constants";
 export default function PlaylistPage() {
   const { playlist } = useLocalSearchParams();

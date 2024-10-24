@@ -12,7 +12,7 @@ import { router } from "expo-router";
 import { AlbumIcon } from "@/components/album/AlbumIcon";
 import { useUserContext } from "@/components/UserContext";
 import { images } from "@/constants";
-import { PlaylistIcon } from "@/components/PlaylistIcon";
+import { PlaylistIcon } from "@/components/playlist/PlaylistIcon";
 export default function Library() {
   const { currentUser, profileImage, setProfileImage, setCurrentUser } =
     useUserContext();

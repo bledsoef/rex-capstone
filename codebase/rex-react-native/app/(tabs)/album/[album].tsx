@@ -12,7 +12,7 @@ import { storage } from "@/firebaseConfig";
 import { PlayBar } from "@/components/PlayBar";
 import { useEffect, useState } from "react";
 import { router } from "expo-router";
-import { AlbumIcon } from "@/components/AlbumIcon";
+import { AlbumIcon } from "@/components/album/AlbumIcon";
 import { useUserContext } from "@/components/UserContext";
 import { useLocalSearchParams } from "expo-router";
 import { Song } from "@/components/Song";

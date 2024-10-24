@@ -11,7 +11,7 @@ import {
   Pressable,
 } from "react-native";
 import { FormField } from "@/components/FormField";
-import { RexButton } from "@/components/RexButton";
+import { RexButton } from "@/components/landingPage/RexButton";
 import { Redirect, router } from "expo-router";
 
 export default function SignUp() {
