@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { useEffect, useState } from "react";
 import { router } from "expo-router";
-import { AlbumIcon } from "@/components/AlbumIcon";
+import { AlbumIcon } from "@/components/album/AlbumIcon";
 import { useUserContext } from "@/components/UserContext";
 import { images } from "@/constants";
 import { PlaylistIcon } from "@/components/PlaylistIcon";
