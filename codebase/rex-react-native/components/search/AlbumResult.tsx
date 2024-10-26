@@ -5,7 +5,7 @@ import { router } from "expo-router";
 import { ref, getDownloadURL } from "firebase/storage";
 import { images } from "@/constants";
 import { storage } from "@/firebaseConfig";
-export function AlbumResult({ album, artists }: any) {
+export function AlbumResult({ album, artists, onPress }: any) {
   const [imageUrl, setImageUrl] = useState<any>("");
   useEffect(() => {
     fetchImageDownloadUrl();
@@ -21,7 +21,7 @@ export function AlbumResult({ album, artists }: any) {
   return (
     <Pressable
       className={` bg-slate-50 flex-row border justify-between items-center border-slate-100 w-full`}
-      onPress={() => {router.push(`/(tabs)/album/${album["id"]}`)}}      // activeOpacity={0.7}
+      onPress={onPress}      // activeOpacity={0.7}
     >
       <View className="flex flex-row items-center">
         <Image

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { AlbumResult } from "@/components/search/AlbumResult";
 import { RecentlyPlayed } from "@/components/search/RecentlyPlayed";
 import { useMusicPlayer } from "@/components/PlayerContext";
+import { router } from "expo-router";
 export default function Search() {
   const queryDB = async (searchQuery: any) => {
     const res = await fetch(
@@ -67,6 +68,7 @@ export default function Search() {
                     key={index}
                     album={album.album}
                     artists={album.artists}
+                    onPress={() => {router.push(`/(tabs)/album/${album["id"]}`)}}
                   ></AlbumResult>
                 );
               })}

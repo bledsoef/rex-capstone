@@ -10,6 +10,7 @@ import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebaseConfig";
 import { AntDesign } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
+import { images } from "@/constants";
 export default function MediaSelectButton({
   onButtonClick,
   selectedMedia,
@@ -19,7 +20,7 @@ export default function MediaSelectButton({
   async function fetchMediaImageDownloadUrl() {
     const fileRef = ref(
       storage,
-      `/${selectedMediaType}Images/${selectedMedia.id}.jpg`
+      `/${selectedMediaType == "song" ? "album" : selectedMediaType}Images/${selectedMedia["id"]}.jpg`
     );
 
     getDownloadURL(fileRef)
@@ -39,10 +40,20 @@ export default function MediaSelectButton({
         className=" flex flex-row items-center border-[2px] border-gray-200 mb-2 p-1 w-full h-16"
         onPress={onButtonClick}
       >
-        {selectedMedia && <Image source={{ uri: mediaImageUrl }}></Image>}
-        {!selectedMedia && <AntDesign size={50} color={"#4b5563"} name="plussquareo" />}
+        {selectedMedia && (
+          <Image
+            resizeMode="contain"
+            className="h-[50px] w-[50px]"
+            source={{
+              uri: mediaImageUrl ? mediaImageUrl : images.default_cover,
+            }}
+          ></Image>
+        )}
+        {!selectedMedia && (
+          <AntDesign size={50} color={"#4b5563"} name="plussquareo" />
+        )}
         <Text className="ml-2 text-lg text-black flex-1 font-jregular w-full">
-          Select Media
+          {!selectedMedia ? "Select Media" : selectedMedia.title}
         </Text>
       </Pressable>
     </View>

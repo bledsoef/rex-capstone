@@ -4,6 +4,7 @@ import { useUserContext } from "../UserContext";
 import { SongResult } from "./SongResult";
 import { AlbumResult } from "./AlbumResult";
 import { useMusicPlayer } from "../PlayerContext";
+import { router } from "expo-router";
 export function RecentlyPlayed() {
   const { currentSong, playSong } = useMusicPlayer();
     
@@ -39,6 +40,7 @@ export function RecentlyPlayed() {
                   key={index}
                   album={media.album}
                   artists={media.artists}
+                  onPress={() => {router.push(`/(tabs)/album/${media.album["id"]}`)}}
                 ></AlbumResult>
               )}
             </>

@@ -24,6 +24,7 @@ export function CreateRecModal({ isVisible, onModalVisibilityChange }: any) {
   const [recipients, setRecipients] = useState<any>({});
   const [isPost, setIsPost] = useState<boolean>();
   const [selectedMedia, setSelectedMedia] = useState<any>(null);
+  const [selectedMediaType, setSelectedMediaType] = useState<any>('albumImages');
 
   const fetchNetwork = async () => {
     try {
@@ -56,8 +57,8 @@ export function CreateRecModal({ isVisible, onModalVisibilityChange }: any) {
     onModalVisibilityChange(bool);
   };
   const toggleMediaSelect = () => {
-    setMediaSelect(!mediaSelect)
-  }
+    setMediaSelect(!mediaSelect);
+  };
   const handleRemoveRecipients = (id: number) => {
     const updatedItems = recipients.filter(
       (recipient: any) => recipient.id !== id
@@ -115,7 +116,7 @@ export function CreateRecModal({ isVisible, onModalVisibilityChange }: any) {
                   Create Rec
                 </Text>
                 <View className="flex-col flex space-y-3 w-full">
-                  <MediaSelectButton onButtonClick={toggleMediaSelect} />
+                  <MediaSelectButton onButtonClick={toggleMediaSelect} selectedMedia={selectedMedia} selectedMediaType={selectedMediaType}/>
                   <NetworkDropdown
                     options={network}
                     onSelect={handleChangeRecipients}
@@ -142,7 +143,12 @@ export function CreateRecModal({ isVisible, onModalVisibilityChange }: any) {
               </>
             )}
             {mediaSelect && (
-              <MediaSelect onBack={toggleMediaSelect} selectedMedia={selectedMedia} className="mb-1" />
+              <MediaSelect
+                onBack={toggleMediaSelect}
+                onSelect={(media: any, type: any) => {setSelectedMedia(media); setSelectedMediaType(type)}}
+                selectedMedia={selectedMedia}
+                className="mb-1"
+              />
             )}
           </View>
         </View>

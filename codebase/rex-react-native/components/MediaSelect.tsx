@@ -59,7 +59,7 @@ export default function MediaSelect({ onSelect, onBack, selectedMedia }: any) {
                   album={song.album}
                   artists={song.artists}
                   song={song.song}
-                  onPress={() => onSelect(song.song)}
+                  onPress={() => onSelect(song.song, 'song')}
                 ></SongResult>
               );
             })}
@@ -81,6 +81,7 @@ export default function MediaSelect({ onSelect, onBack, selectedMedia }: any) {
                   key={index}
                   album={album.album}
                   artists={album.artists}
+                  onPress={() => onSelect(album.album, 'album')}
                 ></AlbumResult>
               );
             })}
