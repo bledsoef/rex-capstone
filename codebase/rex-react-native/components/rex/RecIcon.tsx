@@ -45,7 +45,7 @@ export function RecIcon({ media, rec, sender, mediaCreators }: any) {
   return (
     <>
       <View
-        className={`rounded-lg h-[285px] w-[150px] bg-[#F6F6F6] flex-col justify-between items-center`}
+        className={`rounded-lg h-[285px] w-[150px] mr-5 bg-[#F6F6F6] flex-col justify-between items-center`}
         // activeOpacity={0.7}
       >
         <View className="flex flex-row border-b-[1px] border-[#E2E2E2] justify-between w-full items-center p-3">

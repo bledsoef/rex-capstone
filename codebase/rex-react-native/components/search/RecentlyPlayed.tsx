@@ -3,7 +3,10 @@ import { useState, useEffect } from "react";
 import { useUserContext } from "../UserContext";
 import { SongResult } from "./SongResult";
 import { AlbumResult } from "./AlbumResult";
+import { useMusicPlayer } from "../PlayerContext";
 export function RecentlyPlayed() {
+  const { currentSong, playSong } = useMusicPlayer();
+    
   const { currentUser } = useUserContext();
   useEffect(() => {
     const fetchData = async () => {
@@ -28,6 +31,7 @@ export function RecentlyPlayed() {
                   album={media.album}
                   artists={media.artists}
                   song={media.song}
+                  onPress={() => playSong(media.song, media.album, media.artists)}
                 ></SongResult>
               )}
               {media.type == "album" && (

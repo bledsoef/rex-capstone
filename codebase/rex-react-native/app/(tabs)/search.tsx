@@ -4,6 +4,7 @@ import { SongResult } from "@/components/search/SongResult";
 import { useState } from "react";
 import { AlbumResult } from "@/components/search/AlbumResult";
 import { RecentlyPlayed } from "@/components/search/RecentlyPlayed";
+import { useMusicPlayer } from "@/components/PlayerContext";
 export default function Search() {
   const queryDB = async (searchQuery: any) => {
     const res = await fetch(
@@ -18,7 +19,7 @@ export default function Search() {
     setSearchQuery(query);
     queryDB(query);
   };
-
+  const { currentSong, playSong } = useMusicPlayer();
   const [searchQuery, setSearchQuery] = useState<any>("");
   const [albums, setAlbums] = useState<any[]>([]);
   const [artists, setArtists] = useState<any[]>([]);
@@ -44,6 +45,7 @@ export default function Search() {
                     album={song.album}
                     artists={song.artists}
                     song={song.song}
+                    onPress={() => playSong(song.song, song.album, song.artists)}
                   ></SongResult>
                 );
               })}

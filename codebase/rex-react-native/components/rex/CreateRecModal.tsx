@@ -8,21 +8,22 @@ import {
   Pressable,
   StyleSheet,
 } from "react-native";
-import { MultiSelect } from "react-native-element-dropdown";
-import { Menu, TextInput as TextInput2 } from "react-native-paper";
-import { icons } from "@/constants";
 import { useUserContext } from "@/components/UserContext";
-import { AntDesign } from "@expo/vector-icons";
 import NetworkDropdown from "@/components/NetworkDropdown";
 import MediaSelect from "@/components/MediaSelect";
+import MediaSelectButton from "@/components/MediaSelectButton";
+import SelectRecipients from "./SelectRecipients";
+import CreateRecModalFooter from "./CreateRecModalFooter";
 export function CreateRecModal({ isVisible, onModalVisibilityChange }: any) {
   const { currentUser } = useUserContext();
   const [description, setDescription] = useState<any>();
   const [media, setMedia] = useState<any>();
   const [network, setNetwork] = useState<any>([]);
   const [mediaType, setMediaType] = useState<any>();
+  const [mediaSelect, setMediaSelect] = useState<any>(false);
   const [recipients, setRecipients] = useState<any>({});
   const [isPost, setIsPost] = useState<boolean>();
+  const [selectedMedia, setSelectedMedia] = useState<any>(null);
 
   const fetchNetwork = async () => {
     try {
@@ -54,9 +55,14 @@ export function CreateRecModal({ isVisible, onModalVisibilityChange }: any) {
   const handleShowModal = (bool: boolean) => {
     onModalVisibilityChange(bool);
   };
+  const toggleMediaSelect = () => {
+    setMediaSelect(!mediaSelect)
+  }
   const handleRemoveRecipients = (id: number) => {
-    const updatedItems = recipients.filter((recipient: any) => recipient.id !== id);
-    setRecipients(updatedItems)
+    const updatedItems = recipients.filter(
+      (recipient: any) => recipient.id !== id
+    );
+    setRecipients(updatedItems);
   };
   const submitRec = async () => {
     if (
@@ -85,75 +91,71 @@ export function CreateRecModal({ isVisible, onModalVisibilityChange }: any) {
     return res;
   };
   return (
-    <View className={`space-y-2`}>
+    <View className="flex-1 justify-center items-center">
       <Modal
         animationType="slide"
         transparent={true}
         visible={isVisible}
-        onRequestClose={() => {
-          handleShowModal(false);
-        }}
+        onRequestClose={() => handleShowModal(false)}
       >
-        <View className="flex justify-center items-center h-full mt-6">
-          <View className="bg-slate-50 border-gray-300 w-11/12 border rounded-lg p-8 items-center m-5">
-            <Text className={`text-xl text-gray-900 font-jsemibold rounded-xl`}>
-              Create Rec
-            </Text>
-            <View className="flex-col flex w-full">
-              <MediaSelect className="mb-1" />
-              <NetworkDropdown
-                options={network}
-                onSelect={handleChangeRecipients}
-              />
-              <View className="flex-wrap w-full flex-row justify-around">
-                {recipients &&
-                  Object.values(recipients).map(
-                    (recipient: any, index: any) => {
-                      return (
-                        <Pressable
-                          onPress={() => handleRemoveRecipients(recipient.id)}
-                          key={index}
-                          className="p-2 bg-gray-100 rounded-xl items-center justify-between w-[30%] flex-row flex"
-                        >
-                          <Text className="font-jregular text-base text-rex">
-                            {recipient.username}
-                          </Text>
-                          <AntDesign name="close" size={15} />
-                        </Pressable>
-                      );
-                    }
-                  )}
-              </View>
-              <View className="border-2 flex flex-row items-center px-4 border-gray-100 w-full h-16 bg-gray-100 rounded-2xl focus:border-rex">
-                <TextInput
-                  className="text-base flex-1 font-jregular w-full"
-                  placeholder={"Description"}
-                  placeholderTextColor={"#7b7b8b"}
-                  value={description}
-                  onChangeText={handleChangeDescription}
-                  autoCapitalize="none"
-                />
-              </View>
-              <View className="flex flex-row w-full justify-end p-2 space-x-1">
-                <Pressable
-                  onPress={() => handleShowModal(false)}
-                  className="flex border rounded-lg border-gray-400  bg-gray-400 p-3"
+        <View className="flex-1 justify-end bg-transparent">
+          <Pressable
+            className="flex-1 justify-end bg-transparent"
+            onPress={() => handleShowModal(false)}
+          />
+          <View
+            className="h-2/3 bg-white p-[20px] rounded-t-xl"
+            style={styles.modalContainer}
+          >
+            {!mediaSelect && (
+              <>
+                <Text
+                  className={`text-xl text-gray-900 font-jsemibold rounded-xl`}
                 >
-                  <Text className="text-white font-jbold text-base">
-                    Cancel
-                  </Text>
-                </Pressable>
-                <Pressable
-                  onPress={submitRec}
-                  className="border flex rounded-lg border-rex bg-rex p-3"
-                >
-                  <Text className="text-white font-jbold text-base">Send</Text>
-                </Pressable>
-              </View>
-            </View>
+                  Create Rec
+                </Text>
+                <View className="flex-col flex space-y-3 w-full">
+                  <MediaSelectButton onButtonClick={toggleMediaSelect} />
+                  <NetworkDropdown
+                    options={network}
+                    onSelect={handleChangeRecipients}
+                  />
+                  <SelectRecipients
+                    onRemoveRecipients={handleRemoveRecipients}
+                    recipients={recipients}
+                  />
+                  <View className="border-2 flex flex-row items-center px-4 border-gray-100 w-full h-16 bg-gray-100 rounded-2xl focus:border-rex">
+                    <TextInput
+                      className="text-base flex-1 font-jregular w-full"
+                      placeholder={"Description"}
+                      placeholderTextColor={"#7b7b8b"}
+                      value={description}
+                      onChangeText={handleChangeDescription}
+                      autoCapitalize="none"
+                    />
+                  </View>
+                  <CreateRecModalFooter
+                    onSubmit={submitRec}
+                    onCancel={handleShowModal}
+                  />
+                </View>
+              </>
+            )}
+            {mediaSelect && (
+              <MediaSelect onBack={toggleMediaSelect} selectedMedia={selectedMedia} className="mb-1" />
+            )}
           </View>
         </View>
       </Modal>
     </View>
   );
 }
+const styles = StyleSheet.create({
+  modalContainer: {
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    elevation: 5,
+  },
+});

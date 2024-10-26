@@ -17,10 +17,13 @@ import { useUserContext } from "@/components/UserContext";
 import { useLocalSearchParams } from "expo-router";
 import { Song } from "@/components/Song";
 import { images } from "@/constants";
+import { useMusicPlayer } from "@/components/PlayerContext";
 export default function AlbumPage() {
   const { album } = useLocalSearchParams();
-  const { currentUser, profileImage, setProfileImage, setCurrentUser } =
-    useUserContext();
+  const { currentSong, playSong } = useMusicPlayer();
+  const updatePlaybar = (song:any, album:any, artists:any) => {
+    playSong(song, album, artists);
+  };
   const [songs, setSongs] = useState<any[]>([]);
   const [albumData, setAlbum] = useState<any>({});
   const [artists, setArtists] = useState<any>([]);
@@ -53,7 +56,7 @@ export default function AlbumPage() {
         setSongs(data["songs"]);
         setAlbum(data["album"]);
         setArtists(data["artists"]);
-        console.log(album)
+        console.log(album);
       } catch (error) {
         console.log(error);
       }
@@ -122,6 +125,7 @@ export default function AlbumPage() {
                     album={albumData}
                     artists={artists}
                     song={song}
+                    onPress={() => updatePlaybar(song, albumData, artists)}
                   ></Song>
                 );
               })}

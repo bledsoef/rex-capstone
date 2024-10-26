@@ -4,12 +4,9 @@ import { AntDesign } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
 import { Artists } from "./Artists";
 import SongOptionsModal from "./SongOptionsModal";
-export function Song({ song, album, artist }: any) {
+export function Song({ song, album, artist, onPress }: any) {
   const { currentSong, playSong } = useMusicPlayer();
   const [isVisible, setIsVisible] = useState(false);
-  const updatePlaybar = () => {
-    playSong(song, album, artists);
-  };
   const [artists, setArtists] = useState<any[]>([]);
   useEffect(() => {
     const fetchData = async () => {
@@ -31,7 +28,7 @@ export function Song({ song, album, artist }: any) {
       <SongOptionsModal isVisible={isVisible} song={song} onVisibilityChange={(e: any) => setIsVisible(e)} />
       <Pressable
         className={` bg-slate-50 border border-slate-100 w-full`}
-        onPress={updatePlaybar}
+        onPress={onPress}
         // activeOpacity={0.7}
       >
         <View className="flex flex-row justify-between items-center">
