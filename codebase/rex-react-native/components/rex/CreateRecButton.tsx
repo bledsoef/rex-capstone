@@ -4,14 +4,11 @@ import { Pressable, View, StyleSheet } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 export function CreateRecButton({
-  title,
   handlePress,
-  containerStyles,
-  textStyles,
-  isLoading,
+  containerStyles
 }: any) {
   return (
-    <View className={``}>
+    <View className={`${containerStyles}`}>
       <Pressable
         className={`rounded-full flex shadow-xl bg-rex justify-center w-[40] h-[40] items-center p-2`}
         onPress={handlePress}

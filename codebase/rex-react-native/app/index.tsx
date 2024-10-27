@@ -85,7 +85,7 @@ export default function Landing() {
 
 const styles = StyleSheet.create({
   textWithShadow: {
-    textShadowColor: "#1f1f1f", // Color of the shadow
+    textShadowColor: "#9ca3af", // Color of the shadow
     textShadowOffset: { width: 2, height: 2 }, // Shadow offset (x and y)
     textShadowRadius: 1, // Shadow blur radius
   },

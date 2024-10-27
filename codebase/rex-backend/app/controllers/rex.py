@@ -20,7 +20,6 @@ async def createRec(request: Request, db :Session = Depends(get_db)):
 async def getRecs(user_id: int, db: Session = Depends(get_db)):
     try:
         sent = get_sent_recs(db, user_id)
-        print(sent)
         received = get_received_recs(db, user_id)
         return {"sent": sent,'received': received}
     except Exception as e:

@@ -6,7 +6,11 @@ import { AlbumResult } from "@/components/search/AlbumResult";
 import { RecentlyPlayed } from "@/components/search/RecentlyPlayed";
 import { useMusicPlayer } from "@/components/PlayerContext";
 import { router } from "expo-router";
+import RexHeader from "@/components/rex/RexHeader";
+import { useUserContext } from "@/components/UserContext";
 export default function Search() {
+  const { currentUser, profileImage, setProfileImage, setCurrentUser } =
+  useUserContext();
   const queryDB = async (searchQuery: any) => {
     const res = await fetch(
       `http://127.0.0.1:8000/search?query=${searchQuery}`
@@ -28,7 +32,8 @@ export default function Search() {
 
   return (
     <SafeAreaView className="bg-white min-h-screen">
-      <View className={"p-5"}>
+      <View className={"px-4"}>
+        <RexHeader title={"Search"} profileImage={profileImage}></RexHeader>
         <SearchBar
           placeholder={"Search"}
           value={searchQuery}

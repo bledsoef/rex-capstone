@@ -17,12 +17,10 @@ import CreateRecModalFooter from "./CreateRecModalFooter";
 export function CreateRecModal({ isVisible, onModalVisibilityChange }: any) {
   const { currentUser } = useUserContext();
   const [description, setDescription] = useState<any>();
-  const [media, setMedia] = useState<any>();
   const [network, setNetwork] = useState<any>([]);
-  const [mediaType, setMediaType] = useState<any>();
   const [mediaSelect, setMediaSelect] = useState<any>(false);
   const [recipients, setRecipients] = useState<any>({});
-  const [isPost, setIsPost] = useState<boolean>();
+  const [isPost, setIsPost] = useState<boolean>(false);
   const [selectedMedia, setSelectedMedia] = useState<any>(null);
   const [selectedMediaType, setSelectedMediaType] = useState<any>('albumImages');
 
@@ -67,20 +65,20 @@ export function CreateRecModal({ isVisible, onModalVisibilityChange }: any) {
   };
   const submitRec = async () => {
     if (
-      media == null ||
-      mediaType == null ||
+      selectedMedia == null ||
+      selectedMediaType == null ||
       (isPost == false && recipients?.length == 0)
     ) {
       console.log("not all fields are filled out");
       return;
     }
     var data = {
-      sender: currentUser.id,
+      sender_id: currentUser.id,
       recipients: recipients,
-      media: media,
-      mediaType: mediaType,
-      description: description,
-      isPost: isPost,
+      media: selectedMedia.id,
+      media_type: selectedMediaType,
+      body: description,
+      is_post: isPost,
     };
     var res = await fetch("http://127.0.0.1:8000/createRec", {
       method: "POST",

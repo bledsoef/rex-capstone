@@ -2,12 +2,12 @@ import { Image, StyleSheet, Pressable, View, Text } from "react-native";
 import { CreateRecButton } from "@/components/rex/CreateRecButton";
 import { router } from "expo-router";
 import { images } from "@/constants";
-export default function Rex({ profileImage, onShowModal }: any) {
+export default function RexHeader({ profileImage, title, children }: any) {
   return (
     <View className="relative mt-5 flex flex-row justify-between">
-      <Text className="text-3xl text-rex font-jbold pb-4">Rex</Text>
+      <Text className="text-3xl text-rex font-jbold pb-4">{title}</Text>
       <View className="flex flex-row space-x-3">
-        <CreateRecButton handlePress={() => onShowModal(true)} />
+        {children}
         <Pressable onPress={() => router.push("/")}>
           <Image
             source={{ uri: profileImage ? profileImage : images.profile }}

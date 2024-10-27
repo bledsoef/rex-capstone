@@ -18,6 +18,7 @@ import { PlayBar } from "@/components/PlayBar";
 import { useMusicPlayer } from "@/components/PlayerContext";
 import { useUserContext } from "@/components/UserContext";
 import { images } from "@/constants";
+import RexHeader from "@/components/rex/RexHeader";
 export default function Home() {
   const { currentUser, profileImage, setProfileImage, setCurrentUser } =
     useUserContext();
@@ -40,31 +41,25 @@ export default function Home() {
     <SafeAreaView className="bg-white min-h-screen">
       <ScrollView className="h-full">
         <View className="w-full h-full">
-          <View className="relative mt-5 flex flex-row justify-between px-4">
-            <Text className="text-3xl text-rex font-jbold pb-4">Feed</Text>
-            <Pressable onPress={() => router.push("/")}>
-              <Image
-                source={{ uri: profileImage ? profileImage : images.profile }}
-                style={styles.image}
-                resizeMode="cover"
-                className="w-[40] h-[40]"
-              ></Image>
-            </Pressable>
+          <View className="px-4">
+            <RexHeader title={"Feed"} profileImage={profileImage}></RexHeader>
           </View>
           {posts &&
             posts.map((rec: { [x: string]: any }, index: any) => {
-              return <RecPost
-                currentUser={currentUser}
-                key={index}
-                index={index}
-                sender={rec.user}
-                mediaCreators={rec.media_creators}
-                media={rec.media}
-                description={rec.rec.body}
-                timeCreated={rec.rec.created_at}
-                recID={rec.rec.id}
-              ></RecPost>
-})}
+              return (
+                <RecPost
+                  currentUser={currentUser}
+                  key={index}
+                  index={index}
+                  sender={rec.user}
+                  mediaCreators={rec.media_creators}
+                  media={rec.media}
+                  description={rec.rec.body}
+                  timeCreated={rec.rec.created_at}
+                  recID={rec.rec.id}
+                ></RecPost>
+              );
+            })}
         </View>
       </ScrollView>
     </SafeAreaView>

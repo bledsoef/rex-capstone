@@ -13,6 +13,7 @@ import { AlbumIcon } from "@/components/album/AlbumIcon";
 import { useUserContext } from "@/components/UserContext";
 import { images } from "@/constants";
 import { PlaylistIcon } from "@/components/playlist/PlaylistIcon";
+import RexHeader from "@/components/rex/RexHeader";
 export default function Library() {
   const { currentUser, profileImage, setProfileImage, setCurrentUser } =
     useUserContext();
@@ -37,22 +38,7 @@ export default function Library() {
     <SafeAreaView className="bg-white min-h-screen">
       <ScrollView className="h-full">
         <View className="w-full h-full px-4">
-          <View className="relative mt-5 mb-2 flex flex-row justify-between">
-            <Text className="text-3xl text-rex font-jbold pb-4">
-              Library
-            </Text>
-
-            <View className="flex flex-row space-x-3">
-              <Pressable onPress={() => router.push("/")}>
-                <Image
-                  source={{ uri: profileImage ? profileImage : images.profile }}
-                  style={styles.image}
-                  resizeMode="cover"
-                  className="w-[40] h-[40]"
-                ></Image>
-              </Pressable>
-            </View>
-          </View>
+          <RexHeader title={"Library"} profileImage={profileImage}></RexHeader>
           <View className="flex items-center justify-around flex-wrap flex-row w-full">
             {likedAlbums &&
               likedAlbums.map((album, index) => {
@@ -73,9 +59,8 @@ export default function Library() {
                     route={`/(tabs)/playlist/${playlist["id"]}`}
                   ></PlaylistIcon>
                 );
-            })}
+              })}
           </View>
-
         </View>
       </ScrollView>
     </SafeAreaView>

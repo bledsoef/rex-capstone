@@ -50,10 +50,9 @@ export default function Rex() {
     <SafeAreaView className="bg-white min-h-screen">
       <View className="h-full">
         <View className="w-full h-full px-4">
-          <RexHeader
-            profileImage={profileImage}
-            onShowModal={handleShowModal}
-          />
+          <RexHeader title={"Rex"} profileImage={profileImage}>
+            <CreateRecButton handlePress={() => handleShowModal(true)}/>
+          </RexHeader>
           <SendingReceivedToggle
             onToggle={setToggleStatus}
             toggleStatus={toggleStatus}

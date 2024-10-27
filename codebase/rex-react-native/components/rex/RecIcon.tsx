@@ -16,8 +16,7 @@ export function RecIcon({ media, rec, sender, mediaCreators }: any) {
       await fetchMediaImageDownloadUrl();
     }
     fetchData();
-  }, []);
-  useEffect(() => {}, []);
+  }, [sender, media]);
   async function fetcherSenderImageDownloadUrl() {
     const fileRef = ref(storage, `/profileImages/${sender.email}.jpg`);
     getDownloadURL(fileRef)

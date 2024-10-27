@@ -21,18 +21,42 @@ from app.models.UserLikedAlbum import UserLikedAlbum
 from app.models.UserLikedSong import UserLikedSong
 from datetime import datetime
 def create_new_rec(db: Session, rec_data):
-    if not rec_data["isPost"]:
+    media_type = rec_data["media_type"]
+    body = rec_data['body']
+    is_post = rec_data["is_post"]
+    sender_id = rec_data["sender_id"]
+    artist_id = rec_data["media"] if media_type == "artist" else None
+    song_id = rec_data["media"] if media_type == "song" else None
+    album_id = rec_data["media"] if media_type == "album" else None
+    base_rec_data = {
+        "body": body,
+        "is_post": is_post,
+        "sender_id": sender_id,
+        "artist_id": artist_id,
+        "song_id": song_id,
+        "album_id": album_id
+    }
+
+    if not is_post:
         for recipient in rec_data['recipients']:  
+            new_rec_data = base_rec_data.copy()
+            new_rec_id = db.query(func.max(Rec.id)).scalar() + 1
+            new_rec_data["id"] = new_rec_id
+            new_rec_data["status"] = "Pending"
+            new_rec_data["recipient_id"] = recipient["id"]
             try:
-                new_rec = Rec(mediaName=rec_data['mediaName'], artistName=rec_data["artistName"], description=rec_data["description"], createdBy=rec_data['sender'], sentTo=recipient, isPost=False, image=("/album_covers/"+"".join([i.lower() for i in rec_data["mediaName"]])), status="pending")
+                new_rec = Rec(**new_rec_data)
                 db.add(new_rec)
                 db.commit()
             except Exception as e:
                 print(e)
                 return False
     else:
+        new_rec_data = base_rec_data.copy()
+        new_rec_id = db.query(func.max(Rec.id)).scalar() + 1
+        new_rec_data["id"] = new_rec_id
         try:
-            new_rec = Rec(mediaName=rec_data['mediaName'], artistName=rec_data["artistName"], description=rec_data["description"], createdBy=rec_data['sender'], sentTo=None, isPost=True, image=("/album_covers/"+"".join([i.lower() for i in rec_data["mediaName"]])), status="pending")
+            new_rec = Rec(**new_rec_data)
             db.add(new_rec)
             db.commit()
         except Exception as e:
