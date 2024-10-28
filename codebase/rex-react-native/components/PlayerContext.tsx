@@ -12,6 +12,8 @@ export const MusicPlayerProvider = ({ children }: any) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [currentAlbum, setCurrentAlbum] = useState<any>(null);
   const [currentArtists, setCurrentArtists] = useState<any[]>([]);
+  const [position, setPosition] = useState<any>(0);
+  const [totalLength, setTotalLength] = useState<any>(0);
   const [sound, setSound] = useState<any>(null);
   const getAudioDownloadURL = async (songId: string) => {
     const fileRef = ref(storage, `/audioFiles/${songId}.mp3`);
@@ -23,16 +25,17 @@ export const MusicPlayerProvider = ({ children }: any) => {
       await sound.unloadAsync();
     }
 
-    console.log("hi");
     setCurrentSong(song);
     setCurrentAlbum(album);
     setCurrentArtists(artists);
+    setTotalLength(0)
+    setPosition(0)
     const url = await getAudioDownloadURL(song.id); // Fetch audio URL immediately
     const { sound: newSound } = await Audio.Sound.createAsync({ uri: url });
     setSound(newSound);
-
     await newSound.playAsync(); //
     setIsPlaying(true);
+
   };
 
   const togglePlayPause = async () => {
@@ -54,9 +57,13 @@ export const MusicPlayerProvider = ({ children }: any) => {
         currentArtists,
         isPlaying,
         sound,
+        position,
+        totalLength,
         playSong,
         togglePlayPause,
         setSound,
+        setPosition,
+        setTotalLength
       }}
     >
       {children}

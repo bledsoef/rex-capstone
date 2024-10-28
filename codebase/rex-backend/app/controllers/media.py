@@ -9,7 +9,7 @@ from app.logic.playlists import *
 router = APIRouter()    
 
 @router.post("/playSong")
-async def uploadSong(request: Request, db: Session = Depends(get_db)):
+async def playSong(request: Request, db: Session = Depends(get_db)):
     review_data = await request.json()
     try:
         url, status = play_song(db, review_data)
