@@ -21,9 +21,6 @@ import { useMusicPlayer } from "@/components/PlayerContext";
 export default function AlbumPage() {
   const { album } = useLocalSearchParams();
   const { currentSong, playSong } = useMusicPlayer();
-  const updatePlaybar = (song:any, album:any, artists:any) => {
-    playSong(song, album, artists);
-  };
   const [songs, setSongs] = useState<any[]>([]);
   const [albumData, setAlbum] = useState<any>({});
   const [artists, setArtists] = useState<any>([]);
@@ -56,7 +53,6 @@ export default function AlbumPage() {
         setSongs(data["songs"]);
         setAlbum(data["album"]);
         setArtists(data["artists"]);
-        console.log(album);
       } catch (error) {
         console.log(error);
       }
@@ -125,7 +121,7 @@ export default function AlbumPage() {
                     album={albumData}
                     artists={artists}
                     song={song}
-                    onPress={() => updatePlaybar(song, albumData, artists)}
+                    onPress={() => playSong(song, albumData, artists)}
                   ></Song>
                 );
               })}
@@ -134,7 +130,6 @@ export default function AlbumPage() {
           {/* <Rec sender={sender} media={media} description={"If you like Bloc Party you will love this song!"} timeCreated={"2 days ago"}></Rec> */}
         </View>
       </ScrollView>
-      <PlayBar />
     </SafeAreaView>
   );
 }

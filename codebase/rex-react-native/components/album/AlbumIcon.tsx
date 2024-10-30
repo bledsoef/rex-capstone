@@ -22,7 +22,7 @@ export function AlbumIcon({ album, route }: any) {
   return (
       <Pressable
         className={`rounded-xl justify-center mb-6 h-[190px] flex w-[48%] items-center p-3`}
-        onPress={() => {console.log(route); router.replace(route)}}
+        onPress={() => router.replace(route)}
       >
         <Image
           source={{ uri: mediaImageUrl ? mediaImageUrl : images.default_cover}}

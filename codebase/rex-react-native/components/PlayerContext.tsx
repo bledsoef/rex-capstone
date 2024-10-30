@@ -28,7 +28,7 @@ export const MusicPlayerProvider = ({ children }: any) => {
     setCurrentSong(song);
     setCurrentAlbum(album);
     setCurrentArtists(artists);
-    setTotalLength(0)
+    setTotalLength(1)
     setPosition(0)
     const url = await getAudioDownloadURL(song.id); // Fetch audio URL immediately
     const { sound: newSound } = await Audio.Sound.createAsync({ uri: url });

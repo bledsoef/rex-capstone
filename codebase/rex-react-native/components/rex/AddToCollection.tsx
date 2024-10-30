@@ -21,7 +21,6 @@ export default function AddToCollection({
         `http://127.0.0.1:8000/checkPostStatus?rec_id=${recID}&user_id=${userID}`
       );
       const data = await response.json();
-      console.log(data)
       if (!data) {
         setIsAccepted(false);
       } else {

@@ -22,7 +22,7 @@ import RexHeader from "@/components/rex/RexHeader";
 export default function Home() {
   const { currentUser, profileImage, setProfileImage, setCurrentUser } =
     useUserContext();
-  const [posts, setPosts] = useState<any>("");
+  const [posts, setPosts] = useState<any>([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -44,7 +44,7 @@ export default function Home() {
           <View className="px-4">
             <RexHeader title={"Feed"} profileImage={profileImage}></RexHeader>
           </View>
-          {posts &&
+          {posts && 
             posts.map((rec: { [x: string]: any }, index: any) => {
               return (
                 <RecPost

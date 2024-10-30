@@ -23,14 +23,17 @@ export function PlayBar() {
     setTotalLength,
   } = useMusicPlayer();
   const [imageUrl, setImageUrl] = useState<string>("");
+  const [percentage, setPercentage] = useState<number>(0)
   useEffect(() => {
     sound &&
       sound.setOnPlaybackStatusUpdate((status: any) => {
         if (status.isLoaded && status.isPlaying) {
           setPosition(status.positionMillis);
           setTotalLength(status.durationMillis);
+          setPercentage((status.positionMillis/status.durationMillis) * 100)
         }
       });
+      
     return () => {
       if (sound) {
         sound.unloadAsync();
@@ -97,8 +100,8 @@ export function PlayBar() {
               </Pressable>
             </View>
           </View>
-          <View className="w-full h-[3px] bg-transparent">
-            <View className="w-[10%] h-[3px] bg-rex"></View>
+          <View className="w-full rounded-lg h-[1.5px] bg-transparent">
+            <View className={`h-[1.5px] bg-rex`} style={{width: `${percentage}%`}}></View>
           </View>
         </View>
       )}

@@ -49,9 +49,7 @@ export default function SignUp() {
     }
     auth()
       .createUserWithEmailAndPassword(form.email, form.password)
-      .then(() => {
-        console.log("User account created & signed in!");
-      })
+      .then(() => {})
       .catch((error) => {
         if (error.code === "auth/email-already-in-use") {
           Alert.alert("That email address is already in use!");
@@ -71,9 +69,7 @@ export default function SignUp() {
       <ScrollView className="h-full">
         <View className="w-full h-full px-4">
           <View className="relative mt-5">
-            <Text className="text-4xl text-rex font-jbold pb-4">
-              Sign Up
-            </Text>
+            <Text className="text-4xl text-rex font-jbold pb-4">Sign Up</Text>
           </View>
           <FormField
             title={"Username"}
@@ -115,11 +111,12 @@ export default function SignUp() {
           <Pressable
             className="p-1"
             onPress={() => {
-              router.replace("/(auth)/sign-in")
+              router.replace("/(auth)/sign-in");
             }}
           >
             <Text className="text-center font-jregular">
-              Already have an account? <Text className="text-rex underline">Sign in</Text>
+              Already have an account?{" "}
+              <Text className="text-rex underline">Sign in</Text>
             </Text>
           </Pressable>
         </View>

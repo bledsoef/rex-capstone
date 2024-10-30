@@ -130,7 +130,6 @@ export default function PlaylistPage() {
           {/* <Rec sender={sender} media={media} description={"If you like Bloc Party you will love this song!"} timeCreated={"2 days ago"}></Rec> */}
         </View>
       </ScrollView>
-      <PlayBar />
     </SafeAreaView>
   );
 }

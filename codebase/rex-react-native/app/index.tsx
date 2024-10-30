@@ -32,7 +32,6 @@ export default function Landing() {
     var user = await res.json()
     setCurrentUser(user)
     auth().signInWithEmailAndPassword("bledsoefinn0@gmail.com", "Fuzby2004") .then(() => {
-      console.log('User signed in!');
     })
     .catch(error => {
       Alert.alert("unable to sign in")

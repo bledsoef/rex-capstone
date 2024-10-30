@@ -39,7 +39,6 @@ export function PlaylistSong({ song }: any) {
             setAlbumMediaURL(res);
           })
           .catch((error) => {
-            console.log("it is me");
             console.error("Error getting download URL:", error);
           });
       } catch (error) {
