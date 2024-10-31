@@ -15,12 +15,13 @@ export default function MediaSelectButton({
   onButtonClick,
   selectedMedia,
   selectedMediaType,
+  selectedMediaImageID
 }: any) {
   const [mediaImageUrl, setMediaImageUrl] = useState<string>("");
   async function fetchMediaImageDownloadUrl() {
     const fileRef = ref(
       storage,
-      `/${selectedMediaType == "song" ? "album" : selectedMediaType}Images/${selectedMedia["id"]}.jpg`
+      `/${selectedMediaType == "song" ? "album" : selectedMediaType}Images/${selectedMediaImageID}.jpg`
     );
 
     getDownloadURL(fileRef)
@@ -30,7 +31,7 @@ export default function MediaSelectButton({
       });
   }
   useEffect(() => {
-    if (selectedMedia) {
+    if (selectedMedia && selectedMediaType && selectedMediaImageID) {
       fetchMediaImageDownloadUrl();
     }
   }, []);

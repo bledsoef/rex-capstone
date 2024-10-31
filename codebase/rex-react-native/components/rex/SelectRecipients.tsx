@@ -5,7 +5,7 @@ import { images } from "@/constants";
 import { AntDesign } from "@expo/vector-icons";
 export default function SelectRecipients({ onRemoveRecipients, recipients }: any) {
   return (
-    <View className="flex-wrap w-full flex-row justify-around">
+    <View className="flex-wrap w-full flex-row py-2 justify-around">
       {recipients &&
         Object.values(recipients).map((recipient: any, index: any) => {
           return (

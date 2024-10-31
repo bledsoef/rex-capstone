@@ -5,7 +5,13 @@ import { useState, useEffect } from "react";
 import { ref, getDownloadURL } from "firebase/storage";
 import { images } from "@/constants";
 import { storage } from "@/firebaseConfig";
-export function SongResult({ song, album, artists, onPress }: any) {
+export function SongResult({
+  song,
+  album,
+  artists,
+  onPress,
+  selected = false,
+}: any) {
   const [imageUrl, setImageUrl] = useState<any>("");
   useEffect(() => {
     fetchImageDownloadUrl();
@@ -32,7 +38,13 @@ export function SongResult({ song, album, artists, onPress }: any) {
         />
         <View className="flex flex-row justify-between items-center">
           <View className="py-2">
-            <Text className={`font-jregular text-xl px-4`}>{song.title}</Text>
+            <Text
+              className={`font-jregular text-xl px-4 ${
+                selected && "text-rex"
+              }`}
+            >
+              {song.title}
+            </Text>
             <Text className={`font-jlight text-lg px-4`}>
               {artists &&
                 artists.map((artist: any, index: number) => {
@@ -45,12 +57,10 @@ export function SongResult({ song, album, artists, onPress }: any) {
             </Text>
           </View>
         </View>
-
-
       </View>
       <Pressable className="pr-3">
-          <AntDesign size={33} name="ellipsis1" />
-        </Pressable>
+        <AntDesign size={33} name="ellipsis1" />
+      </Pressable>
     </Pressable>
   );
 }

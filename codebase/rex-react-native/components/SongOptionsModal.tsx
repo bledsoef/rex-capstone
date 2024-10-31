@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Modal, View, Text, StyleSheet, Pressable } from "react-native";
 import { useUserContext } from "./UserContext";
+import { CreateRecModalContent } from "./rex/CreateRecModalContent";
 
 const SongOptionsModal = ({ isVisible, onVisibilityChange, song }: any) => {
   const { currentUser } = useUserContext();
-  const [isLiked, setIsLiked] = useState<boolean>();
+  const [isLiked, setIsLiked] = useState<boolean>(false);
   const [update, setUpdate] = useState<number>(0);
+  const [createRecModalVisible, setCreateRecModalVisible] =
+    useState<boolean>(false);
+  const [contentVisible, setContentVisible] = useState<boolean>(true);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -20,8 +24,12 @@ const SongOptionsModal = ({ isVisible, onVisibilityChange, song }: any) => {
     };
     fetchData();
   }, [update]);
+  const handleShowCreateRecModal = (bool: boolean) => {
+    setContentVisible(!bool);
+    setCreateRecModalVisible(bool);
+  };
   const likeSong = async () => {
-    var res = await fetch("http://127.0.0.1:8000/likeSong", {
+    await fetch("http://127.0.0.1:8000/likeSong", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -32,7 +40,7 @@ const SongOptionsModal = ({ isVisible, onVisibilityChange, song }: any) => {
   };
 
   const unlikeSong = async () => {
-    var res = await fetch("http://127.0.0.1:8000/unlikeSong", {
+    await fetch("http://127.0.0.1:8000/unlikeSong", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -54,52 +62,60 @@ const SongOptionsModal = ({ isVisible, onVisibilityChange, song }: any) => {
             className="flex-1 justify-end bg-transparent"
             onPress={() => onVisibilityChange(false)}
           />
-          <View className="h-1/2 bg-white p-[20px] rounded-t-xl" style={styles.modalContainer}>
-            <Pressable
-              className="px-2 py-3 border-t-[1px] border-slate-300  rounded-lg"
-              onPress={isLiked ? unlikeSong : likeSong}
+          {createRecModalVisible && (
+            <CreateRecModalContent
+              onContentVisibilityChange={handleShowCreateRecModal}
+              selectedMediaOverride={song}
+              selectedMediaTypeOverride={'album'}
+              selectedMediaImageIDOverride={song.album_id}
+              disableMediaSelect={true}
+            />
+          )}
+          {contentVisible && (
+            <View
+              className="h-2/3 bg-white p-[20px] rounded-t-xl"
+              style={styles.modalContainer}
             >
-              <Text className="text-black text-xl font-jregular">Share</Text>
-            </Pressable>
-            <Pressable
-              className="px-2 py-3 border-t-[1px] border-slate-300  rounded-lg"
-              onPress={isLiked ? unlikeSong : likeSong}
-            >
-              <Text className="text-black text-xl font-jregular">
-                {isLiked ? "Remove From Liked Songs" : "Add to Liked Songs"}
-              </Text>
-            </Pressable>
-            <Pressable
-              className="px-2 py-3 border-t-[1px] border-slate-300  rounded-lg"
-              onPress={isLiked ? unlikeSong : likeSong}
-            >
-              <Text className="text-black text-xl font-jregular">
-                Add To Playlist
-              </Text>
-            </Pressable>
-            <Pressable
-              className="px-2 py-3 border-t-[1px] border-slate-300  rounded-lg"
-              onPress={isLiked ? unlikeSong : likeSong}
-            >
-              <Text className="text-black text-xl font-jregular">
-                Add To Queue
-              </Text>
-            </Pressable>
-            <Pressable
-              className="px-2 py-3 border-y-[1px] border-slate-300  rounded-lg"
-              onPress={isLiked ? unlikeSong : likeSong}
-            >
-              <Text className="text-black text-xl font-jregular">
-                View Song Credits
-              </Text>
-            </Pressable>
-            {/* <Pressable
-              onPress={() => onVisibilityChange(false)}
-              className=" bg-blue-200 rounded-lg p-2"
-            >
-              <Text>Close</Text>
-            </Pressable> */}
-          </View>
+              <Pressable
+                className="px-2 py-3 border-t-[1px] border-slate-300  rounded-lg"
+                onPress={() => handleShowCreateRecModal(true)}
+              >
+                <Text className="text-black text-xl font-jregular">Share</Text>
+              </Pressable>
+              <Pressable
+                className="px-2 py-3 border-t-[1px] border-slate-300  rounded-lg"
+                onPress={isLiked ? unlikeSong : likeSong}
+              >
+                <Text className="text-black text-xl font-jregular">
+                  {isLiked ? "Remove From Liked Songs" : "Add to Liked Songs"}
+                </Text>
+              </Pressable>
+              <Pressable
+                className="px-2 py-3 border-t-[1px] border-slate-300  rounded-lg"
+                onPress={isLiked ? unlikeSong : likeSong}
+              >
+                <Text className="text-black text-xl font-jregular">
+                  Add To Playlist
+                </Text>
+              </Pressable>
+              <Pressable
+                className="px-2 py-3 border-t-[1px] border-slate-300  rounded-lg"
+                onPress={isLiked ? unlikeSong : likeSong}
+              >
+                <Text className="text-black text-xl font-jregular">
+                  Add To Queue
+                </Text>
+              </Pressable>
+              <Pressable
+                className="px-2 py-3 border-y-[1px] border-slate-300  rounded-lg"
+                onPress={isLiked ? unlikeSong : likeSong}
+              >
+                <Text className="text-black text-xl font-jregular">
+                  View Song Credits
+                </Text>
+              </Pressable>
+            </View>
+          )}
         </View>
       </Modal>
     </View>
