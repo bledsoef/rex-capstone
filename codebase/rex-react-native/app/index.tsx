@@ -15,9 +15,11 @@ import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebaseConfig";
 import auth from "@react-native-firebase/auth";
 import { useUserContext } from "@/components/UserContext";
+import { useMusicPlayer } from "@/components/PlayerContext";
 import { useColorScheme } from "react-native";
 export default function Landing() {
-  const { currentUser, profileImage, setProfileImage, setCurrentUser } = useUserContext();
+  const { setProfileImage, setCurrentUser } = useUserContext();
+  const { setMusicPlayerCurrentUser } = useMusicPlayer();
   async function loginbledsoef() {
     async function fetchImageDownloadUrl(email: string) {
       const fileRef = ref(storage, `/profileImages/${email}.jpg`);
@@ -31,6 +33,7 @@ export default function Landing() {
     var res = await fetch(`http://127.0.0.1:8000/getUser?email=bledsoefinn0@gmail.com`)
     var user = await res.json()
     setCurrentUser(user)
+    setMusicPlayerCurrentUser(user)
     auth().signInWithEmailAndPassword("bledsoefinn0@gmail.com", "Fuzby2004") .then(() => {
     })
     .catch(error => {

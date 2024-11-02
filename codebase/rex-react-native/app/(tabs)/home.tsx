@@ -27,7 +27,7 @@ export default function Home() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://127.0.0.1:8000/getFeedForUser?email=${currentUser["email"]}`
+          `http://127.0.0.1:8000/getFeedForUser?user_id=${currentUser["id"]}`
         );
         const data = await response.json();
         setPosts(data);
