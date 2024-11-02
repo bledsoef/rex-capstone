@@ -9,9 +9,6 @@ class Listen(Base):
     id = Column(Integer, primary_key=True)
     song_id = Column(Integer, ForeignKey('songs.id'))
     user_id = Column(Integer, ForeignKey('users.id'))
-    start_timestamp = Column(Date)
-    end_timestamp = Column(Date)
-    
-    song_listen = Column(Integer, ForeignKey("song_listens.id"), nullable=True)
-
-    listened_on = Column(Date)
+    session_id = Column(String)
+    start_timestamp = Column(Integer)
+    end_timestamp = Column(Integer)
