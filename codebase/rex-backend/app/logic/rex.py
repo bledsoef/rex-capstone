@@ -180,8 +180,8 @@ def get_received_recs(db: Session, user_id: str):
 #     recs = db.query(Rec).join(PendingRec, Rec.pending_recs).filter(Rec.sender_id == user_id)
 #     return obj_list_to_dict(recs) 
 
-def get_non_user_posts(db: Session, email: str):
-    user = db.query(User).filter(User.email == email).first()
+def get_non_user_posts(db: Session, user_id: str):
+    user = db.query(User).filter(User.id == user_id).first()
     result = (
         db.query(Rec, User, Playlist, Song, Album)
             .outerjoin(User, Rec.sender_id == User.id)

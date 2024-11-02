@@ -10,13 +10,33 @@ router = APIRouter()
 
 @router.post("/playSong")
 async def playSong(request: Request, db: Session = Depends(get_db)):
-    review_data = await request.json()
+    song_data = await request.json()
     try:
-        url, status = play_song(db, review_data)
-        return {"message": url}
+        play_song(db, song_data)
+        return True
     except Exception as e:
         print(e)
-        return {"message": "Failed to upload song"}
+        return False
+
+@router.post("/pauseSong")
+async def stopSong(request: Request, db: Session = Depends(get_db)):
+    song_data = await request.json()
+    try:
+        pause_song(db, song_data)
+        return True
+    except Exception as e:
+        print(e)
+        return False
+    
+@router.post("/resumeSong")
+async def resumeSong(request: Request, db: Session = Depends(get_db)):
+    song_data = await request.json()
+    try:
+        resume_song(db, song_data)
+        return True
+    except Exception as e:
+        print(e)
+        return False
 
 @router.get("/getUserLikedSongs")
 async def getUserLikedSongs(user_id: str, db: Session = Depends(get_db)):

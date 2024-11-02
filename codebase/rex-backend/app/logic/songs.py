@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session, aliased
-from sqlalchemy import func
+from sqlalchemy import func, delete
 from app.models.Album import Album
 from app.models.AlbumArtist import AlbumArtist
 from app.models.Artist import Artist
@@ -8,6 +8,7 @@ from app.models.Genre import Genre
 from app.models.Playlist import Playlist
 from app.models.PlaylistSong import PlaylistSong
 from app.models.PlaylistCreator import PlaylistCreator
+from app.models.Listen import Listen
 from app.models.Rec import Rec
 from app.models.Review import Review
 from app.models.ReviewComment import ReviewComment
@@ -20,12 +21,78 @@ from app.models.UserLikedAlbum import UserLikedAlbum
 from app.models.UserLikedSong import UserLikedSong
 from datetime import datetime
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+LISTEN_DURATION_THRESHOLD = os.getenv('LISTEN_DURATION_THRESHOLD')
+
 def upload_new_song(db: Session, song_data):
     new_song = Song(**song_data)
     db.add(new_song)
     db.commit()
 
-def play_song(db: Session, song_id, user_id) -> str:
+def play_song(db: Session, song_data) -> str:
+    played_song_id = db.query(func.max(Listen.id)).scalar()
+    new_listen = Listen(
+        id=played_song_id,
+        song_id=song_data["song_id"],
+        user_id=song_data["user_id"],
+        start_timestamp=0,
+        session_id=song_data["session_id"]) 
+    db.add(new_listen)
+    db.commit()
+
+def resume_song(db: Session, song_data) -> str:
+    played_song_id = db.query(func.max(Listen.id)).scalar()
+    new_listen = Listen(
+        id=played_song_id,
+        song_id=song_data["song_id"],
+        user_id=song_data["user_id"],
+        start_timestamp= song_data["timestamp"] // 1000,
+        session_id=song_data["session_id"]) 
+    db.add(new_listen)
+    db.commit()
+
+def pause_song(db: Session, song_data) -> str:
+    listen_entry = db.query(Listen).filter_by(
+        song_id=song_data["song_id"],
+        user_id=song_data["user_id"],
+        session_id=song_data["session_id"], 
+        end_timestamp = None
+    ).first()
+    listen_entry.end_timestamp = song_data["timestamp"]
+    db.commit()
+
+    # listen_time = (
+    #     db.query(func.sum(Listen.end_timestamp - Listen.start_timestamp))
+    #     .filter(Listen.song_id == song_id, Listen.user_id == user_id)
+    # ).scalar()
+    # 
+    # if listen_time >= LISTEN_DURATION_THRESHOLD:
+    #     statement = delete(Listen).where(Listen.song_id == song_id, Listen.user_id == user_id)
+    #     db.execute(statement)
+        
+    #     song_listen_id = db.query(func.max(SongListen.id)).scalar()
+    #     new_song_listen = SongListen(
+    #         id=song_listen_id, 
+    #         song_id=song_id,
+    #         user_id=user_id,
+    #         listened_on=datetime.now()
+    #     )
+    #     db.add(new_song_listen)
+    #     db.commit()
+    
+    return
+
+def previous_song(db: Session, song_id, user_id):
+    pass
+
+def next_song(db: Session, song_id, user_id):
+    pass
+
+def end_song(db: Session, song_id, user_id) -> str:
     # may not be used if we pass in the song url whenever we populate songs in search, playlists, etc.
     song: Song = db.query(Song).filter(Song.id == song_id).first().__dict__
     song_listen: SongListen = SongListen(user_id=user_id, song_id=song_id, listened_on=datetime.now())

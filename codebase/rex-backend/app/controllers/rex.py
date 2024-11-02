@@ -74,9 +74,9 @@ async def getReceivedRecsForUser(username: str, db: Session = Depends(get_db)):
         return {"message": "Failed to get recs"}
 
 @router.get("/getFeedForUser")
-async def getFeedForUser(email: str, db: Session = Depends(get_db)):
+async def getFeedForUser(user_id: str, db: Session = Depends(get_db)):
     try:
-        non_user_posts = get_non_user_posts(db, email)
+        non_user_posts = get_non_user_posts(db, user_id)
         return non_user_posts
     except Exception as e:
         print(e)
