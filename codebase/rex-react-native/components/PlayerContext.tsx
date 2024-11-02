@@ -3,6 +3,9 @@ import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebaseConfig";
 import { Audio } from "expo-av";
 
+import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
+import { useUserContext } from "@/components/UserContext";
+
 // Create the context
 const MusicPlayerContext = createContext<any>(null);
 
@@ -15,6 +18,24 @@ export const MusicPlayerProvider = ({ children }: any) => {
   const [position, setPosition] = useState<any>(0);
   const [totalLength, setTotalLength] = useState<any>(0);
   const [sound, setSound] = useState<any>(null);
+  const [sessionID, setSessionID] = useState<any>(null);
+  const storeData = async (key: any, value: any) => {
+    try {
+      await ReactNativeAsyncStorage.setItem(key, value);
+    } catch (e) {
+      // saving error
+    }
+  };
+  const getData = async (key: any) => {
+    try {
+      const value = await ReactNativeAsyncStorage.getItem(key);
+      if (value !== null) {
+        console.log(value)
+      }
+    } catch (e) {
+      // error reading value
+    }
+  };
   const getAudioDownloadURL = async (songId: string) => {
     const fileRef = ref(storage, `/audioFiles/${songId}.mp3`);
     const res = await getDownloadURL(fileRef);
@@ -24,18 +45,20 @@ export const MusicPlayerProvider = ({ children }: any) => {
     if (sound) {
       await sound.unloadAsync();
     }
-
+    const uniqueID = `${Date.now()}-${Math.floor(Math.random() * 1000000)}`;
+    setSessionID(uniqueID);
+    await storeData("sessionID", uniqueID)
     setCurrentSong(song);
     setCurrentAlbum(album);
     setCurrentArtists(artists);
-    setTotalLength(1)
-    setPosition(0)
+    setTotalLength(1);
+    setPosition(0);
+    await getData(uniqueID)
     const url = await getAudioDownloadURL(song.id); // Fetch audio URL immediately
     const { sound: newSound } = await Audio.Sound.createAsync({ uri: url });
     setSound(newSound);
     await newSound.playAsync(); //
     setIsPlaying(true);
-
   };
 
   const togglePlayPause = async () => {
@@ -59,11 +82,13 @@ export const MusicPlayerProvider = ({ children }: any) => {
         sound,
         position,
         totalLength,
+        sessionID,
         playSong,
         togglePlayPause,
         setSound,
         setPosition,
-        setTotalLength
+        setTotalLength,
+        setSessionID,
       }}
     >
       {children}
