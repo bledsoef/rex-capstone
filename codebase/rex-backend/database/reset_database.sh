@@ -6,4 +6,4 @@ psql -U postgres -c "DROP DATABASE IF EXISTS rex;"
 echo "Recreating database and users"
 psql -U postgres -c "CREATE DATABASE rex;"
 
-python3 ./database/reset_database.py
+/usr/bin/python3 ./database/reset_database.py
