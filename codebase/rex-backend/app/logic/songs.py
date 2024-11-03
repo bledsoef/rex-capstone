@@ -34,11 +34,34 @@ def upload_new_song(db: Session, song_data):
     db.commit()
 
 def play_song(db: Session, song_data) -> str:
+    prev_session_id = song_data["prev_session_id"]
+    prev_timestamp = song_data["prev_timestamp"]
+    prev_song_id = song_data["prev_song_id"]
+    user_id = song_data["user_id"] 
+    if prev_session_id:
+        # check if there is a hanging listen
+        # if there is populate it with the proper end timestamp
+        # call check_is_listened
+        listen_entry = db.query(Listen).filter_by(
+            song_id=prev_song_id,
+            user_id=user_id,
+            session_id=prev_session_id, 
+            end_timestamp = None
+        ).first()
+        if listen_entry:
+            listen_entry.end_timestamp = prev_timestamp // 1000
+            db.commit()
+            check_is_listened(db, prev_song_id, user_id, prev_session_id)
+
     played_song_id = db.query(func.max(Listen.id)).scalar()
+    if played_song_id:
+        played_song_id += 1
+    else:
+        played_song_id = 1
     new_listen = Listen(
         id=played_song_id,
         song_id=song_data["song_id"],
-        user_id=song_data["user_id"],
+        user_id=user_id,
         start_timestamp=0,
         session_id=song_data["session_id"]) 
     db.add(new_listen)
@@ -46,6 +69,10 @@ def play_song(db: Session, song_data) -> str:
 
 def resume_song(db: Session, song_data) -> str:
     played_song_id = db.query(func.max(Listen.id)).scalar()
+    if played_song_id:
+        played_song_id += 1
+    else:
+        played_song_id = 1
     new_listen = Listen(
         id=played_song_id,
         song_id=song_data["song_id"],
@@ -62,29 +89,29 @@ def pause_song(db: Session, song_data) -> str:
         session_id=song_data["session_id"], 
         end_timestamp = None
     ).first()
-    listen_entry.end_timestamp = song_data["timestamp"]
+    listen_entry.end_timestamp = song_data["timestamp"] // 1000
     db.commit()
-
-    # listen_time = (
-    #     db.query(func.sum(Listen.end_timestamp - Listen.start_timestamp))
-    #     .filter(Listen.song_id == song_id, Listen.user_id == user_id)
-    # ).scalar()
-    # 
-    # if listen_time >= LISTEN_DURATION_THRESHOLD:
-    #     statement = delete(Listen).where(Listen.song_id == song_id, Listen.user_id == user_id)
-    #     db.execute(statement)
-        
-    #     song_listen_id = db.query(func.max(SongListen.id)).scalar()
-    #     new_song_listen = SongListen(
-    #         id=song_listen_id, 
-    #         song_id=song_id,
-    #         user_id=user_id,
-    #         listened_on=datetime.now()
-    #     )
-    #     db.add(new_song_listen)
-    #     db.commit()
     
-    return
+
+def check_is_listened(db: Session, song_id, user_id, session_id):
+    listen_time = (
+        db.query(func.sum(Listen.end_timestamp - Listen.start_timestamp))
+        .filter(Listen.song_id == song_id, Listen.user_id == user_id, Listen.session_id == session_id)
+    ).scalar()
+    
+    if listen_time >= LISTEN_DURATION_THRESHOLD:
+        statement = delete(Listen).where(Listen.song_id == song_id, Listen.user_id == user_id, session_id == session_id)
+        db.execute(statement)
+        
+        song_listen_id = db.query(func.max(SongListen.id)).scalar()
+        new_song_listen = SongListen(
+            id=song_listen_id, 
+            song_id=song_id,
+            user_id=user_id,
+            listened_on=datetime.now()
+        )
+        db.add(new_song_listen)
+        db.commit()
 
 def previous_song(db: Session, song_id, user_id):
     pass
