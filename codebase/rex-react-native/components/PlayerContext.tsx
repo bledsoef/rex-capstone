@@ -10,7 +10,7 @@ const MusicPlayerContext = createContext<any>(null);
 
 // Create a provider component
 export const MusicPlayerProvider = ({ children }: any) => {
-  const [currentUser, setMusicPlayerCurrentUser] = useState<any>(null)
+  const [currentUser, setMusicPlayerCurrentUser] = useState<any>(null);
   const [currentSong, setCurrentSong] = useState<any>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [currentAlbum, setCurrentAlbum] = useState<any>(null);
@@ -32,10 +32,10 @@ export const MusicPlayerProvider = ({ children }: any) => {
     try {
       const value = await ReactNativeAsyncStorage.getItem(key);
       if (value !== null) {
-        return value
+        return value;
       }
     } catch (e) {
-      return null
+      return null;
     }
   };
   const getAudioDownloadURL = async (songId: string) => {
@@ -43,7 +43,14 @@ export const MusicPlayerProvider = ({ children }: any) => {
     const res = await getDownloadURL(fileRef);
     return res;
   };
-  const playSongAPICall = async (user_id: any, song_id: any, uniqueID: any) => {
+  const playSongAPICall = async (
+    user_id: any,
+    song_id: any,
+    uniqueID: any,
+    prev_song_id: any = null,
+    prev_session_id: any = null,
+    prev_timestamp: any = null
+  ) => {
     await fetch("http://127.0.0.1:8000/playSong", {
       method: "POST",
       headers: {
@@ -53,10 +60,18 @@ export const MusicPlayerProvider = ({ children }: any) => {
         user_id: user_id,
         song_id: song_id,
         session_id: uniqueID,
+        prev_session_id: prev_session_id,
+        prev_song_id: prev_song_id,
+        prev_timestamp: prev_timestamp
       }),
     });
-  }
-  const pauseSongAPICall = async (user_id: any, song_id: any, uniqueID: any, timestamp: any) => {
+  };
+  const pauseSongAPICall = async (
+    user_id: any,
+    song_id: any,
+    uniqueID: any,
+    timestamp: any
+  ) => {
     await fetch("http://127.0.0.1:8000/pauseSong", {
       method: "POST",
       headers: {
@@ -66,11 +81,16 @@ export const MusicPlayerProvider = ({ children }: any) => {
         user_id: user_id,
         song_id: song_id,
         session_id: uniqueID,
-        timestamp: timestamp
+        timestamp: timestamp,
       }),
     });
-  }
-  const resumeSongAPICall = async (user_id: any, song_id: any, uniqueID: any, timestamp: any) => {
+  };
+  const resumeSongAPICall = async (
+    user_id: any,
+    song_id: any,
+    uniqueID: any,
+    timestamp: any
+  ) => {
     await fetch("http://127.0.0.1:8000/resumeSong", {
       method: "POST",
       headers: {
@@ -80,24 +100,39 @@ export const MusicPlayerProvider = ({ children }: any) => {
         user_id: user_id,
         song_id: song_id,
         session_id: uniqueID,
-        timestamp: timestamp
+        timestamp: timestamp,
       }),
     });
-  }
+  };
   const playSong = async (song: any, album: any, artists: any) => {
     if (sound) {
       await sound.unloadAsync();
     }
     const uniqueID = `${Date.now()}-${Math.floor(Math.random() * 1000000)}`;
     setSessionID(uniqueID);
-    await storeData("sessionID", uniqueID)
+    const prevSessionID = await getData("sessionID");
+    var prevSongID = null;
+    if (currentSong) {
+      prevSongID = currentSong.id;
+    }
+    var prevTimestamp = null
+    if (position) {
+      prevTimestamp = position
+    }
+    await storeData("sessionID", uniqueID);
     setCurrentSong(song);
-    playSongAPICall(currentUser.id, song.id, uniqueID)
+    playSongAPICall(
+      currentUser.id,
+      song.id,
+      uniqueID,
+      prevSongID,
+      prevSessionID,
+      prevTimestamp 
+    );
     setCurrentAlbum(album);
     setCurrentArtists(artists);
     setTotalLength(1);
     setPosition(0);
-    const id = await getData("sessionID")
     const url = await getAudioDownloadURL(song.id); // Fetch audio URL immediately
     const { sound: newSound } = await Audio.Sound.createAsync({ uri: url });
     setSound(newSound);
@@ -107,13 +142,13 @@ export const MusicPlayerProvider = ({ children }: any) => {
 
   const togglePlayPause = async () => {
     if (sound) {
-      const sessionID = await getData("sessionID")
+      const sessionID = await getData("sessionID");
       if (isPlaying) {
         await sound.pauseAsync();
-        pauseSongAPICall(currentUser.id, currentSong.id, sessionID, position)
+        pauseSongAPICall(currentUser.id, currentSong.id, sessionID, position);
       } else {
         await sound.playAsync();
-        resumeSongAPICall(currentUser.id, currentSong.id, sessionID, position)
+        resumeSongAPICall(currentUser.id, currentSong.id, sessionID, position);
       }
       setIsPlaying(!isPlaying);
     }
@@ -151,7 +186,7 @@ export const MusicPlayerProvider = ({ children }: any) => {
         setPosition,
         setTotalLength,
         setSessionID,
-        setMusicPlayerCurrentUser
+        setMusicPlayerCurrentUser,
       }}
     >
       {children}

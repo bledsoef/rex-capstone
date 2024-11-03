@@ -26,7 +26,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-LISTEN_DURATION_THRESHOLD = os.getenv('LISTEN_DURATION_THRESHOLD')
+LISTEN_DURATION_THRESHOLD = int(os.getenv('LISTEN_DURATION_THRESHOLD'))
 
 def upload_new_song(db: Session, song_data):
     new_song = Song(**song_data)
@@ -91,19 +91,21 @@ def pause_song(db: Session, song_data) -> str:
     ).first()
     listen_entry.end_timestamp = song_data["timestamp"] // 1000
     db.commit()
-    
 
 def check_is_listened(db: Session, song_id, user_id, session_id):
     listen_time = (
         db.query(func.sum(Listen.end_timestamp - Listen.start_timestamp))
         .filter(Listen.song_id == song_id, Listen.user_id == user_id, Listen.session_id == session_id)
     ).scalar()
-    
+
+    print(listen_time)
+
+    statement = delete(Listen).where(Listen.song_id == song_id, Listen.user_id == user_id, session_id == session_id)
+    db.execute(statement)
+
     if listen_time >= LISTEN_DURATION_THRESHOLD:
-        statement = delete(Listen).where(Listen.song_id == song_id, Listen.user_id == user_id, session_id == session_id)
-        db.execute(statement)
-        
         song_listen_id = db.query(func.max(SongListen.id)).scalar()
+        song_listen_id = song_listen_id + 1 if song_listen_id else 1
         new_song_listen = SongListen(
             id=song_listen_id, 
             song_id=song_id,
