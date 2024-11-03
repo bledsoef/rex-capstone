@@ -13,6 +13,7 @@ export default function AddToCollection({
       },
       body: JSON.stringify({ recID: recID, userID: userID }),
     });
+    
     fetchData()
   };
   const fetchData = async () => {

@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useEffect, useState } from "react";
 import { RecPost } from "@/components/rex/RecPost";
-import { useUserContext } from "@/components/UserContext";
+import { useUserContext } from "@/components/globalContexts/UserContext";
 import RexHeader from "@/components/rex/RexHeader";
 export default function Home() {
   const { currentUser, profileImage, setProfileImage, setCurrentUser } =

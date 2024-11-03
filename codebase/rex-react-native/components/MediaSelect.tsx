@@ -12,7 +12,7 @@ import { useState } from "react";
 import { AlbumResult } from "@/components/search/AlbumResult";
 import { RecentlyPlayed } from "@/components/search/RecentlyPlayed";
 import { AntDesign } from "@expo/vector-icons";
-import { useMusicPlayer } from "./PlayerContext";
+import { useMusicPlayer } from "./globalContexts/PlayerContext";
 export default function MediaSelect({
   onSelect,
   onBack,

@@ -34,6 +34,7 @@
     "expo-status-bar": "~1.12.1",
     "expo-system-ui": "~3.0.7",
     "expo-web-browser": "~13.0.3",
+    "fbemitter": "^3.0.0",
     "firebase": "^10.13.1",
     "nativewind": "^2.0.11",
     "react": "18.2.0",
@@ -51,6 +52,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@types/fbemitter": "^2.0.35",
     "@types/jest": "^29.5.12",
     "@types/react": "~18.2.45",
     "@types/react-test-renderer": "^18.0.7",

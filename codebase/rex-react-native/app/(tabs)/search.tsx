@@ -4,10 +4,10 @@ import { SongResult } from "@/components/search/SongResult";
 import { useState } from "react";
 import { AlbumResult } from "@/components/search/AlbumResult";
 import { RecentlyPlayed } from "@/components/search/RecentlyPlayed";
-import { useMusicPlayer } from "@/components/PlayerContext";
+import { useMusicPlayer } from "@/components/globalContexts/PlayerContext";
 import { router } from "expo-router";
 import RexHeader from "@/components/rex/RexHeader";
-import { useUserContext } from "@/components/UserContext";
+import { useUserContext } from "@/components/globalContexts/UserContext";
 export default function Search() {
   const { currentUser, profileImage, setProfileImage, setCurrentUser } =
   useUserContext();

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Modal, View, Text, StyleSheet, Pressable } from "react-native";
-import { useUserContext } from "./UserContext";
+import { useUserContext } from "./globalContexts/UserContext";
 import { CreateRecModalContent } from "./rex/CreateRecModalContent";
 
 const SongOptionsModal = ({ isVisible, onVisibilityChange, song }: any) => {

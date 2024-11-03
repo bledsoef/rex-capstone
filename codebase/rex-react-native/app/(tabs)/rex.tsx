@@ -14,7 +14,7 @@ import { CreateRecButton } from "@/components/rex/CreateRecButton";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebaseConfig";
 import { router } from "expo-router";
-import { useUserContext } from "@/components/UserContext";
+import { useUserContext } from "@/components/globalContexts/UserContext";
 import { images } from "@/constants";
 import { CreateRecModal } from "@/components/rex/CreateRecModal";
 import { RecIcon } from "@/components/rex/RecIcon";
@@ -28,6 +28,7 @@ export default function Rex() {
   const [receivedRecs, setReceivedRecs] = useState<any>([]);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [toggleStatus, setToggleStatus] = useState<any>("received");
+  const [update, setUpdate] = useState<any>(0)
   const handleShowModal = (bool: boolean) => {
     setModalVisible(bool);
   };
@@ -45,7 +46,8 @@ export default function Rex() {
       }
     };
     fetchData();
-  }, []);
+
+  }, [update]);
   return (
     <SafeAreaView className="bg-white min-h-screen">
       <View className="h-full">

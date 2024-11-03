@@ -1,5 +1,5 @@
 import { Pressable, Text, View } from "react-native";
-import { useMusicPlayer } from "./PlayerContext";
+import { useMusicPlayer } from "./globalContexts/PlayerContext";
 import { AntDesign } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
 import { Artists } from "./Artists";

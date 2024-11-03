@@ -14,8 +14,8 @@ import { Redirect, router } from "expo-router";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebaseConfig";
 import auth from "@react-native-firebase/auth";
-import { useUserContext } from "@/components/UserContext";
-import { useMusicPlayer } from "@/components/PlayerContext";
+import { useUserContext } from "@/components/globalContexts/UserContext";
+import { useMusicPlayer } from "@/components/globalContexts/PlayerContext";
 import { useColorScheme } from "react-native";
 export default function Landing() {
   const { setProfileImage, setCurrentUser } = useUserContext();

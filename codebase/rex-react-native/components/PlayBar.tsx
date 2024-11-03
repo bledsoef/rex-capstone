@@ -4,7 +4,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Audio } from "expo-av";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebaseConfig";
-import { useMusicPlayer } from "./PlayerContext";
+import { useMusicPlayer } from "./globalContexts/PlayerContext";
 import { images } from "@/constants";
 
 export function PlayBar() {

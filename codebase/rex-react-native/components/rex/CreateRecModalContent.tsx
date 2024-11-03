@@ -8,7 +8,7 @@ import {
   Pressable,
   StyleSheet,
 } from "react-native";
-import { useUserContext } from "@/components/UserContext";
+import { useUserContext } from "@/components/globalContexts/UserContext";
 import NetworkDropdown from "@/components/NetworkDropdown";
 import MediaSelect from "@/components/MediaSelect";
 import MediaSelectButton from "@/components/MediaSelectButton";
