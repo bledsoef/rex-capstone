@@ -8,16 +8,9 @@ import {
   Image,
   Pressable,
 } from "react-native";
-import auth from "@react-native-firebase/auth";
-import { ref, getDownloadURL } from "firebase/storage";
-import { storage } from "@/firebaseConfig";
 import { useEffect, useState } from "react";
-import { router } from "expo-router";
 import { RecPost } from "@/components/rex/RecPost";
-import { PlayBar } from "@/components/PlayBar";
-import { useMusicPlayer } from "@/components/PlayerContext";
 import { useUserContext } from "@/components/UserContext";
-import { images } from "@/constants";
 import RexHeader from "@/components/rex/RexHeader";
 export default function Home() {
   const { currentUser, profileImage, setProfileImage, setCurrentUser } =
@@ -44,7 +37,7 @@ export default function Home() {
           <View className="px-4">
             <RexHeader title={"Feed"} profileImage={profileImage}></RexHeader>
           </View>
-          {posts && 
+          {posts &&
             posts.map((rec: { [x: string]: any }, index: any) => {
               return (
                 <RecPost
