@@ -14,6 +14,7 @@ import MediaSelect from "@/components/MediaSelect";
 import MediaSelectButton from "@/components/MediaSelectButton";
 import SelectRecipients from "./SelectRecipients";
 import CreateRecModalFooter from "./CreateRecModalFooter";
+import { useRexContext } from "../globalContexts/RexContext";
 export function CreateRecModalContent({
   onContentVisibilityChange,
   selectedMediaOverride = null,
@@ -21,6 +22,7 @@ export function CreateRecModalContent({
   selectedMediaImageIDOverride = null,
   disableMediaSelect = false,
 }: any) {
+  const { fetchRecData } = useRexContext()
   const { currentUser } = useUserContext();
   const [description, setDescription] = useState<any>();
   const [network, setNetwork] = useState<any>([]);
@@ -101,7 +103,7 @@ export function CreateRecModalContent({
       },
       body: JSON.stringify(data),
     });
-    return res;
+    fetchRecData(currentUser.id) 
   };
   return (
     <View

@@ -5,7 +5,7 @@ import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebaseConfig";
 import { useState, useEffect } from "react";
 import { images } from "@/constants";
-export function RecIcon({ media, rec, sender, mediaCreators }: any) {
+export function RecIcon({ media, rec, mediaType, sender, mediaCreators }: any) {
   const [senderImageUrl, setSenderImageUrl] = useState<any>("");
   //   const [authorImageUrl, setAuthorImageUrl] = useState<any>("");
   const [mediaImageUrl, setMediaImageUrl] = useState<any>("");
@@ -25,16 +25,15 @@ export function RecIcon({ media, rec, sender, mediaCreators }: any) {
         console.error("Error getting download URL:", error);
       });
   }
-  //   async function fetchAuthorImageDownloadUrl() {
-  //     const fileRef = ref(storage, `/artistImages/${mediaCreators[0].id}.jpg`);
-  //     getDownloadURL(fileRef)
-  //       .then((res) => setAuthorImageUrl(res))
-  //       .catch((error) => {
-  //         console.error("Error getting download URL:", error);
-  //       });
-  //   }
+
   async function fetchMediaImageDownloadUrl() {
-    const fileRef = ref(storage, `/albumImages/${media.id}.jpg`);
+    const mediaID = mediaType == "song" ? media.album_id : media.id 
+    const fileRef = ref(
+      storage,
+      `/${
+        mediaType == "song" ? "album" : mediaType
+      }Images/${mediaID}.jpg`
+    );
     getDownloadURL(fileRef)
       .then((res) => setMediaImageUrl(res))
       .catch((error) => {
@@ -82,7 +81,6 @@ export function RecIcon({ media, rec, sender, mediaCreators }: any) {
         />
         {/* <Text className="py-2 px-1 font-jregular text-xl">{description}</Text> */}
       </View>
-
     </>
   );
 }

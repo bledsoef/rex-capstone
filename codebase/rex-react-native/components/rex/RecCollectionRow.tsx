@@ -24,6 +24,7 @@ export default function RexCollectionRow({ recs, title }: any) {
               rec={item.rec}
               sender={item.user}
               media={item.media}
+              mediaType={item.media_type}
               mediaCreators={item.media_creators}
             />
           ))}
