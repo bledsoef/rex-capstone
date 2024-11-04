@@ -98,8 +98,8 @@ async def Search(query: str, db: Session = Depends(get_db)):
 @router.get('/recentlyPlayed')
 async def recentlyPlayed(user_id: str, db: Session = Depends(get_db)):
     try:
-        recentlyPlayed = ""
-        return recentlyPlayed
+        recently_played = get_recently_played_songs(db, user_id)
+        return recently_played
     except Exception as e:
         print(e)
         return {"message": f"Failed to fetch recently played songs for user {user_id}"}  

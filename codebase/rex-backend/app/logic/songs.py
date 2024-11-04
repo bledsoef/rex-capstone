@@ -1,5 +1,9 @@
 from sqlalchemy.orm import Session, aliased
 from sqlalchemy import func, delete
+
+from app.logic.utils import obj_list_to_dict
+from app.logic.artists import get_artists_for_song
+
 from app.models.Album import Album
 from app.models.AlbumArtist import AlbumArtist
 from app.models.Artist import Artist
@@ -38,6 +42,7 @@ def play_song(db: Session, song_data) -> str:
     prev_timestamp = song_data["prev_timestamp"]
     prev_song_id = song_data["prev_song_id"]
     user_id = song_data["user_id"] 
+    print(prev_session_id, prev_timestamp, prev_song_id, user_id)
     if prev_session_id:
         # check if there is a hanging listen
         # if there is populate it with the proper end timestamp
@@ -49,6 +54,7 @@ def play_song(db: Session, song_data) -> str:
             end_timestamp = None
         ).first()
         if listen_entry:
+            print("hi")
             listen_entry.end_timestamp = prev_timestamp // 1000
             db.commit()
             check_is_listened(db, prev_song_id, user_id, prev_session_id)
@@ -120,6 +126,16 @@ def previous_song(db: Session, song_id, user_id):
 
 def next_song(db: Session, song_id, user_id):
     pass
+
+def get_recently_played_songs(db: Session, user_id):
+    recently_played = db.query(SongListen).filter(SongListen.user_id == user_id).order_by(SongListen.listened_on).limit(10).all()
+    result = []
+    for listened_song in recently_played:
+        song = db.query(Song).filter(Song.id == listened_song.song_id).first()
+        artists = get_artists_for_song(db, song.id)
+        album = get_album_for_song(db, song.id)
+        result.append({"artists": artists, "album": album, "song": song.__dict__})
+    return result 
 
 def end_song(db: Session, song_id, user_id) -> str:
     # may not be used if we pass in the song url whenever we populate songs in search, playlists, etc.
