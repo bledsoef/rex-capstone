@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { View, Pressable, Text } from "react-native";
+import { useRexContext } from "../globalContexts/RexContext";
 export default function AddToCollection({
   recID,
   userID,
 }: any) {
+  const { fetchRecData } =
+    useRexContext();
   const [isAccepted, setIsAccepted] = useState<any>(false)
   const addToCollection = async () => {
     const response = await fetch(`http://127.0.0.1:8000/addToCollection`, {
@@ -14,7 +17,8 @@ export default function AddToCollection({
       body: JSON.stringify({ recID: recID, userID: userID }),
     });
     
-    fetchData()
+    await fetchData()
+    fetchRecData(userID)
   };
   const fetchData = async () => {
     try {
