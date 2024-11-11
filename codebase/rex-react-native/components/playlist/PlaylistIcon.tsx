@@ -12,10 +12,10 @@ export function PlaylistIcon({ playlist, route }: any) {
     var fileRef
     if (playlist.title == "My Liked Songs") {
       fileRef = ref(storage, `/playlistImages/liked.png`);
-
+    } else if (playlist["has_image"] == false) {
+      return
     } else {
       fileRef = ref(storage, `/playlistImages/${playlist.id}.jpg`);
-
     }
     getDownloadURL(fileRef)
       .then((res) => setMediaImageUrl(res))
@@ -32,7 +32,7 @@ export function PlaylistIcon({ playlist, route }: any) {
         onPress={() => {router.push(route)}}
       >
         <Image
-          source={{ uri: mediaImageUrl ? mediaImageUrl : images.default_cover}}
+          source={ mediaImageUrl ? {uri: mediaImageUrl} : images.default_cover }
           className="w-full h-full"
           resizeMode="contain"
         ></Image>
