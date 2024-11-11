@@ -93,6 +93,19 @@ export default function TabLayout() {
             ),
           }}
         />
+        <Tabs.Screen
+          name="rec/[rec]"
+          options={{
+            tabBarButton: () => null,
+            title: "Rex",
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon
+                name={focused ? "megaphone" : "megaphone-outline"}
+                color={color}
+              />
+            ),
+          }}
+        />
       </Tabs>
       <PlayBar />
     </>

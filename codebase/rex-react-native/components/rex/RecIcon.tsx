@@ -1,6 +1,6 @@
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { type ComponentProps } from "react";
-import { ActivityIndicator, Text, StyleSheet, View, Image } from "react-native";
+import { ActivityIndicator, Text, StyleSheet, View, Image, Pressable } from "react-native";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebaseConfig";
 import { useState, useEffect } from "react";
@@ -42,9 +42,9 @@ export function RecIcon({ media, rec, mediaType, sender, mediaCreators }: any) {
   }
   return (
     <>
-      <View
+      <Pressable
         className={`rounded-lg h-[285px] w-[150px] mr-5 bg-[#F6F6F6] flex-col justify-between items-center`}
-        // activeOpacity={0.7}
+        onPress={() => router.push(`/(tabs)/rec/${rec["id"]}`)}
       >
         <View className="flex flex-row border-b-[1px] border-[#E2E2E2] justify-between w-full items-center p-3">
           <View className="flex flex-row items-center">
@@ -80,7 +80,7 @@ export function RecIcon({ media, rec, mediaType, sender, mediaCreators }: any) {
           resizeMode="contain"
         />
         {/* <Text className="py-2 px-1 font-jregular text-xl">{description}</Text> */}
-      </View>
+      </Pressable>
     </>
   );
 }
