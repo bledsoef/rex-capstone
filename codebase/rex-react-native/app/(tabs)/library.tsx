@@ -14,11 +14,17 @@ import { useUserContext } from "@/components/globalContexts/UserContext";
 import { images } from "@/constants";
 import { PlaylistIcon } from "@/components/playlist/PlaylistIcon";
 import RexHeader from "@/components/rex/RexHeader";
+import { CreatePlaylistButton } from "@/components/playlist/CreatePlaylistButton";
+import { CreatePlaylistModal } from "@/components/playlist/CreatePlaylistModal";
 export default function Library() {
   const { currentUser, profileImage, setProfileImage, setCurrentUser } =
     useUserContext();
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [likedPlaylists, setLikedPlaylists] = useState<any[]>([]);
   const [likedAlbums, setLikedAlbums] = useState<any[]>([]);
+  const handleShowModal = (bool: boolean) => {
+    setModalVisible(bool);
+  };
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,7 +44,9 @@ export default function Library() {
     <SafeAreaView className="bg-white min-h-screen">
       <ScrollView className="h-full">
         <View className="w-full h-full px-4">
-          <RexHeader title={"Library"} profileImage={profileImage}></RexHeader>
+          <RexHeader title={"Library"} profileImage={profileImage}>
+            <CreatePlaylistButton handlePress={() => {handleShowModal(true)}} />
+          </RexHeader>
           <View className="flex items-center justify-around flex-wrap flex-row w-full">
             {likedAlbums &&
               likedAlbums.map((album, index) => {
@@ -61,6 +69,10 @@ export default function Library() {
                 );
               })}
           </View>
+          <CreatePlaylistModal
+            isVisible={modalVisible}
+            onModalVisibilityChange={handleShowModal}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>

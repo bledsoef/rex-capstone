@@ -30,7 +30,10 @@ export default function PlaylistPage() {
     try {
       const imageURLs = await Promise.all(
         creators.map(async (user: any) => {
-          const authorFileRef = ref(storage, `/profileImages/${user.email}.jpg`);
+          const authorFileRef = ref(
+            storage,
+            `/profileImages/${user["email"]}.jpg`
+          );
           const url = await getDownloadURL(authorFileRef);
           return url;
         })
@@ -46,7 +49,7 @@ export default function PlaylistPage() {
       var data;
       try {
         const response = await fetch(
-          `http://127.0.0.1:8000/getSongsForPlaylist?playlist_id=${playlist}`
+          `http://127.0.0.1:8000/getSongsForPlaylist?playlist_id=${playlist}&user_id=${currentUser.id}`
         );
         data = await response.json();
         setSongs(data["songs"]);
@@ -55,13 +58,13 @@ export default function PlaylistPage() {
       } catch (error) {
         console.log(error);
       }
-      var fileRef
-      if (data["playlist"]["title"]== "My Liked Songs") {
+      var fileRef;
+      if (data["playlist"]["title"] == "My Liked Songs") {
         fileRef = ref(storage, `/playlistImages/liked.png`);
-  
+      } else if (data["playlist"]["has_image"] == false) {
+        return;
       } else {
         fileRef = ref(storage, `/playlistImages/${data["playlist"]["id"]}.jpg`);
-  
       }
       getDownloadURL(fileRef)
         .then((res) => {
@@ -80,7 +83,7 @@ export default function PlaylistPage() {
       <ScrollView className="h-full">
         <View className="w-full h-full px-4">
           <Image
-            source={{ uri: playlistImage ? playlistImage : images.profile }}
+            source={playlistImage ? {uri: playlistImage } : images.default_cover }
             resizeMode="contain"
             className="w-[75%] mx-auto mt-4 h-[75%]"
           ></Image>
@@ -98,11 +101,11 @@ export default function PlaylistPage() {
                       className="flex flex-row items-center pb-2 space-x-2"
                     >
                       <Image
-                        source={{
-                          uri: authorImageUrls
-                            ? authorImageUrls[index]
-                            : images.default_cover,
-                        }}
+                        source={
+                          authorImageUrls
+                            ? { uri: authorImageUrls[index] }
+                            : images.default_cover
+                        }
                         style={styles.image}
                         className="w-[30] h-[30]"
                         resizeMode="cover"
@@ -118,12 +121,7 @@ export default function PlaylistPage() {
           <View className="rounded-xl flex flex-col w-full">
             {songs &&
               songs.map((song, index) => {
-                return (
-                  <PlaylistSong
-                    key={index}
-                    song={song}
-                  ></PlaylistSong>
-                );
+                return <PlaylistSong key={index} song={song}></PlaylistSong>;
               })}
           </View>
 
