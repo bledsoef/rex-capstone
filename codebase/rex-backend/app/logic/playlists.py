@@ -1,6 +1,9 @@
 from fastapi import APIRouter, Depends, Request
-from app.logic.utils import obj_list_to_dict
+from sqlalchemy import func, delete
 from sqlalchemy.orm import Session
+from datetime import datetime
+
+from app.logic.utils import obj_list_to_dict
 from app.models.Album import Album
 from app.models.AlbumArtist import AlbumArtist
 from app.models.Artist import Artist
@@ -22,8 +25,22 @@ from app.models.UserLikedSong import UserLikedSong
 
 def create_new_playlist(db: Session, playlist_data):
     try:
-        new_playlist = Playlist(**playlist_data)
+        new_playlist_id = db.query(func.max(Playlist.id)).scalar() or 0
+        new_playlist = Playlist(
+            id=new_playlist_id+1,
+            title=playlist_data["playlist_name"],
+            updated_at=datetime.now()
+        )
         db.add(new_playlist)
+        db.commit()
+
+        new_playlist_creator_id = db.query(func.max(PlaylistCreator.id)).scalar() or 0
+        new_playlist_creator = PlaylistCreator(
+            id=new_playlist_creator_id+1,
+            playlist_id=new_playlist.id,
+            user_id=playlist_data["user_id"]
+        )
+        db.add(new_playlist_creator)
         db.commit()
         return "success"
     except Exception as e:
@@ -73,17 +90,20 @@ def unfollow_playlist(db: Session, user_id, playlist_id):
 def get_user_playlists(db: Session, user_id):
     try:
         created_playlists = db.query(Playlist).join(PlaylistCreator, PlaylistCreator.playlist_id == Playlist.id).filter(PlaylistCreator.user_id == user_id).all()
-        print(created_playlists)
         followed_playlists = db.query(Playlist).join(UserFollowedPlaylist, UserFollowedPlaylist.playlist_id == Playlist.id).filter(UserFollowedPlaylist.user_id == user_id).all()
         return obj_list_to_dict(created_playlists + followed_playlists)
     except Exception as e:
         print(e)
         return False
 
-def get_songs_for_playlist(db: Session, playlist_id):
+def get_songs_for_playlist(db: Session, playlist_id, user_id):
     try:
         playlist = db.query(Playlist).filter(Playlist.id == playlist_id).first()
-        playlist_songs = db.query(Song).join(PlaylistSong, PlaylistSong.song_id == Song.id).filter(PlaylistSong.playlist_id == playlist_id).all()
+        if playlist.title == "My Liked Songs":
+            playlist_songs = db.query(Song).join(UserLikedSong, UserLikedSong.song_id == Song.id).filter(UserLikedSong.user_id == user_id).all()
+        else:
+            playlist_songs = db.query(Song).join(PlaylistSong, PlaylistSong.song_id == Song.id).filter(PlaylistSong.playlist_id == playlist_id).all()
+        
         playlist_creators = db.query(User).join(PlaylistCreator, PlaylistCreator.user_id == User.id).filter(PlaylistCreator.playlist_id == playlist_id).all() 
         return {"playlist": playlist.__dict__,"songs": obj_list_to_dict(playlist_songs), "creators": playlist_creators}
     except Exception as e:

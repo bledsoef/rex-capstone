@@ -15,9 +15,9 @@ async def createPlaylist(request: Request, db: Session = Depends(get_db)):
         return {"message": "Failed to create playlist"}
     
 @router.get("/getSongsForPlaylist")
-async def getSongsForPlaylist(playlist_id: int, db: Session = Depends(get_db)):
+async def getSongsForPlaylist(playlist_id: int, user_id: int, db: Session = Depends(get_db)):
     try:
-        songs = get_songs_for_playlist(db, playlist_id)
+        songs = get_songs_for_playlist(db, playlist_id, user_id)
         return songs
     except Exception as e:
         print(e)
