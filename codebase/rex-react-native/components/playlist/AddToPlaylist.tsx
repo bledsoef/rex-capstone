@@ -21,6 +21,30 @@ export function AddToPlaylist({ song, onContentVisibilityChange }: any) {
     };
     fetchData();
   }, []);
+
+  const addToPlaylist = async (playlist: any) => {
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/addToPlaylist?song_id=${song.id}&playlist_id=${playlist.id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            song_id: song.id,
+            playlist_id: playlist.id,
+          }),
+
+        }
+      );
+      const data = await response.json();
+      setPlaylists(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <View
       className="h-2/3 bg-white p-[20px] rounded-t-xl"
@@ -29,7 +53,11 @@ export function AddToPlaylist({ song, onContentVisibilityChange }: any) {
       <Text className={`text-xl text-gray-900 font-jsemibold rounded-xl`}>
         Add To Playlist
       </Text>
-      <View className="flex-col flex w-full"></View>
+      <View className="flex-col flex w-full">
+        {playlists && playlists.map((index: number, item: any) => {
+          <PlaylistItem playlist={item} onPress={addToPlaylist}/>
+        })}
+      </View>
     </View>
   );
 }
