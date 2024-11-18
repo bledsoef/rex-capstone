@@ -3,7 +3,7 @@ import { useEffect, useState, type ComponentProps } from "react";
 import { Pressable, View, StyleSheet, Text } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useUserContext } from "../globalContexts/UserContext";
-
+import { PlaylistItem } from "@/components/playlist/PlaylistItem";
 export function AddToPlaylist({ song, onContentVisibilityChange }: any) {
   const { currentUser } = useUserContext();
   const [playlists, setPlaylists] = useState<any>([])
@@ -11,10 +11,11 @@ export function AddToPlaylist({ song, onContentVisibilityChange }: any) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://127.0.0.1:8000/getPlaylists?user_id=${currentUser.id}`
+          `http://127.0.0.1:8000/getPlaylistsForUser?user_id=${currentUser.id}`
         );
         const data = await response.json();
         setPlaylists(data);
+        console.log(data)
       } catch (error) {
         console.log(error);
       }
@@ -38,8 +39,6 @@ export function AddToPlaylist({ song, onContentVisibilityChange }: any) {
 
         }
       );
-      const data = await response.json();
-      setPlaylists(data);
     } catch (error) {
       console.log(error);
     }
@@ -54,8 +53,8 @@ export function AddToPlaylist({ song, onContentVisibilityChange }: any) {
         Add To Playlist
       </Text>
       <View className="flex-col flex w-full">
-        {playlists && playlists.map((index: number, item: any) => {
-          <PlaylistItem playlist={item} onPress={addToPlaylist}/>
+        {playlists && playlists.map((item: any, index: any) => {
+          return <PlaylistItem key={index} playlist={item} onPress={addToPlaylist}/>
         })}
       </View>
     </View>

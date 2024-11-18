@@ -53,7 +53,7 @@ const SongOptionsModal = ({ isVisible, onVisibilityChange, song }: any) => {
 
   const handleShowAddToPlaylist = (bool: boolean) => {
     setContentVisible(!bool);
-    setCreateRecModalVisible(bool);
+    setAddToPlaylistVisible(bool);
   };
 
   return (

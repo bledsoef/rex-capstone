@@ -22,4 +22,21 @@ async def getSongsForPlaylist(playlist_id: int, user_id: int, db: Session = Depe
     except Exception as e:
         print(e)
         return {"message": "Failed to create playlist"}
+
+@router.get("/getPlaylist")
+async def getSongsForPlaylist(playlist_id: int, db: Session = Depends(get_db)):
+    try:
+        songCount, playlist = get_playlist(db, playlist_id)
+        return {"songCount": songCount, "playlist": playlist}
+    except Exception as e:
+        print(e)
+        return {"message": "Failed to create playlist"}
      
+@router.get("/getPlaylistsForUser")
+async def getSongsForPlaylist(user_id: int, db: Session = Depends(get_db)):
+    try:
+        playlists = get_user_playlists(db, user_id)
+        return playlists
+    except Exception as e:
+        print(e)
+        return {"message": "Failed to create playlist"}

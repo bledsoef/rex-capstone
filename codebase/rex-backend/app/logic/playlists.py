@@ -96,6 +96,16 @@ def get_user_playlists(db: Session, user_id):
         print(e)
         return False
 
+def get_playlist(db: Session, playlist_id):
+    try:
+        playlist = db.query(Playlist).filter(Playlist.id == playlist_id).first()
+        songCount = db.query(func.count(PlaylistSong.id)).filter(PlaylistSong.playlist_id == playlist_id).scalar()
+        print([i for i in db.query(PlaylistSong).filter(PlaylistSong.playlist_id == playlist_id).all()])
+        return songCount, playlist
+    except Exception as e:
+        print(e)
+        return False
+
 def get_songs_for_playlist(db: Session, playlist_id, user_id):
     try:
         playlist = db.query(Playlist).filter(Playlist.id == playlist_id).first()
