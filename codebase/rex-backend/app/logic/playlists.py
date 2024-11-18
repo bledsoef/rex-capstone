@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, Request
-from sqlalchemy import func, delete
+from sqlalchemy import func, delete, and_
 from sqlalchemy.orm import Session
 from datetime import datetime
 
@@ -67,7 +67,7 @@ def follow_playlist(db: Session, user_id, playlist_id):
         print(e)
         return "failure"
     
-def delete_song_from_playlist(db: Session, song_id, playlist_id):
+def remove_song_from_playlist(db: Session, song_id, playlist_id):
     try:
         deleted_playlist_song = db.query(PlaylistSong).filter_by(song_id=song_id, playlist_id=playlist_id).first()
         db.delete(deleted_playlist_song)
@@ -96,11 +96,13 @@ def get_user_playlists(db: Session, user_id):
         print(e)
         return False
 
-def get_playlist(db: Session, playlist_id):
+def get_playlist(db: Session, playlist_id, user_id):
     try:
         playlist = db.query(Playlist).filter(Playlist.id == playlist_id).first()
-        songCount = db.query(func.count(PlaylistSong.id)).filter(PlaylistSong.playlist_id == playlist_id).scalar()
-        print([i for i in db.query(PlaylistSong).filter(PlaylistSong.playlist_id == playlist_id).all()])
+        if playlist.title == "My Liked Songs":
+            songCount = db.query(func.count(UserLikedSong.id)).filter(UserLikedSong.user_id == user_id).scalar()
+        else:
+            songCount = db.query(func.count(PlaylistSong.id)).filter(PlaylistSong.playlist_id == playlist_id).scalar()
         return songCount, playlist
     except Exception as e:
         print(e)
@@ -119,3 +121,16 @@ def get_songs_for_playlist(db: Session, playlist_id, user_id):
     except Exception as e:
         print(e)
         return False
+
+def check_song_in_playlist(db: Session, playlist_id, song_id, user_id):
+    try:
+        playlist = db.query(Playlist).filter(Playlist.id == playlist_id).first()
+        if playlist.title == "My Liked Songs":
+            song = db.query(UserLikedSong).filter(and_(UserLikedSong.user_id == user_id, UserLikedSong.song_id == song_id)).first()
+        else:
+            song = db.query(PlaylistSong).filter(and_(PlaylistSong.playlist_id == playlist_id, PlaylistSong.song_id == song_id)).first()
+        return True if song else False
+    except Exception as e:
+        print(e)
+        return False 
+  

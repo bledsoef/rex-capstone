@@ -6,6 +6,7 @@ import { useUserContext } from "../globalContexts/UserContext";
 import { PlaylistItem } from "@/components/playlist/PlaylistItem";
 export function AddToPlaylist({ song, onContentVisibilityChange }: any) {
   const { currentUser } = useUserContext();
+  const [update, setUpdate] = useState(0)
   const [playlists, setPlaylists] = useState<any>([])
   useEffect(() => {
     const fetchData = async () => {
@@ -21,12 +22,12 @@ export function AddToPlaylist({ song, onContentVisibilityChange }: any) {
       }
     };
     fetchData();
-  }, []);
+  }, [update]);
 
   const addToPlaylist = async (playlist: any) => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/addToPlaylist?song_id=${song.id}&playlist_id=${playlist.id}`,
+        `http://127.0.0.1:8000/addSongToPlaylist`,
         {
           method: "POST",
           headers: {
@@ -39,11 +40,32 @@ export function AddToPlaylist({ song, onContentVisibilityChange }: any) {
 
         }
       );
+      setUpdate(update + 1)
     } catch (error) {
       console.log(error);
     }
   }
+  const removeFromPlaylist = async (playlist: any) => {
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/removeSongFromPlaylist`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            song_id: song.id,
+            playlist_id: playlist.id,
+          }),
 
+        }
+      );
+      setUpdate(update + 1)
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <View
       className="h-2/3 bg-white p-[20px] rounded-t-xl"
@@ -54,7 +76,7 @@ export function AddToPlaylist({ song, onContentVisibilityChange }: any) {
       </Text>
       <View className="flex-col flex w-full">
         {playlists && playlists.map((item: any, index: any) => {
-          return <PlaylistItem key={index} playlist={item} onPress={addToPlaylist}/>
+          return <PlaylistItem key={index} playlist={item} song={song} handleRemove={removeFromPlaylist} handleAdd={addToPlaylist}/>
         })}
       </View>
     </View>
