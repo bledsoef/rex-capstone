@@ -12,10 +12,11 @@ import { images } from "@/constants";
 import { useMusicPlayer } from "@/components/globalContexts/PlayerContext";
 import RecHeader from "@/components/rex/RecHeader";
 export default function RecPage() {
-  const { recID } = useLocalSearchParams();
-
-  const [rec, setRec] = useState({})
-  const [media, setMedia] = useState('')
+  const { rec } = useLocalSearchParams();
+  const [recData, setRec] = useState({})
+  const [media, setMedia] = useState({})
+  const [mediaType, setMediaType] = useState('')
+  const [mediaURL, setMediaURL] = useState('')
   useEffect(() => {
     const fetchRecData = async () => {
       try {
@@ -24,7 +25,7 @@ export default function RecPage() {
         );
         const data = await response.json();
         setRec(data["rec"]);
-        setMedia(data["media"])
+        setMediaURL(data["media"])
         const mediaType = data["media_type"]
         if (data["media_type"] != "playlist") {
           const mediaFileRef = ref(
@@ -33,7 +34,7 @@ export default function RecPage() {
           );
           getDownloadURL(mediaFileRef)
             .then((res) => {
-              setMedia(res);
+              setMediaURL(res);
             })
             .catch((error) => {
               console.error("Error getting download URL:", error);
@@ -46,7 +47,7 @@ export default function RecPage() {
           );
           getDownloadURL(mediaFileRef)
             .then((res) => {
-              setMedia(res);
+              setMediaURL(res);
             })
             .catch((error) => {
               console.error("Error getting download URL:", error);
@@ -62,7 +63,7 @@ export default function RecPage() {
           }
           getDownloadURL(fileRef)
             .then((res) => {
-              setMedia(res);
+              setMediaURL(res);
             })
             .catch((error) => {
               console.error("Error getting download URL:", error);
@@ -73,11 +74,12 @@ export default function RecPage() {
       }
     };
     fetchRecData()
-  })
+  }, [])
+
   return (
     <SafeAreaView className="bg-white min-h-screen">
       <ScrollView className="h-full">
-       <RecHeader/>
+       <RecHeader rec={recData} media={media} mediaType={mediaType} mediaURL={mediaURL}/>
       </ScrollView>
     </SafeAreaView>
   );

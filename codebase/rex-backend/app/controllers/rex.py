@@ -81,3 +81,13 @@ async def getFeedForUser(user_id: str, db: Session = Depends(get_db)):
     except Exception as e:
         print(e)
         return {"message": "Failed to get recs"}
+
+    
+@router.get("/getRecInformation")
+async def getFeedForUser(rec_id: str, db: Session = Depends(get_db)):
+    try:
+        rec_data = get_rec_information(db, rec_id)
+        return rec_data
+    except Exception as e:
+        print(e)
+        return {"message": "Failed to get recs"}

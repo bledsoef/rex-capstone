@@ -89,19 +89,6 @@ def accept_rec_from_post(db: Session, rec_id: int, user_id: str):
         return False
     return True
 
-# def archive_rec(db: Session, rec_id):
-#     try:
-#         pending_rec = db.query(PendingRec).filter(PendingRec.rec_id==rec_id).first()
-#         db.delete(pending_rec)
-#         archived_rec_id = db.query(func.max(PendingRec.id)).scalar() + 1
-#         archived_rec = ArchivedRec(id=archived_rec_id, rec_id=rec_id)
-#         db.add(archived_rec)
-#         db.commit()
-#     except Exception as e:
-#         print(e)
-#         return False
-#     return True
-
 def get_sent_recs(db: Session, user_id: str):
     result = (
         db.query(Rec, User, Playlist, Song, Album)
@@ -113,31 +100,8 @@ def get_sent_recs(db: Session, user_id: str):
             .filter(or_(Rec.playlist_id.isnot(None), Rec.song_id.isnot(None), Rec.album_id.isnot(None)))
         .all()
     )   
-    filtered_results = []
-    for rec, user, playlist, song, album in result:
-        media_object = None
-        media_type = None
-        media_creators = None
-        if playlist:
-            media_type = "playlist"
-            creators = db.query(User).join(PlaylistCreator, PlaylistCreator.user_id==User.id).filter_by(playlist_id = playlist.id).first()
-            media_object = playlist.__dict__
-            media_creators = obj_list_to_dict(creators)
+    return filter_results(db, result)
 
-        if song:
-            media_type = "song"
-            artists = db.query(Artist).join(SongArtist, SongArtist.artist_id==Artist.id).filter_by(song_id = song.id)
-            media_object = song.__dict__
-            media_creators = obj_list_to_dict(artists)
-
-        if album:
-            media_type = "album"
-            artists = db.query(Artist).join(AlbumArtist, AlbumArtist.artist_id==Artist.id).filter_by(album_id = album.id)
-            media_object = album.__dict__
-            media_creators = obj_list_to_dict(artists)
-        
-        filtered_results.append({"rec":rec.__dict__, "user": user, "media_creators": media_creators, "media": media_object, "media_type": media_type})
-    return filtered_results
 
 def get_received_recs(db: Session, user_id: str):
     result = (
@@ -149,36 +113,8 @@ def get_received_recs(db: Session, user_id: str):
             .filter(Rec.recipient_id == user_id)
             .filter(or_(Rec.playlist_id.isnot(None), Rec.song_id.isnot(None), Rec.album_id.isnot(None)))
         .all()
-    )   
-    filtered_results = []
-    for rec, user, playlist, song, album in result:
-        media_object = None
-        media_type = None
-        media_creators = None
-        if playlist:
-            media_type = "playlist"
-            creators = db.query(User).join(PlaylistCreator, PlaylistCreator.user_id==User.id).filter_by(playlist_id = playlist.id).first()
-            media_object = playlist.__dict__
-            media_creators = obj_list_to_dict(creators)
-
-        if song:
-            media_type = "song"
-            artists = db.query(Artist).join(SongArtist, SongArtist.artist_id==Artist.id).filter_by(song_id = song.id)
-            media_object = song.__dict__
-            media_creators = obj_list_to_dict(artists)
-
-        if album:
-            media_type = "album"
-            artists = db.query(Artist).join(AlbumArtist, AlbumArtist.artist_id==Artist.id).filter_by(album_id = album.id)
-            media_object = album.__dict__
-            media_creators = obj_list_to_dict(artists)
-        
-        filtered_results.append({"rec":rec.__dict__, "user": user, "media_creators": media_creators, "media": media_object, "media_type": media_type})
-    return filtered_results
-
-# def get_pending_sent_recs(db: Session, user_id: int):
-#     recs = db.query(Rec).join(PendingRec, Rec.pending_recs).filter(Rec.sender_id == user_id)
-#     return obj_list_to_dict(recs) 
+    )
+    return filter_results(db, result)
 
 def get_non_user_posts(db: Session, user_id: str):
     user = db.query(User).filter(User.id == user_id).first()
@@ -192,6 +128,13 @@ def get_non_user_posts(db: Session, user_id: str):
             .filter(or_(Rec.playlist_id.isnot(None), Rec.song_id.isnot(None), Rec.album_id.isnot(None)))
         .all()
     )   
+    return filter_results(db, result)
+
+def get_post_status(db: Session, user_id, rec_id):
+    post_rec = db.query(Rec).filter(Rec.post_rec_id == rec_id, Rec.recipient_id == user_id).first()
+    return True if post_rec else False
+
+def filter_results(db: Session, result):
     filtered_results = []
     for rec, user, playlist, song, album in result:
         media_object = None
@@ -218,6 +161,38 @@ def get_non_user_posts(db: Session, user_id: str):
         filtered_results.append({"rec":rec.__dict__, "user": user, "media_creators": media_creators, "media": media_object, "media_type": media_type})
     return filtered_results
 
-def get_post_status(db: Session, user_id, rec_id):
-    post_rec = db.query(Rec).filter(Rec.post_rec_id == rec_id, Rec.recipient_id == user_id).first()
-    return True if post_rec else False
+def get_rec_information(db: Session, rec_id):
+    print(rec_id)
+    result = (
+        db.query(Rec, User, Playlist, Song, Album)
+            .outerjoin(User, Rec.sender_id == User.id)
+            .outerjoin(Playlist, Rec.playlist_id == Playlist.id)
+            .outerjoin(Song, Rec.song_id == Song.id)
+            .outerjoin(Album, Rec.album_id == Album.id)
+            .filter(Rec.id == rec_id)
+            .filter(or_(Rec.playlist_id.isnot(None), Rec.song_id.isnot(None), Rec.album_id.isnot(None)))
+        .first()
+    )
+    media_object = None
+    media_type = None
+    media_creators = None
+    rec, user, playlist, song, album = result
+    if playlist:
+        media_type = "playlist"
+        creators = db.query(User).join(PlaylistCreator, PlaylistCreator.user_id==User.id).filter_by(playlist_id = playlist.id).first()
+        media_object = playlist.__dict__
+        media_creators = obj_list_to_dict(creators)
+
+    if song:
+        media_type = "song"
+        artists = db.query(Artist).join(SongArtist, SongArtist.artist_id==Artist.id).filter_by(song_id = song.id)
+        media_object = song.__dict__
+        media_creators = obj_list_to_dict(artists)
+
+    if album:
+        media_type = "album"
+        artists = db.query(Artist).join(AlbumArtist, AlbumArtist.artist_id==Artist.id).filter_by(album_id = album.id)
+        media_object = album.__dict__
+        media_creators = obj_list_to_dict(artists)
+    
+    return {"rec":rec.__dict__, "user": user, "media_creators": media_creators, "media": media_object, "media_type": media_type}
