@@ -11,12 +11,15 @@ import { Song } from "@/components/Song";
 import { images } from "@/constants";
 import { useMusicPlayer } from "@/components/globalContexts/PlayerContext";
 import RecHeader from "@/components/rex/RecHeader";
+import RexHeader from "@/components/rex/RexHeader";
 export default function RecPage() {
   const { rec } = useLocalSearchParams();
   const [recData, setRec] = useState({})
   const [media, setMedia] = useState({})
   const [mediaType, setMediaType] = useState('')
   const [mediaURL, setMediaURL] = useState('')
+  const [mediaCreators, setMediaCreators] = useState(null)
+  const [sender, setSender] = useState({username: ""})
   useEffect(() => {
     const fetchRecData = async () => {
       try {
@@ -25,8 +28,11 @@ export default function RecPage() {
         );
         const data = await response.json();
         setRec(data["rec"]);
-        setMediaURL(data["media"])
+        setMedia(data["media"])
+        setSender(data['sender'])
         const mediaType = data["media_type"]
+        setMediaType(mediaType)
+        setMediaCreators(data["media_creators"])
         if (data["media_type"] != "playlist") {
           const mediaFileRef = ref(
             storage,
@@ -79,7 +85,7 @@ export default function RecPage() {
   return (
     <SafeAreaView className="bg-white min-h-screen">
       <ScrollView className="h-full">
-       <RecHeader rec={recData} media={media} mediaType={mediaType} mediaURL={mediaURL}/>
+       <RecHeader rec={recData} sender={sender} mediaCreators={mediaCreators} media={media} mediaType={mediaType} mediaURL={mediaURL}/>
       </ScrollView>
     </SafeAreaView>
   );

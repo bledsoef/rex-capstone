@@ -6,24 +6,103 @@ import { useLocalSearchParams } from "expo-router";
 import { Song } from "@/components/Song";
 import { images } from "@/constants";
 import { useMusicPlayer } from "@/components/globalContexts/PlayerContext";
-export default function RecHeader({ rec, media, mediaType, mediaURL }: any) {
+export default function RecHeader({
+  rec,
+  mediaCreators,
+  media,
+  mediaType,
+  mediaURL,
+  sender,
+}: any) {
+  const [authorImageUrl, setAuthorImageUrl] = useState("");
+  const [senderImageUrl, setSenderImageUrl] = useState("");
+  async function fetchAuthorImageDownloadUrl() {
+    if (mediaCreators) {
+      const fileRef = ref(storage, `/artistImages/${mediaCreators[0].id}.jpg`);
+      getDownloadURL(fileRef)
+        .then((res) => setAuthorImageUrl(res))
+        .catch((error) => {
+          console.error("Error getting download URL:", error);
+        });
+    }
+  }
+  async function fetchSenderImageDownloadUrl() {
+    if (mediaCreators) {
+      const fileRef = ref(storage, `/profileImages/${sender.email}.jpg`);
+      getDownloadURL(fileRef)
+        .then((res) => setSenderImageUrl(res))
+        .catch((error) => {
+          console.error("Error getting download URL:", error);
+        });
+    }
+  }
+  useEffect(() => {
+    fetchSenderImageDownloadUrl()
+    fetchAuthorImageDownloadUrl();
+  }, [mediaCreators]);
   return (
-    <View className="p-2 w-full bg-white rounded-lg m-2" style={styles.modalContainer}>
-      <Text>{rec.id}</Text>
-      <Image
-        source={mediaURL ? { uri: mediaURL } : images.default_cover}
-        resizeMode="contain"
-        className="w-[75%] mx-auto h-[75%]"
-      ></Image>
+    <View className="w-full bg-white h-full flex flex-col">
+      <View className="p-3 flex flex-row">
+        <View className="flex flex-row items-center">
+          <Image
+            source={{
+              uri: senderImageUrl ? senderImageUrl : images.default_cover,
+            }}
+            style={styles.image}
+            className="w-[30] h-[30]"
+            resizeMode="cover"
+          />
+          <Text className={`font-jsemibold ml-3 text-[#3D3D3D] text-xl`}>
+            {sender.username}
+          </Text>
+        </View>
+        <Text className="text-xl font-jsemibold text-rex"> wants you to hear:</Text>
+      </View>
+      <View
+        className="flex-row flex justify-between bg-slate-50 m-2"
+        style={styles.modalContainer}
+      >
+        <View className="p-3 h-full justify-center flex flex-col">
+          <Text className={`font-jsemibold text-[#3D3D3D] text-2xl`}>
+            {media.title}
+          </Text>
+          {mediaCreators && (
+            <View className="flex flex-row items-center">
+              <Image
+                source={{
+                  uri: authorImageUrl ? authorImageUrl : images.default_cover,
+                }}
+                style={styles.image}
+                className="w-[30] h-[30]"
+                resizeMode="cover"
+              />
+              <Text className={`font-jsemibold ml-3 text-[#3D3D3D] text-xl`}>
+                {mediaCreators[0].name}
+              </Text>
+            </View>
+          )}
+        </View>
+        <View className=" w-1/2 justify-end items-end flex">
+          <Image
+            source={mediaURL ? { uri: mediaURL } : images.default_cover}
+            resizeMode="contain"
+            className="w-full h-full"
+          ></Image>
+        </View>
+      </View>
     </View>
   );
 }
 const styles = StyleSheet.create({
   modalContainer: {
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: -2 },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 10,
     elevation: 5,
+  },
+  image: {
+    borderRadius: 150 / 2,
+    overflow: "hidden",
   },
 });
