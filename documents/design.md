@@ -50,13 +50,13 @@ This suite of routes contains all necessary endpoints relating to reviews.
 
 `/deleteReview` - POST: Given a review ID, this route will delete an existing Review object. 
 
-`/createReviewComment` - POST: Given a data packet containing the review comment data (comment, review_id, creator), this route will create a ReviewComment object. 
+`/createRecComment` - POST: Given a data packet containing the review comment data (comment, review_id, creator), this route will create a RecComment object. 
 
-`/deleteReviewComment` - POST: Given a review comment ID, this route will delete an existing ReviewComment object. 
+`/deleteRecComment` - POST: Given a review comment ID, this route will delete an existing RecComment object. 
 
 `/updateReview` - POST: Given the review ID and a packet containing the new information, modify the existing Review object.
 
-`/getReviewCommentsForReview`- GET: Given a review ID, return all comments with that review_id field.
+`/getRecCommentsForReview`- GET: Given a review ID, return all comments with that review_id field.
 
 `/getReviewsForRec` - GET: Given a rec ID, return all reviews that point to that rec_id.
 

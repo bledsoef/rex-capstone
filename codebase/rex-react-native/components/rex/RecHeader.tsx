@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Image } from "react-native";
+import { StyleSheet, View, Text, Image, Dimensions } from "react-native";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebaseConfig";
 import { useEffect, useState } from "react";
@@ -37,11 +37,13 @@ export default function RecHeader({
     }
   }
   useEffect(() => {
-    fetchSenderImageDownloadUrl()
+    fetchSenderImageDownloadUrl();
     fetchAuthorImageDownloadUrl();
   }, [mediaCreators]);
+  const screenDimensions = Dimensions.get("screen");
+
   return (
-    <View className="w-full bg-white h-full flex flex-col">
+    <View className="w-full bg-white mb-4 flex flex-col">
       <View className="p-3 flex flex-row">
         <View className="flex flex-row items-center">
           <Image
@@ -56,11 +58,22 @@ export default function RecHeader({
             {sender.username}
           </Text>
         </View>
-        <Text className="text-xl font-jsemibold text-rex"> wants you to hear:</Text>
+        <Text className="text-xl font-jsemibold text-rex">
+          {" "}
+          wants you to hear:
+        </Text>
       </View>
       <View
         className="flex-row flex justify-between bg-slate-50 m-2"
-        style={styles.modalContainer}
+        style={{
+          width: screenDimensions.width - 16,
+          height: screenDimensions.width / 4,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 10,
+          elevation: 5,
+        }}
       >
         <View className="p-3 h-full justify-center flex flex-col">
           <Text className={`font-jsemibold text-[#3D3D3D] text-2xl`}>
@@ -82,11 +95,14 @@ export default function RecHeader({
             </View>
           )}
         </View>
-        <View className=" w-1/2 justify-end items-end flex">
+        <View className="justify-end items-end flex">
           <Image
             source={mediaURL ? { uri: mediaURL } : images.default_cover}
             resizeMode="contain"
-            className="w-full h-full"
+            style={{
+              width: screenDimensions.width / 4,
+              height: screenDimensions.width / 4,
+            }}
           ></Image>
         </View>
       </View>

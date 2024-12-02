@@ -20,3 +20,4 @@ class Rec(Base):
     status = Column(String, nullable=True)
 
     reviews = relationship("Review", backref="rec")
+    comments = relationship("RecComment", backref="rec")

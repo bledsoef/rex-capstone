@@ -11,7 +11,7 @@ from app.models.PlaylistSong import PlaylistSong
 from app.models.PlaylistCreator import PlaylistCreator
 from app.models.Rec import Rec
 from app.models.Review import Review
-from app.models.ReviewComment import ReviewComment
+from app.models.RecComment import RecComment
 from app.models.Song import Song
 from app.models.SongArtist import SongArtist
 from app.models.SongListen import SongListen
@@ -177,7 +177,6 @@ def get_rec_information(db: Session, rec_id):
     media_creators = None
     rec, user, playlist, song, album = result
     sender = db.query(User).filter(User.id == user.id).first()
-    print(sender)
     if playlist:
         media_type = "playlist"
         creators = db.query(User).join(PlaylistCreator, PlaylistCreator.user_id==User.id).filter_by(playlist_id = playlist.id).first()
@@ -195,5 +194,5 @@ def get_rec_information(db: Session, rec_id):
         artists = db.query(Artist).join(AlbumArtist, AlbumArtist.artist_id==Artist.id).filter_by(album_id = album.id)
         media_object = album.__dict__
         media_creators = obj_list_to_dict(artists)
-    print(media_creators)
     return {"rec":rec.__dict__, "sender": sender, "user": user, "media_creators": media_creators, "media": media_object, "media_type": media_type}
+

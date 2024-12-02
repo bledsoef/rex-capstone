@@ -12,5 +12,3 @@ class Review(Base):
     justification = Column(Integer)
     reviewed_at = Column(Date)
     
-    review_comments = relationship("ReviewComment", backref="review")
-

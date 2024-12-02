@@ -9,7 +9,7 @@ from app.models.PlaylistSong import PlaylistSong
 from app.models.PlaylistCreator import PlaylistCreator
 from app.models.Rec import Rec
 from app.models.Review import Review
-from app.models.ReviewComment import ReviewComment
+from app.models.RecComment import RecComment
 from app.models.Song import Song
 from app.models.SongArtist import SongArtist
 from app.models.SongListen import SongListen
@@ -17,6 +17,7 @@ from app.models.User import User
 from app.models.UserFollowedPlaylist import UserFollowedPlaylist
 from app.models.UserLikedAlbum import UserLikedAlbum
 from app.models.UserLikedSong import UserLikedSong
+from app.logic.utils import obj_list_to_dict
 from datetime import datetime
 def create_new_review(db: Session, review_data):
     try:
@@ -32,7 +33,7 @@ def create_new_review(db: Session, review_data):
     
 def create_new_review_comment(db: Session, review_data):
     try:
-        new_review = ReviewComment(createdBy=review_data['author'], rec_id=review_data['rec'], dateCreated=datetime.now(), comment=review_data['comment'], rating=review_data['rating'])
+        new_review = RecComment(createdBy=review_data['author'], rec_id=review_data['rec'], dateCreated=datetime.now(), comment=review_data['comment'], rating=review_data['rating'])
         rec = db.query(Rec).filter(Rec.id == review_data['rec']).first()
         rec.status = 'completed'
         db.add(rec)
@@ -42,10 +43,15 @@ def create_new_review_comment(db: Session, review_data):
         print(e)
         return False
 
-def get_user_reviews(db:Session, username):
+def get_user_reviews(db: Session, username):
     user_reviews = [entry.__dict__ for entry in db.query(Review).filter(Review.createdBy==username)]
     return user_reviews
 
-def get_post_reviews(db:Session, rec_id):
+def get_post_reviews(db: Session, rec_id):
     review = db.query(Review).filter(Review.rec_id==rec_id).all()
     return review
+
+def get_rec_review(db: Session, rec_id):
+    review = db.query(Review).filter(Review.rec_id==rec_id).first()
+    review_comments = db.query(RecComment).filter(RecComment.rec_id==rec_id).all()
+    return {"review": review, "review_comments": obj_list_to_dict(review_comments)}

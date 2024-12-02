@@ -10,7 +10,7 @@ from app.models.PlaylistSong import PlaylistSong
 from app.models.PlaylistCreator import PlaylistCreator
 from app.models.Rec import Rec
 from app.models.Review import Review
-from app.models.ReviewComment import ReviewComment
+from app.models.RecComment import RecComment
 from app.models.Song import Song
 from app.models.SongArtist import SongArtist
 from app.models.SongListen import SongListen

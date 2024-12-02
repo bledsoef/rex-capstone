@@ -14,4 +14,12 @@ async def createReview(request: Request, db: Session = Depends(get_db)):
     except Exception as e:
         print(e)
         return {"message": "Failed to create Review"}
-     
+
+@router.get("/getRecComments")
+async def createReview(rec_id: int, db: Session = Depends(get_db)):
+    try:
+        return get_rec_review(db, rec_id)
+
+    except Exception as e:
+        print(e)
+        return {"message": "Failed to create Review"}
