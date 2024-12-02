@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session, aliased
+from sqlalchemy import func
 from app.models.Album import Album
 from app.models.AlbumArtist import AlbumArtist
 from app.models.Artist import Artist
@@ -21,7 +22,8 @@ from app.logic.utils import obj_list_to_dict
 from datetime import datetime
 def create_new_review(db: Session, review_data):
     try:
-        new_review = Review(createdBy=review_data['author'], rec_id=review_data['rec'], dateCreated=datetime.now(), comment=review_data['comment'], rating=review_data['rating'])
+        new_review_id = db.query(func.max(RecComment.id)).scalar() or 0
+        new_review = Review(id=new_review_id+1, createdBy=review_data['author'], rec_id=review_data['rec'], dateCreated=datetime.now(), comment=review_data['comment'], rating=review_data['rating'])
         rec = db.query(Rec).filter(Rec.id == review_data['rec']).first()
         rec.status = 'completed'
         db.add(rec)
@@ -31,13 +33,11 @@ def create_new_review(db: Session, review_data):
         print(e)
         return False
     
-def create_new_review_comment(db: Session, review_data):
+def create_new_rec_comment(db: Session, rec_comment_data):
     try:
-        new_review = RecComment(createdBy=review_data['author'], rec_id=review_data['rec'], dateCreated=datetime.now(), comment=review_data['comment'], rating=review_data['rating'])
-        rec = db.query(Rec).filter(Rec.id == review_data['rec']).first()
-        rec.status = 'completed'
-        db.add(rec)
-        db.add(new_review)
+        new_rec_comment_id = db.query(func.max(RecComment.id)).scalar() or 0
+        new_rec_comment = RecComment(id=new_rec_comment_id + 1, commented_at=datetime.now(), rec_id=rec_comment_data['rec_id'], creator_id=rec_comment_data["user_id"], comment=rec_comment_data['comment'])
+        db.add(new_rec_comment)
         db.commit()
     except Exception as e:
         print(e)

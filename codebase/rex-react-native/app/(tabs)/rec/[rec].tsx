@@ -10,8 +10,10 @@ import RecHeader from "@/components/rex/RecHeader";
 import RexHeader from "@/components/rex/RexHeader";
 import StarSelector from "@/components/rex/reviews/StarSelector";
 import RecComments from "@/components/rex/reviews/RecComments";
+import { useUserContext } from "@/components/globalContexts/UserContext";
 export default function RecPage() {
   const { rec } = useLocalSearchParams();
+  const { currentUser } = useUserContext();
   const [recData, setRec] = useState({});
   const [media, setMedia] = useState({});
   const [mediaType, setMediaType] = useState("");
@@ -20,15 +22,22 @@ export default function RecPage() {
   const [sender, setSender] = useState({ username: "" });
   const [rating, setRating] = useState(0);
   const [comments, setComments] = useState([]);
-  const [review, setReview] = useState({})
+  const [review, setReview] = useState({});
   const getRecComments = async () => {
-    var res = await fetch(
-      `http://127.0.0.1:8000/getRecComments?rec_id=${rec}`
-    );
+    var res = await fetch(`http://127.0.0.1:8000/getRecComments?rec_id=${rec}`);
     var data = await res.json();
     setComments(data["rec_comments"]);
-
+    setReview(data["review"]);
   };
+  const handleCreateComment = async (comment: any) => {
+    await fetch("http://127.0.0.1:8000/createRecComment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ comment: comment, user_id: currentUser.id, rec_id: rec }),
+    });
+  }
   useEffect(() => {
     const fetchRecData = async () => {
       try {
@@ -101,7 +110,7 @@ export default function RecPage() {
       }
     };
     fetchRecData();
-    getRecComments()
+    getRecComments();
   }, []);
 
   return (
@@ -109,6 +118,7 @@ export default function RecPage() {
       <ScrollView className="h-full">
         <RecHeader
           rec={recData}
+          isSender={sender["username"] == currentUser["username"]}
           sender={sender}
           mediaCreators={mediaCreators}
           media={media}
@@ -116,10 +126,16 @@ export default function RecPage() {
           mediaURL={mediaURL}
         />
         <StarSelector
+          isSender={sender["username"] == currentUser["username"]}
           rating={rating}
           onSelectRating={(newRating: any) => setRating(newRating)}
         />
-        <RecComments recID={rec} />
+        <RecComments
+          recID={rec}
+          comments={comments}
+          onCreateComment={handleCreateComment}
+          isSender={sender["username"] == currentUser["username"]}
+        />
       </ScrollView>
     </SafeAreaView>
   );

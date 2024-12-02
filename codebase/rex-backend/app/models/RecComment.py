@@ -9,6 +9,7 @@ class RecComment(Base):
     
     id = Column(Integer, primary_key=True)
     rec_id = Column(Integer, ForeignKey('recs.id'))
-    text = Column(String)
+    comment = Column(String)
+    creator_id = Column(Integer, ForeignKey('users.id'))
     commented_at = Column(Date)
     
