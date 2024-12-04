@@ -1,32 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import { useUserContext } from "@/components/globalContexts/UserContext";
 
-const Comment = ({ rating, onSelectRating, recID }: any) => {
-  const handlePress = (value: any) => {
-    if (onSelectRating) {
-      onSelectRating(value);
-    }
-  };
-  const [comments, setComments] = useState([]);
-  const getRecComments = async () => {
-    var res = await fetch(
-      `http://127.0.0.1:8000/getRecComments?rec_id=${recID}`
-    );
-    var data = await res.json();
-    setComments(data);
-  };
-
-  useEffect(() => {
-    async function fetchData() {
-      await getRecComments();
-    }
-    fetchData();
-  }, []);
-
+const Comment = ({ comment, sender, recipient }: any) => {
+  const {currentUser} = useUserContext()
   return (
-    <View>
-      <Text className="px-2 pb-2 font-jsemibold text-xl">Review Comments</Text>
+    <View className="w-full flex flex-col px-2 pb-2">
+      <View className="flex flex-row">
+        <Text className="text-base font-jlight"> 
+          {comment.creator_id != currentUser.id && (comment.creator_id == sender.id ? sender.username : recipient.username)}
+          {comment.creator_id == currentUser.id && "You"}
+        </Text>
+      </View>
+
+      <Text className="font-jregular text-gray-700 text-xl">
+        {comment.comment}
+      </Text>
       <View className="flex flex-col items-center justify-center"></View>
     </View>
   );

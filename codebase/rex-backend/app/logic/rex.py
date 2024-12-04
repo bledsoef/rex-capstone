@@ -177,6 +177,7 @@ def get_rec_information(db: Session, rec_id):
     media_creators = None
     rec, user, playlist, song, album = result
     sender = db.query(User).filter(User.id == user.id).first()
+    recipient = db.query(User).filter(User.id == rec.recipient_id).first()
     if playlist:
         media_type = "playlist"
         creators = db.query(User).join(PlaylistCreator, PlaylistCreator.user_id==User.id).filter_by(playlist_id = playlist.id).first()
@@ -194,5 +195,5 @@ def get_rec_information(db: Session, rec_id):
         artists = db.query(Artist).join(AlbumArtist, AlbumArtist.artist_id==Artist.id).filter_by(album_id = album.id)
         media_object = album.__dict__
         media_creators = obj_list_to_dict(artists)
-    return {"rec":rec.__dict__, "sender": sender, "user": user, "media_creators": media_creators, "media": media_object, "media_type": media_type}
+    return {"rec":rec.__dict__, "sender": sender, "recipient": recipient, "user": user, "media_creators": media_creators, "media": media_object, "media_type": media_type}
 

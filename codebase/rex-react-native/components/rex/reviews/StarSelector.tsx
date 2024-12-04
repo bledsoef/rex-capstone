@@ -12,16 +12,16 @@ const StarSelector = ({ rating, isSender, recipient, onSelectRating }: any) => {
   return (
     <View>
       {!isSender && (
-        <Text className="px-2 pb-2 font-jsemibold text-xl">
+        <Text className="mx-2 font-jsemibold text-xl">
           Rate this media
         </Text>
       )}
       {isSender && (
-        <Text className="px-2 pb-2 font-jsemibold text-xl">Rating</Text>
+        <Text className="mx-2 font-jsemibold text-xl">Rating</Text>
       )}
 
       {(!isSender || rating != 0) && (
-        <View className="flex flex-row items-center justify-center">
+        <View className="flex flex-row items-center justify-center p-5">
           {Array.from({ length: 5 }).map((_, index) => (
             <TouchableOpacity
               key={index}

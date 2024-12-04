@@ -1,4 +1,12 @@
-import { StyleSheet, SafeAreaView, ScrollView, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  Dimensions,
+  View,
+  TextInput,
+  Pressable,
+} from "react-native";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "@/firebaseConfig";
 import { useEffect, useState } from "react";
@@ -11,6 +19,7 @@ import RexHeader from "@/components/rex/RexHeader";
 import StarSelector from "@/components/rex/reviews/StarSelector";
 import RecComments from "@/components/rex/reviews/RecComments";
 import { useUserContext } from "@/components/globalContexts/UserContext";
+import { Octicons } from "@expo/vector-icons";
 export default function RecPage() {
   const { rec } = useLocalSearchParams();
   const { currentUser } = useUserContext();
@@ -19,25 +28,37 @@ export default function RecPage() {
   const [mediaType, setMediaType] = useState("");
   const [mediaURL, setMediaURL] = useState("");
   const [mediaCreators, setMediaCreators] = useState(null);
-  const [sender, setSender] = useState({ username: "" });
+  const [sender, setSender] = useState({ username: "", id: -1 });
+  const [recipient, setRecipient] = useState({ username: "", id: -1 });
   const [rating, setRating] = useState(0);
   const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
   const [review, setReview] = useState({});
+  const [update, setUpdate] = useState(0);
   const getRecComments = async () => {
     var res = await fetch(`http://127.0.0.1:8000/getRecComments?rec_id=${rec}`);
     var data = await res.json();
     setComments(data["rec_comments"]);
     setReview(data["review"]);
   };
-  const handleCreateComment = async (comment: any) => {
+  const handleChangeComment = (e: any) => {
+    setNewComment(e);
+  };
+  const handleCreateComment = async () => {
     await fetch("http://127.0.0.1:8000/createRecComment", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ comment: comment, user_id: currentUser.id, rec_id: rec }),
+      body: JSON.stringify({
+        comment: newComment,
+        user_id: currentUser.id,
+        rec_id: rec,
+      }),
     });
-  }
+    setUpdate(update + 1);
+    setNewComment("");
+  };
   useEffect(() => {
     const fetchRecData = async () => {
       try {
@@ -48,6 +69,7 @@ export default function RecPage() {
         setRec(data["rec"]);
         setMedia(data["media"]);
         setSender(data["sender"]);
+        setRecipient(data["recipient"]);
         const mediaType = data["media_type"];
         setMediaType(mediaType);
         setMediaCreators(data["media_creators"]);
@@ -111,7 +133,7 @@ export default function RecPage() {
     };
     fetchRecData();
     getRecComments();
-  }, []);
+  }, [update]);
 
   return (
     <SafeAreaView className="bg-white min-h-screen">
@@ -125,18 +147,40 @@ export default function RecPage() {
           mediaType={mediaType}
           mediaURL={mediaURL}
         />
-        <StarSelector
-          isSender={sender["username"] == currentUser["username"]}
-          rating={rating}
-          onSelectRating={(newRating: any) => setRating(newRating)}
-        />
-        <RecComments
-          recID={rec}
-          comments={comments}
-          onCreateComment={handleCreateComment}
-          isSender={sender["username"] == currentUser["username"]}
-        />
+        <View className="h-full bg-[#f9f9f9] p-2">
+          <StarSelector
+            isSender={sender["username"] == currentUser["username"]}
+            rating={rating}
+            onSelectRating={(newRating: any) => setRating(newRating)}
+          />
+          <RecComments
+            recID={rec}
+            sender={sender}
+            recipient={recipient}
+            comments={comments}
+            onCreateComment={handleCreateComment}
+            isSender={sender["username"] == currentUser["username"]}
+          />
+        </View>
       </ScrollView>
+      <View
+        className={`w-full bg-[#f9f9f9] flex flex-row bottom-[9%] items-center justify-center absolute pb-3 px-2 `}
+      >
+        <View className="flex flex-row items-center px-4 border-gray-200 w-5/6 p-4 bg-gray-100 rounded-2xl focus:border-rex">
+          <TextInput
+            multiline
+            numberOfLines={4}
+            maxLength={100}
+            className="text-base flex-1 font-jregular w-full"
+            placeholder="New comment"
+            onChangeText={(e: any) => handleChangeComment(e)}
+            value={newComment}
+          />
+        </View>
+        <Pressable className="p-3" onPress={() => handleCreateComment()}>
+          <Octicons size={25} color={"#50ba6f"} name={"paper-airplane"} />
+        </Pressable>
+      </View>
     </SafeAreaView>
   );
 }

@@ -53,5 +53,5 @@ def get_post_reviews(db: Session, rec_id):
 
 def get_rec_review(db: Session, rec_id):
     review = db.query(Review).filter(Review.rec_id==rec_id).first()
-    review_comments = db.query(RecComment).filter(RecComment.rec_id==rec_id).all()
-    return {"review": review, "review_comments": obj_list_to_dict(review_comments)}
+    rec_comments = db.query(RecComment).filter(RecComment.rec_id==rec_id).all()
+    return {"review": review, "rec_comments": obj_list_to_dict(rec_comments)}

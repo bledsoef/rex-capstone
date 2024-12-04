@@ -44,9 +44,18 @@ export default function RecHeader({
   const screenDimensions = Dimensions.get("screen");
 
   return (
-    <View className="w-full bg-white mb-4 flex flex-col">
+    <View
+      className="w-full bg-white flex flex-col"
+      style={{
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 10,
+        elevation: 5,
+      }}
+    >
       {!isSender && (
-        <View className="p-3 flex flex-row">
+        <View className="px-3 pt-3 flex flex-row">
           <View className="flex flex-row items-center">
             <Image
               source={{
@@ -86,15 +95,10 @@ export default function RecHeader({
         </View>
       )}
       <View
-        className="flex-row flex justify-between bg-slate-50 m-2"
+        className="flex-row flex justify-between mx-1"
         style={{
-          width: screenDimensions.width - 16,
+          width: screenDimensions.width - 8,
           height: screenDimensions.width / 4,
-          shadowColor: "#000",
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.1,
-          shadowRadius: 10,
-          elevation: 5,
         }}
       >
         <View className="p-3 h-full justify-center flex flex-col">
