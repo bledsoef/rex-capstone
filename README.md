@@ -19,7 +19,7 @@ I will be creating this with React Native, meaning it can be used on any platfor
 - [Requirements](https://github.com/CSC493-Computing-Design-Practicum/csc493-cdp-bledsoef/blob/main/documents/requirements.md)
 
 ## Design
-- [Requirements](https://github.com/CSC493-Computing-Design-Practicum/csc493-cdp-bledsoef/blob/main/documents/design.md)
+- [Design](https://github.com/CSC493-Computing-Design-Practicum/csc493-cdp-bledsoef/blob/main/documents/design.md)
 
 ## Built With
 
