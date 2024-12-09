@@ -43,7 +43,9 @@ Finn Bledsoe is a senior Computer Science major at Berea College. Finn has been 
 
 - I initally did a project similar to this for a hackathon. Even though the idea was my own and I will likely not use any of the same code, I still want to credit Stevenson Michel, Ali Ramazani, and Daize Njounkeng.
 
+## Installation
+- [Installation](https://github.com/CSC493-Computing-Design-Practicum/csc493-cdp-bledsoef/blob/main/documents/installation.md)
+
 ## License (not required initially)
 
 This project is licensed under the ??? License - see the wiki page (https://en.wikipedia.org/wiki/Software_license) for details
-
