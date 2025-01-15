@@ -19,6 +19,7 @@ export const MusicPlayerProvider = ({ children }: any) => {
   const [totalLength, setTotalLength] = useState<any>(0);
   const [sound, setSound] = useState<any>(null);
   const [queue, setQueue] = useState<any[]>([]);
+  const [update, setUpdate] = useState(0)
   const [sessionID, setSessionID] = useState<any>(null);
 
   const storeData = async (key: any, value: any) => {
@@ -132,6 +133,7 @@ export const MusicPlayerProvider = ({ children }: any) => {
     setCurrentAlbum(album);
     setCurrentArtists(artists);
     setTotalLength(1);
+    setUpdate(update + 1)
     setPosition(0);
     const url = await getAudioDownloadURL(song.id); // Fetch audio URL immediately
     const { sound: newSound } = await Audio.Sound.createAsync({ uri: url });
@@ -179,6 +181,7 @@ export const MusicPlayerProvider = ({ children }: any) => {
         position,
         totalLength,
         sessionID,
+        update,
         currentUser,
         playSong,
         togglePlayPause,

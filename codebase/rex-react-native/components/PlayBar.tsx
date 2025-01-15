@@ -12,6 +12,7 @@ export function PlayBar() {
     currentSong,
     currentAlbum,
     currentArtists,
+    update,
     isPlaying,
     sound,
     position,
@@ -23,17 +24,17 @@ export function PlayBar() {
     setTotalLength,
   } = useMusicPlayer();
   const [imageUrl, setImageUrl] = useState<string>("");
-  const [percentage, setPercentage] = useState<number>(0)
+  const [percentage, setPercentage] = useState<number>(0);
   useEffect(() => {
     sound &&
       sound.setOnPlaybackStatusUpdate((status: any) => {
         if (status.isLoaded && status.isPlaying) {
           setPosition(status.positionMillis);
           setTotalLength(status.durationMillis);
-          setPercentage((status.positionMillis/status.durationMillis) * 100)
+          setPercentage((status.positionMillis / status.durationMillis) * 100);
         }
       });
-      
+
     return () => {
       if (sound) {
         sound.unloadAsync();
@@ -44,15 +45,17 @@ export function PlayBar() {
     if (currentSong) {
       fetchImageDownloadUrl(); // Keep the image loading logic
     }
-  }, [currentSong]);
+  }, [currentSong, update]);
 
   async function fetchImageDownloadUrl() {
-    const fileRef = ref(storage, `/albumImages/${currentAlbum.id}.jpg`);
-    getDownloadURL(fileRef)
-      .then((res) => setImageUrl(res))
-      .catch((error) => {
-        console.error("Error getting download URL:", error);
-      });
+    if (currentAlbum) {
+      const fileRef = ref(storage, `/albumImages/${currentAlbum.id}.jpg`);
+      getDownloadURL(fileRef)
+        .then((res) => setImageUrl(res))
+        .catch((error) => {
+          console.error("Error getting download URL:", error);
+        });
+    }
   }
 
   const formatTime = (millis: any) => {
@@ -89,11 +92,6 @@ export function PlayBar() {
                       })}
                   </Text>
                 </View>
-                <View>
-                  <Text>
-                    {formatTime(position)} / {formatTime(totalLength)}
-                  </Text>
-                </View>
               </View>
               <Pressable onPress={togglePlayPause} className="pr-2">
                 <FontAwesome size={25} name={isPlaying ? "pause" : "play"} />
@@ -101,7 +99,10 @@ export function PlayBar() {
             </View>
           </View>
           <View className="w-full rounded-lg h-[1.5px] bg-transparent">
-            <View className={`h-[1.5px] bg-rex`} style={{width: `${percentage}%`}}></View>
+            <View
+              className={`h-[1.5px] bg-rex`}
+              style={{ width: `${percentage}%` }}
+            ></View>
           </View>
         </View>
       )}
