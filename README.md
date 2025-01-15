@@ -2,7 +2,7 @@
 ![rex](https://github.com/user-attachments/assets/5679e5d7-fe44-41a0-8d28-245fd0200c36)
 
 ### Project Concept
-- [Project Concept](https://github.com/CSC493-Computing-Design-Practicum/csc493-cdp-bledsoef/blob/main/concept.md)
+- [Project Concept](https://github.com/CSC493-Computing-Design-Practicum/csc493-cdp-bledsoef/blob/main/documents/concept.md)
 
 ## Scope
 
@@ -16,10 +16,10 @@ Practically every content creation site has native sharing and socializing capab
 I will be creating this with React Native, meaning it can be used on any platform, but I will be primarily targetting it for iOS. This means React Native, Cocoapods, Node.js and Expo all need to be installed. Unfortunately, getting it pushed onto the App store is a long, expensive process, so I may make it cross platform so there is an easily accessible website version as well.
 
 ## Requirements
-- [Requirements](https://github.com/CSC493-Computing-Design-Practicum/csc493-cdp-bledsoef/blob/main/requirements.md)
+- [Requirements](https://github.com/CSC493-Computing-Design-Practicum/csc493-cdp-bledsoef/blob/main/documents/requirements.md)
 
 ## Design
-- [Requirements](https://github.com/CSC493-Computing-Design-Practicum/csc493-cdp-bledsoef/blob/main/design.md)
+- [Design](https://github.com/CSC493-Computing-Design-Practicum/csc493-cdp-bledsoef/blob/main/documents/design.md)
 
 ## Built With
 
@@ -43,7 +43,9 @@ Finn Bledsoe is a senior Computer Science major at Berea College. Finn has been 
 
 - I initally did a project similar to this for a hackathon. Even though the idea was my own and I will likely not use any of the same code, I still want to credit Stevenson Michel, Ali Ramazani, and Daize Njounkeng.
 
+## Installation
+- [Installation](https://github.com/CSC493-Computing-Design-Practicum/csc493-cdp-bledsoef/blob/main/documents/installation.md)
+
 ## License (not required initially)
 
 This project is licensed under the ??? License - see the wiki page (https://en.wikipedia.org/wiki/Software_license) for details
-
